@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  site:
+    image: ghcr.io/theschoonover/site:latest
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      SITE_URL: https://theschoonover.net
+    ports:
+      - '8080:80'
+    volumes:
+      - ./nginx/site.conf:/etc/nginx/conf.d/default.conf:ro

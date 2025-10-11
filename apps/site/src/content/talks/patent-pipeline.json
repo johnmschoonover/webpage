@@ -1,0 +1,10 @@
+{
+  "title": "Building a Patent Pipeline Inside a Security Org",
+  "event": "RSA Conference",
+  "year": 2023,
+  "location": "San Francisco, CA",
+  "link": "https://example.com/talks/patent-pipeline",
+  "resources": [
+    { "label": "Abstract", "url": "https://example.com/patent-pipeline-abstract" }
+  ]
+}

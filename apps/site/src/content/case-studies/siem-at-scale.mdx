@@ -1,0 +1,30 @@
+---
+title: "SIEM at Planetary Scale"
+description: "Transformed a fragmented monitoring estate into a unified observability fabric with sub-second insights."
+timeframe: "2022–2024"
+tags: ["platform", "siem", "streaming"]
+impact:
+  - "Reduced controllable event delay by 70% across 85B events/day"
+  - "Unified 47 data sources with a hardened ingestion pipeline"
+  - "Delivered zero-downtime migration across dual SIEM vendors"
+heroStat: "70% latency reduction"
+order: 1
+---
+
+## Problem
+
+Our cloud security operations center relied on a patchwork of legacy collectors and bespoke parsers. Event delay regularly spiked past ten minutes during peak windows, obscuring live threat detection and forcing teams to work from stale dashboards.
+
+## Approach
+
+We designed a dual-vendor ingestion backbone with a Kafka layer to normalize payloads, hardened routing through Zero Trust gateways, and an adaptive schema registry. This enabled hot/hot distribution, automated parser testing, and policy-driven routing.
+
+## Results
+
+* Sustained < 90 second median ingestion delay during incident surges.
+* Introduced runbooks and golden signals consumed by 12 partner teams.
+* Exposed a feature flag system for content engineering to test parsers without impact.
+
+## Lessons Learned
+
+Invest early in test fixtures for every feed, and treat parser deployments as product releases with telemetry, rollback, and change review.
