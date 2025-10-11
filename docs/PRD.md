@@ -29,9 +29,21 @@
 ## 2) Success Metrics
 
 * **Performance:** LCP ≤ 1.8s, CLS ≤ 0.1, TBT ≤ 200ms on mid‑tier mobile; 95+ Lighthouse Perf.
+  * **Measurement:** Lighthouse CI mobile run on each PR and nightly cron; quarterly WebPageTest lab audits.
+  * **Data sources:** GitHub Actions artifacts, Plausible custom `performance.lcp` event.
+  * **Reporting cadence:** Weekly summary captured in `docs/analytics.md`; regressions escalated to Agent F.
 * **Accessibility:** WCAG 2.2 AA; 95+ Lighthouse Accessibility.
+  * **Measurement:** axe-core CI suite plus manual keyboard sweep before each release.
+  * **Data sources:** GitHub Actions accessibility report, issue tracker with `a11y` label.
+  * **Reporting cadence:** Included in bi-weekly ops review; blockers must be resolved pre-deploy.
 * **SEO:** Core pages indexed; 80+ Lighthouse SEO; proper structured data.
+  * **Measurement:** Lighthouse CI SEO audit, Google Search Console coverage, Schema validator spot checks.
+  * **Data sources:** Search Console property for `theschoonover.net`, CI artifacts.
+  * **Reporting cadence:** Monthly SEO health check logged in `docs/OPS.md`.
 * **Engagement:** ≥ 60% of visitors view 2+ pages; ≥ 2% contact CTR (CTA clicks / sessions).
+  * **Measurement:** Plausible events `pageview`, `cta_contact_click`, `download_cv`, plus goal funnel for multi-page sessions.
+  * **Data sources:** Plausible dashboard exports (CSV) aggregated in shared sheet/Notion.
+  * **Reporting cadence:** Monthly executive summary for John; anomalies reviewed within 48h.
 
 ---
 
@@ -107,7 +119,7 @@
 ## 7) Functional Requirements (MVP)
 
 * Static or hybrid site with MDX content.
-* Site‑wide search (client‑side) and tag filters.
+* Site‑wide search and tag filters powered by a build-time generated MiniSearch index (JSON emitted to `public/search-index.json`) hydrated client-side with `@minisearch/mini-search`; no external services.
 * **Contact Form:** protected by hCaptcha; server endpoint with email relay.
 * **Downloadables:** CV (PDF), one‑pager (PDF), speaker kit ZIP.
 * **Dark/Light Mode:** system preference + manual toggle; persisted.
@@ -151,6 +163,8 @@
 * **Framework:** Astro (content‑first, ultra‑fast) with MDX + React islands *or* Next.js (static export where possible).
 * **Styling:** Tailwind CSS + shadcn/ui for accessible components; Icons via lucide.
 * **Content:** Markdown/MDX in `content/` with front‑matter; image assets in `public/`.
+* **Runtime:** Node.js 20.11.x LTS (DSM-compatible); pin via `.nvmrc` and CI.
+* **Package Manager:** pnpm 8.15.1 with `pnpm-lock.yaml` committed and enforced via Corepack.
 * **Analytics:** Self‑hosted Plausible (Docker on RackStation) or lightweight serverless endpoint.
 * **Forms:** Next.js / Astro endpoint + nodemailer (SMTP to Synology MailPlus) or Cloudflare Email Routing; hCaptcha for bot protection.
 * **Diagrams:** `@mermaid-js/mermaid` or `kroki` static renders during build.
@@ -173,6 +187,8 @@
 * **Static Assets:** Served from container (nginx) or the app framework.
 * **IPv6:** Enable if available; AAAA record.
 * **Backups:** Nightly backup of repo + `content/` to another NAS volume/cloud.
+* **Hardware constraints:** Synology RackStation (Intel Atom C3538, 12GB RAM for Docker, 4TB SSD pool, 200Mbps symmetrical uplink); size containers ≤512MB app / ≤2GB Plausible, retain 20% headroom.
+* **Traffic assumptions:** ≤50 concurrent sessions, ~5 req/s peak; prioritize static export to stay within CPU budget.
 
 ### 10.1 Example `docker-compose.yml`
 
@@ -208,6 +224,14 @@ Services: `web` (Astro/Next container), `plausible` (optional), `mail-relay` (if
 * **Build:** `pnpm install && pnpm build` (Astro/Next).
 * **Deploy:** GitHub Actions on `main` → build → `rsync` artifacts via SSH to RackStation Docker bind mount or trigger Portainer/Watchtower to pull latest image.
 * **Secrets:** Stored as repo secrets (SSH key, SMTP creds, hCaptcha secret).
+
+### 11.4 Documentation Deliverables
+
+* **`docs/OPS.md`:** Deployment runbook (DSM reverse proxy steps, Docker Compose commands), backup/restore procedures, incident response contacts, environment variable registry, rollback plan. *Owner:* Infra lead (Agent E) with QA review (Agent F).
+* **`docs/CONTENT_GUIDE.md`:** Voice/tone pillars, MDX frontmatter checklist, asset storage conventions (public paths), accessibility requirements (alt text, captions). *Owner:* Content lead (Agent B) with John approval.
+* **`docs/analytics.md`:** Event taxonomy for success metrics, dashboard links, reporting cadence, data retention policy. *Owner:* QA/Analytics (Agent F).
+* **`docs/search-indexing.md`:** MiniSearch build pipeline, rebuild command, troubleshooting matrix, ownership for re-indexing. *Owner:* App scaffold lead (Agent A).
+* **Review checklist:** Prior to launch ensure docs updated, cross-linked from README, and owners tagged in PR reviews.
 
 ---
 

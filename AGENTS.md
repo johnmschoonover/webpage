@@ -18,6 +18,8 @@
 * **Framework:** Astro (content‑first, MDX) with React islands. (Alt: Next.js static export.)
 * **Styles:** Tailwind CSS + shadcn/ui, lucide icons.
 * **Content:** MD/MDX in `/content`. Images in `/public`. OG image generator.
+* **Runtime:** Node.js 20.11.x LTS (align with `node` Docker base image for Synology compatibility).
+* **Package Manager:** pnpm 8.15.1 (store lockfile and enforce via CI `corepack pnpm` pin).
 * **Analytics (optional):** Self‑hosted Plausible via Docker.
 * **Forms:** API route with nodemailer to SMTP relay (Synology MailPlus or env‑provided SMTP). hCaptcha.
 
@@ -298,6 +300,8 @@ Turned opaque pipelines into transparent systems with SLOs, error budgets, and h
 - Unified dashboards + chat‑ops
 ```
 
+> **Companion assets:** Architecture diagram (`real-time-visibility-architecture.png`) stored at `apps/site/public/images/case-studies/` and budget burn chart (`real-time-visibility-burn.png`) at `apps/site/public/images/charts/`. Reference via `/images/...` paths inside MDX.
+
 ### 8.4 Blog Post Seed
 
 **Path:** `content/posts/product-vs-platform.mdx`
@@ -320,6 +324,8 @@ Short intro paragraph…
 - Leverage and common capabilities
 - Internal developer experience
 ```
+
+> **Companion assets:** Place supporting diagrams (e.g., `product-vs-platform-lens.svg`) in `apps/site/public/images/posts/` and screenshots in `apps/site/public/images/posts/screens/`. Ensure MDX imports use absolute public URLs.
 
 ### 8.5 Patents & IP Index Seed
 
@@ -361,6 +367,9 @@ Short intro paragraph…
 * DSM → Certificate: Let’s Encrypt; enable HSTS.
 * AAAA record for IPv6 if available.
 * Optional: Cloudflare proxy in front; keep origin SSL full strict.
+* **RackStation hardware guardrails:** Assume Intel Atom C3538 (4 cores/8 threads) with 12GB RAM allocated to Docker, 4TB usable SSD volume, and 200Mbps symmetric WAN uplink.
+* **Container sizing targets:** App container ≤ 512MB RSS baseline; Plausible stack ≤ 2GB combined; reserve ≥20% headroom for DSM services.
+* **Concurrency assumptions:** ≤50 concurrent sessions, peak 5 req/s sustained; favor static export and tuned Node workers within CPU budget.
 
 ---
 
@@ -402,3 +411,14 @@ pnpm test
 ```
 
 > **Codex:** Execute tasks in the order and roles above. Open PRs per task group with checklists, attach Lighthouse/Axe results, and reference file paths exactly as listed so the seeds land in the correct locations.
+
+---
+
+## 17) Documentation Deliverables & Owners
+
+* **`docs/OPS.md` minimum contents:** Deployment runbook (RackStation steps, Docker Compose commands), backup/restore procedures, incident response contacts, environment variable matrix, and rollback instructions. *Owner:* Agent E (Infra) with review from Agent F (QA).
+* **Content Guide (`docs/content-guide.md` or README section):** Voice/tone guardrails, MDX formatting conventions, asset naming/location rules, metadata/frontmatter checklist, accessibility reminders (alt text, captions). *Owner:* Agent B (Content) with sign-off from John.
+* **Support docs:**
+  * `docs/analytics.md`: Event taxonomy, dashboards, reporting cadence, data retention notes. *Owner:* Agent F (QA/Analytics).
+  * `docs/search-indexing.md`: Search/tag indexing approach, rebuild steps, failure playbook. *Owner:* Agent A (App Scaffold).
+* **Pre-merge checklist:** Confirm docs updated, owners tagged in review, and README links to each document.
