@@ -1,0 +1,30 @@
+---
+title: "Dual SIEM Migration Playbook"
+description: "Led a risk-zero migration path by running two SIEM platforms in parallel with automated cutovers."
+timeframe: "2021–2022"
+tags: ["migration", "resilience"]
+impact:
+  - "Migrated 32K rules without downtime using progressive delivery"
+  - "Reduced duplicate alert noise by 48% through signal design"
+  - "Achieved 100% uptime through orchestrated cutovers"
+heroStat: "0 unplanned outages"
+order: 2
+---
+
+## Problem
+
+We needed to sunset a legacy SIEM that could not keep pace with ingestion growth, while the replacement platform required staged rollouts to validate parser parity and rule fidelity.
+
+## Approach
+
+Our team introduced a progressive delivery framework with synthetic data validation, blue/green connectors, and enforced runbook sign-off. Every use case shipped with an impact assessment and dashboards to verify parity during the dual-run.
+
+## Results
+
+* Retired 19 brittle ETL chains and replaced them with event streaming connectors.
+* Rebuilt parser pipeline as versioned packages with semantic release.
+* Enabled audit-ready traceability for every rule move.
+
+## Lessons Learned
+
+Treat migrations like products: instrument decisions, expose dashboards, and tell stakeholders what success looks like before cutover.

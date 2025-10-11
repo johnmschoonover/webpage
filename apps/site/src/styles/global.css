@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 220 33% 99%;
+  --foreground: 222 60% 10%;
+  --primary: 201 100% 43%;
+  --primary-foreground: 210 20% 98%;
+  --secondary: 210 22% 96%;
+  --secondary-foreground: 222 40% 20%;
+  --muted: 210 16% 92%;
+  --muted-foreground: 220 10% 40%;
+  --accent: 161 80% 40%;
+  --accent-foreground: 161 15% 95%;
+  --destructive: 0 70% 45%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 213 16% 85%;
+  --input: 213 16% 85%;
+  --ring: 201 100% 43%;
+  --radius: 0.85rem;
+}
+
+.dark {
+  --background: 220 30% 8%;
+  --foreground: 220 27% 96%;
+  --primary: 201 100% 43%;
+  --primary-foreground: 210 20% 98%;
+  --secondary: 215 15% 16%;
+  --secondary-foreground: 217 32% 92%;
+  --muted: 217 15% 18%;
+  --muted-foreground: 219 15% 70%;
+  --accent: 161 70% 45%;
+  --accent-foreground: 161 18% 93%;
+  --destructive: 0 62% 54%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 215 17% 22%;
+  --input: 215 17% 22%;
+  --ring: 201 100% 43%;
+}
+
+html {
+  font-feature-settings: 'liga' 1, 'tnum' 1, 'cv11' 1;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+}
+
+a {
+  @apply text-primary hover:text-primary/80 transition-colors;
+}
+
+.prose {
+  @apply prose-neutral max-w-none dark:prose-invert;
+}

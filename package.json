@@ -1,0 +1,11 @@
+{
+  "name": "theschoonover-monorepo",
+  "private": true,
+  "version": "0.0.1",
+  "packageManager": "pnpm@8.15.4",
+  "scripts": {
+    "dev": "pnpm --filter site dev",
+    "build": "pnpm --filter site build",
+    "preview": "pnpm --filter site preview"
+  }
+}

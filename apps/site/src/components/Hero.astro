@@ -1,0 +1,25 @@
+---
+import Button from './Button.astro';
+import StatBadge from './StatBadge.astro';
+import { stats } from '@lib/utils';
+---
+<section class="relative isolate overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-background via-background/70 to-primary/5 p-12 shadow-sm">
+  <div class="mx-auto flex max-w-4xl flex-col gap-8 text-center">
+    <p class="text-sm font-semibold uppercase tracking-[0.3em] text-primary">John Schoonover</p>
+    <h1 class="font-display text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+      Cybersecurity engineering leader building resilient, data-driven platforms at global scale.
+    </h1>
+    <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
+      I help organizations transform ambiguous risk signals into measurable outcomes by pairing platform rigor with product thinking.
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-4">
+      <Button href="/contact">Let's talk</Button>
+      <Button variant="outline" href="/downloads/john-schoonover-cv.pdf">Download CV</Button>
+    </div>
+    <div class="grid gap-4 sm:grid-cols-2">
+      {stats.map((stat) => (
+        <StatBadge title={stat.value} description={stat.label} key={stat.label} />
+      ))}
+    </div>
+  </div>
+</section>

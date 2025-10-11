@@ -1,0 +1,19 @@
+---
+import PostLayout from '@layouts/PostLayout.astro';
+import { getCollection } from 'astro:content';
+import Callout from '@components/Callout.astro';
+
+const { slug } = Astro.params;
+const entry = (await getCollection('case-studies')).find((item) => item.slug === slug);
+if (!entry) {
+  throw new Error(`Case study not found for slug: ${slug}`);
+}
+const { Content } = await entry.render();
+const publishDate = entry.data.timeframe;
+---
+<PostLayout title={entry.data.title} description={entry.data.description} publishDate={publishDate} tags={entry.data.tags}>
+  <section class="space-y-6">
+    <Callout title="Impact" body={entry.data.impact.join(' • ')} tone="info" />
+    <Content />
+  </section>
+</PostLayout>

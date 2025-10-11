@@ -1,0 +1,27 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { ReadingProgress } from '@components/ReadingProgress';
+import Tag from '@components/Tag.astro';
+const { title, description, publishDate, tags = [] } = Astro.props as {
+  title: string;
+  description: string;
+  publishDate: string;
+  tags?: string[];
+};
+---
+<BaseLayout title={`${title} — John Schoonover`} description={description}>
+  <ReadingProgress client:load />
+  <article id="article" class="prose mx-auto space-y-8">
+    <header class="space-y-4 text-center">
+      <p class="text-sm uppercase tracking-[0.2em] text-muted-foreground">{publishDate}</p>
+      <h1 class="font-display text-3xl font-semibold md:text-4xl">{title}</h1>
+      <p class="text-lg text-muted-foreground">{description}</p>
+      <div class="flex flex-wrap justify-center gap-2">
+        {tags.map((tag) => (
+          <Tag label={tag} />
+        ))}
+      </div>
+    </header>
+    <slot />
+  </article>
+</BaseLayout>

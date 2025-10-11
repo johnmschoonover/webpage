@@ -1,0 +1,101 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/Hero.astro';
+import Card from '@components/Card.astro';
+import Timeline from '@components/Timeline.astro';
+import Callout from '@components/Callout.astro';
+import { getCollection } from 'astro:content';
+import { patents } from '@lib/utils';
+
+const caseStudies = (await getCollection('case-studies')).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
+const posts = (await getCollection('posts')).sort((a, b) => (a.data.date > b.data.date ? -1 : 1)).slice(0, 3);
+const timeline = [
+  {
+    title: 'Director, Cybersecurity Engineering',
+    subtitle: 'Cloud-scale SIEM + platform modernization',
+    time: '2021 — Present',
+    bullets: ['Scaled dual SIEM for 200+ sources', 'Launched observability fabric with <60s latency']
+  },
+  {
+    title: 'Head of Security Data Platform',
+    subtitle: 'Fortune 100 Financial Services',
+    time: '2018 — 2021',
+    bullets: ['Reduced MTTR by 40%', 'Built patent program pipeline']
+  }
+];
+---
+<BaseLayout>
+  <Hero />
+  <section class="space-y-6">
+    <div class="flex flex-col gap-2">
+      <span class="text-xs uppercase tracking-[0.2em] text-muted-foreground">Case Studies</span>
+      <h2 class="font-display text-2xl font-semibold">Strategic programs delivered end-to-end.</h2>
+    </div>
+    <div class="grid gap-6 md:grid-cols-3">
+      {caseStudies.map((entry) => (
+        <Card
+          key={entry.id}
+          eyebrow={entry.data.timeframe}
+          title={entry.data.title}
+          description={entry.data.description}
+          href={`/case-studies/${entry.slug}/`}
+          cta="Explore"
+        />
+      ))}
+    </div>
+  </section>
+  <section class="grid gap-10 rounded-3xl border border-border bg-secondary/50 p-10 md:grid-cols-[1.2fr_1fr]">
+    <div class="space-y-4">
+      <span class="text-xs uppercase tracking-[0.2em] text-muted-foreground">Leadership arc</span>
+      <h2 class="font-display text-2xl font-semibold">Operating at the intersection of platform engineering and cyber command.</h2>
+      <p class="text-muted-foreground">
+        Blending platform rigor, actionable telemetry, and clear storytelling keeps teams aligned on the work that matters. Here's a quick look at the journey so far.
+      </p>
+      <Callout
+        title="Looking for a fractional security engineering leader?"
+        body="I partner with CTOs, CISOs, and heads of platform to stabilize ingestion pipelines, scale detection programs, and guide cloud migrations." />
+    </div>
+    <Timeline items={timeline} />
+  </section>
+  <section class="space-y-6">
+    <div class="flex flex-col gap-2">
+      <span class="text-xs uppercase tracking-[0.2em] text-muted-foreground">Writing</span>
+      <h2 class="font-display text-2xl font-semibold">Latest thinking on security platforms.</h2>
+    </div>
+    <div class="grid gap-6 md:grid-cols-3">
+      {posts.map((post) => (
+        <Card
+          key={post.id}
+          eyebrow={new Date(post.data.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+          title={post.data.title}
+          description={post.data.summary}
+          href={`/writing/${post.slug}/`}
+          cta="Read"
+        />
+      ))}
+    </div>
+  </section>
+  <section class="space-y-6">
+    <div class="flex flex-col gap-2">
+      <span class="text-xs uppercase tracking-[0.2em] text-muted-foreground">Patents & IP</span>
+      <h2 class="font-display text-2xl font-semibold">Investing in defensible innovation.</h2>
+    </div>
+    <div class="grid gap-4 md:grid-cols-2">
+      {patents.map((patent) => (
+        <div class="rounded-2xl border border-border bg-background/80 p-6" key={`${patent.title}-${patent.year}`}>
+          <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground">{patent.year} · {patent.status}</p>
+          <h3 class="mt-2 font-display text-xl font-semibold">{patent.title}</h3>
+        </div>
+      ))}
+    </div>
+  </section>
+  <section class="rounded-3xl border border-border bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/40 p-10">
+    <div class="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
+      <div>
+        <h2 class="font-display text-2xl font-semibold text-foreground">Ready to accelerate your security platform roadmap?</h2>
+        <p class="mt-2 max-w-2xl text-muted-foreground">Let's align on outcomes, cut through operational noise, and deliver measurable resilience.</p>
+      </div>
+      <a href="/contact" class="inline-flex items-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow transition hover:bg-primary/90">Start the conversation →</a>
+    </div>
+  </section>
+</BaseLayout>

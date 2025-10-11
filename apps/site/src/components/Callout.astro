@@ -1,0 +1,16 @@
+---
+const { title, body, tone = 'info' } = Astro.props as {
+  title: string;
+  body: string;
+  tone?: 'info' | 'success' | 'warning';
+};
+const toneMap = {
+  info: 'border-primary/40 bg-primary/10 text-primary-foreground',
+  success: 'border-emerald-400/40 bg-emerald-500/10 text-emerald-900 dark:border-primary/40 dark:bg-primary/15 dark:text-primary-foreground',
+  warning: 'border-amber-500/40 bg-amber-500/10 text-amber-900 dark:border-amber-400/60 dark:bg-amber-400/15 dark:text-amber-50'
+};
+---
+<div class={`rounded-2xl border ${toneMap[tone]} p-6 shadow-sm`}>
+  <h3 class="font-display text-lg font-semibold">{title}</h3>
+  <p class="mt-2 text-sm leading-6">{body}</p>
+</div>

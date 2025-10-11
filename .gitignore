@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+apps/site/dist/
+apps/site/.astro/
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Editor & OS artifacts
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Tests & coverage
+coverage/
+*.lcov
+
+# TypeScript
+*.tsbuildinfo
+

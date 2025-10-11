@@ -1,0 +1,16 @@
+---
+const { code, language = 'bash', title } = Astro.props as {
+  code: string;
+  language?: string;
+  title?: string;
+};
+---
+<div class="overflow-hidden rounded-2xl border border-border bg-muted/60">
+  {title && (
+    <div class="flex items-center justify-between border-b border-border/60 bg-muted px-4 py-2 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+      <span>{title}</span>
+      <span>{language}</span>
+    </div>
+  )}
+  <pre class={`language-${language} overflow-x-auto bg-transparent p-6 text-sm leading-6`}>{code}</pre>
+</div>

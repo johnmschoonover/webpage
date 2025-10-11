@@ -1,0 +1,50 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Callout from '@components/Callout.astro';
+import Figure from '@components/Figure.astro';
+import Tag from '@components/Tag.astro';
+import { values } from '@lib/utils';
+---
+<BaseLayout pageHeading="About John Schoonover" description="Executive leader focused on resilient security platforms.">
+  <div class="grid gap-10 md:grid-cols-[2fr_1fr]">
+    <div class="space-y-6">
+      <p class="text-lg text-muted-foreground">
+        I build resilient cybersecurity platforms and teams that thrive in ambiguity. Over the past decade I've led programs ranging from global SIEM modernization to real-time fusion center operations, helping executives translate risk into measurable investments.
+      </p>
+      <p class="text-muted-foreground">
+        The throughline is designing systems—technical, operational, and cultural—that make the right action the easy action. I obsess over instrumentation, clear ownership, and playbooks that empower people to operate with confidence.
+      </p>
+      <Callout title="Leadership philosophy" body="Clarity, autonomy, and accountability unlock high judgment teams. Start with purpose, amplify impact with data, and celebrate the builders." tone="success" />
+      <section class="space-y-4">
+        <h2 class="font-display text-2xl font-semibold">Values</h2>
+        <div class="grid gap-4 md:grid-cols-3">
+          {values.map((value) => (
+            <div class="rounded-2xl border border-border bg-background/70 p-6" key={value.title}>
+              <h3 class="font-display text-lg font-semibold">{value.title}</h3>
+              <p class="mt-2 text-sm text-muted-foreground">{value.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+    <aside class="space-y-6">
+      <Figure src="/images/headshot-light.jpeg" alt="John Schoonover" caption="Yup, it's me!" />
+      <div class="space-y-3 rounded-2xl border border-border bg-muted/50 p-6">
+        <h3 class="text-sm uppercase tracking-[0.2em] text-muted-foreground">Quick stats</h3>
+        <ul class="space-y-2 text-sm text-muted-foreground">
+          <li><strong>Location:</strong> Seattle, WA</li>
+          <li><strong>Focus:</strong> Security engineering, data platforms, operational excellence</li>
+          <li><strong>Operating cadence:</strong> Systems thinking, measurable outcomes, teams-first</li>
+        </ul>
+      </div>
+      <div class="space-y-3 rounded-2xl border border-border bg-background/80 p-6">
+        <h3 class="text-sm uppercase tracking-[0.2em] text-muted-foreground">Topics I'm exploring</h3>
+        <div class="flex flex-wrap gap-2">
+          {['Security data fabrics', 'Command center design', 'Platform product management', 'Patents'].map((topic) => (
+            <Tag label={topic} key={topic} />
+          ))}
+        </div>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

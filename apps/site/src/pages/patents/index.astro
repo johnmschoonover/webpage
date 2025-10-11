@@ -1,0 +1,23 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { patents } from '@lib/utils';
+---
+<BaseLayout pageHeading="Patents & IP" description="Filed and in-flight intellectual property shaping resilient security systems.">
+  <div class="grid gap-6 md:grid-cols-2">
+    {patents.map((patent) => (
+      <article class="rounded-3xl border border-border bg-background/80 p-6" key={`${patent.title}-${patent.year}`}>
+        <p class="text-sm uppercase tracking-[0.2em] text-muted-foreground">{patent.year} · {patent.status}</p>
+        <h2 class="mt-2 font-display text-xl font-semibold">{patent.title}</h2>
+        <p class="mt-4 text-sm text-muted-foreground">
+          Focused on controlling ingestion reliability, adaptive routing, and intelligent signal prioritization in high-throughput security platforms.
+        </p>
+      </article>
+    ))}
+  </div>
+  <section class="rounded-3xl border border-border bg-muted/40 p-8">
+    <h2 class="font-display text-2xl font-semibold">Responsible disclosure</h2>
+    <p class="mt-3 text-sm text-muted-foreground">
+      Innovations are published with care for the ecosystem. Coordinated disclosure and open collaboration with researchers remains the expectation for every patent pursuit.
+    </p>
+  </section>
+</BaseLayout>

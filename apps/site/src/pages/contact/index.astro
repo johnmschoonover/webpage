@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Callout from '@components/Callout.astro';
+import { contactChannels } from '@lib/utils';
+---
+<BaseLayout pageHeading="Contact" description="Secure ways to start the conversation.">
+  <div class="grid gap-10 md:grid-cols-[1.2fr_1fr]">
+    <section class="space-y-6">
+      <p class="text-muted-foreground">
+        Share a bit about what you are building or the challenge in front of you. I read every note personally and respond within two business days.
+      </p>
+      <form class="space-y-4 rounded-3xl border border-border bg-background/80 p-6 shadow-sm" method="post" action="/api/contact">
+        <div class="grid gap-2">
+          <label for="name" class="text-sm font-medium text-foreground">Name</label>
+          <input id="name" name="name" type="text" required class="h-11 rounded-lg border border-input bg-background px-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+        </div>
+        <div class="grid gap-2">
+          <label for="email" class="text-sm font-medium text-foreground">Email</label>
+          <input id="email" name="email" type="email" required class="h-11 rounded-lg border border-input bg-background px-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+        </div>
+        <div class="grid gap-2">
+          <label for="message" class="text-sm font-medium text-foreground">How can I help?</label>
+          <textarea id="message" name="message" rows="5" required class="rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"></textarea>
+        </div>
+        <button type="submit" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">Send securely</button>
+        <p class="text-xs text-muted-foreground">This form routes directly to John. Sensitive details? Use the PGP key in Downloads.</p>
+      </form>
+    </section>
+    <aside class="space-y-6">
+      <Callout
+        title="Other channels"
+        body="Prefer to connect async or share documents? Reach out via LinkedIn or email; PGP support available for sensitive exchanges."
+      />
+      <div class="rounded-3xl border border-border bg-muted/50 p-6">
+        <h2 class="font-display text-lg font-semibold">Direct links</h2>
+        <ul class="mt-3 space-y-2 text-sm text-muted-foreground">
+          {contactChannels.map((channel) => (
+            <li key={channel.href}>
+              <a class="text-primary hover:underline" href={channel.href}>{channel.label}</a>
+            </li>
+          ))}
+          <li><a class="text-primary hover:underline" href="/downloads/john-schoonover-pgp.asc">Download PGP key</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

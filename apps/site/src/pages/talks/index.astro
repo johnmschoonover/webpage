@@ -1,0 +1,31 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+const talks = (await getCollection('talks')).sort((a, b) => b.data.year - a.data.year);
+---
+<BaseLayout pageHeading="Talks & Media" description="Conference appearances, recordings, and media assets.">
+  <div class="space-y-6">
+    {talks.map((talk) => (
+      <article class="rounded-3xl border border-border bg-background/80 p-6" key={talk.id}>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 class="font-display text-xl font-semibold">{talk.data.title}</h2>
+          <span class="text-sm uppercase tracking-[0.2em] text-muted-foreground">{talk.data.year} · {talk.data.event}</span>
+        </div>
+        <p class="mt-2 text-sm text-muted-foreground">{talk.data.location}</p>
+        {talk.data.resources.length > 0 && (
+          <div class="mt-4 flex flex-wrap gap-2">
+            {talk.data.resources.map((resource) => (
+              <a
+                href={resource.url}
+                class="rounded-full border border-border px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-primary transition hover:bg-muted"
+                key={`${talk.id}-${resource.url}`}
+              >
+                {resource.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </article>
+    ))}
+  </div>
+</BaseLayout>

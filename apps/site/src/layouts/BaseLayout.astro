@@ -1,0 +1,78 @@
+---
+import '../styles/global.css';
+import { CommandK } from '@components/CommandK';
+import Button from '@components/Button.astro';
+import { ThemeToggle } from '@components/ThemeToggle';
+import { contactChannels } from '@lib/utils';
+const { title = 'John Schoonover — Cybersecurity Engineering Leader', description = 'Building reliable, data-driven security platforms that scale.', pageHeading } = Astro.props as {
+  title?: string;
+  description?: string;
+  pageHeading?: string;
+};
+---
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <script is:inline>
+      (() => {
+        const STORAGE_KEY = 'theschoonover-theme';
+        try {
+          const root = document.documentElement;
+          const stored = window.localStorage.getItem(STORAGE_KEY);
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = stored === 'light' || stored === 'dark' ? stored : prefersDark ? 'dark' : 'light';
+          root.classList.toggle('dark', theme === 'dark');
+          root.dataset.theme = theme;
+        } catch (error) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-background text-foreground">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">Skip to content</a>
+    <header class="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
+        <a href="/" class="font-display text-lg font-semibold">theschoonover.net</a>
+        <nav class="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
+          <a href="/about" class="transition hover:text-foreground">About</a>
+          <a href="/experience" class="transition hover:text-foreground">Experience</a>
+          <a href="/case-studies" class="transition hover:text-foreground">Case Studies</a>
+          <a href="/writing" class="transition hover:text-foreground">Writing</a>
+          <a href="/talks" class="transition hover:text-foreground">Talks</a>
+          <a href="/patents" class="transition hover:text-foreground">Patents</a>
+          <a href="/contact" class="transition hover:text-foreground">Contact</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <CommandK client:load />
+          <ThemeToggle client:load />
+          <Button variant="outline" size="sm" href="/downloads/john-schoonover-cv.pdf">
+            Download CV
+          </Button>
+        </div>
+      </div>
+    </header>
+    <main id="main" class="mx-auto flex min-h-[60vh] w-full max-w-6xl flex-col gap-12 px-4 py-12">
+      {pageHeading && <h1 class="font-display text-3xl font-semibold text-foreground md:text-4xl">{pageHeading}</h1>}
+      <slot />
+    </main>
+    <footer class="border-t border-border/60 bg-background/90">
+      <div class="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p class="font-display text-lg font-semibold">Let's build resilient systems together.</p>
+          <p class="mt-2 text-sm text-muted-foreground">
+            © {new Date().getFullYear()} John Schoonover. Unless otherwise noted, content is shared for learning—please attribute.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3 text-sm text-muted-foreground">
+          {contactChannels.map((channel) => (
+            <a key={channel.href} href={channel.href} class="rounded-full border border-border px-3 py-1 transition hover:bg-muted hover:text-foreground">
+              {channel.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
