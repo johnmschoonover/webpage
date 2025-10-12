@@ -51,6 +51,25 @@ a {
   @apply text-primary hover:text-primary/80 transition-colors;
 }
 
+progress.reading-progress {
+  @apply h-1 w-full appearance-none;
+  background-color: transparent;
+}
+
+progress.reading-progress::-webkit-progress-bar {
+  background-color: transparent;
+}
+
+progress.reading-progress::-webkit-progress-value {
+  @apply bg-primary;
+  transition: width 0.2s ease;
+}
+
+progress.reading-progress::-moz-progress-bar {
+  @apply bg-primary;
+  transition: width 0.2s ease;
+}
+
 .prose {
   @apply prose-neutral max-w-none dark:prose-invert;
 }

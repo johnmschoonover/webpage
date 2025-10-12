@@ -36,11 +36,11 @@ export function ReadingProgress({ target = 'article', className }: ReadingProgre
   }, [target]);
 
   return (
-    <div className={cn('fixed inset-x-0 top-0 z-50 h-1 bg-transparent', className)} aria-hidden>
-      <div
-        className="h-full origin-left bg-primary transition-[width] duration-200"
-        style={{ width: `${progress}%` }}
-      />
-    </div>
+    <progress
+      className={cn('reading-progress pointer-events-none fixed inset-x-0 top-0 z-50', className)}
+      value={progress}
+      max={100}
+      aria-hidden
+    />
   );
 }
