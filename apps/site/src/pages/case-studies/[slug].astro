@@ -3,6 +3,13 @@ import PostLayout from '@layouts/PostLayout.astro';
 import { getCollection } from 'astro:content';
 import Callout from '@components/Callout.astro';
 
+export async function getStaticPaths() {
+  const caseStudies = await getCollection('case-studies');
+  return caseStudies.map((entry) => ({
+    params: { slug: entry.slug }
+  }));
+}
+
 const { slug } = Astro.params;
 const entry = (await getCollection('case-studies')).find((item) => item.slug === slug);
 if (!entry) {

@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Tag from '@components/Tag.astro';
+import profile from '@data/profile.json';
+const { projects } = profile;
+---
+<BaseLayout pageHeading="Projects & Experiments" description="Snapshots of current tinkering across audio, home lab, and AI workflows.">
+  <div class="grid gap-6 md:grid-cols-3">
+    {projects.map((project) => (
+      <article class="space-y-3 rounded-3xl border border-border bg-background/80 p-6" key={project.name}>
+        <h2 class="font-display text-xl font-semibold">{project.name}</h2>
+        <p class="text-sm text-muted-foreground">{project.description}</p>
+        <div class="flex flex-wrap gap-2">
+          {project.tags.map((tag) => (
+            <Tag label={tag} key={`${project.name}-${tag}`} />
+          ))}
+        </div>
+      </article>
+    ))}
+  </div>
+  <section class="mt-8 rounded-3xl border border-dashed border-primary/40 bg-primary/5 p-6 text-sm text-muted-foreground">
+    <p>Also exploring personal finance analysis tooling (private) and new tabletop/D&D co-DM helpers—reach out if you are experimenting in similar spaces.</p>
+  </section>
+</BaseLayout>
