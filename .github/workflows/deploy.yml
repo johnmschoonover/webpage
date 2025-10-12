@@ -14,8 +14,10 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
-      - name: Enable pnpm
-        run: corepack enable pnpm
+          cache-dependdency-path: .pnpm-lock.yaml
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.4
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Lint & typecheck
