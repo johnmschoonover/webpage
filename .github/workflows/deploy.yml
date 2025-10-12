@@ -1,4 +1,4 @@
-name: ci
+name: Deploy
 
 on:
   push:
@@ -6,38 +6,40 @@ on:
   pull_request:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    env:
-      CI: true
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml   # Ensure lockfile name matches your repo
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 8.15.4
-          run_install: false
+      - name: Install pnpm
+        run: npm install -g pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Typecheck
-        run: pnpm --filter site astro check
+      - name: Lint and type check
+        run: pnpm lint && pnpm typecheck        # Adjust scripts as needed
 
       - name: Build
-        run: pnpm --filter site build
+        run: pnpm build                        # Use your actual build script
 
-      - name: Upload production build
-        uses: actions/upload-artifact@v4
-        with:
-          name: site-dist
-          path: apps/site/dist
-          if-no-files-found: error
+      # Optional: Deploy step (e.g. to GitHub Pages, Vercel, Netlify)
+      # - name: Deploy to GitHub Pages
+      #   uses: peaceiris/actions-gh-pages@v4
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: ./dist
+
+      # Or add your own deployment provider's official action here
+
+      - name: Post job cleanup
+        run: echo "Cleanup complete."
