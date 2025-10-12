@@ -13,12 +13,6 @@ type HighlightStat = {
   description: string;
 };
 
-type InnovationTheme = {
-  title: string;
-  context: string;
-  todo?: string;
-};
-
 type ValueCard = {
   title: string;
   description: string;
@@ -42,17 +36,11 @@ export const stats: HighlightStat[] = profile.current_role.focus.map((focus) => 
   description: 'Current focus area'
 }));
 
-export const innovationThemes: InnovationTheme[] = profile.innovation_themes.map((theme) => ({
-  title: theme,
-  context: 'Ongoing invention theme centered on SIEM resilience.',
-  todo: 'TODO: Provide patent application numbers if filed.'
-}));
-
 export const experienceHighlights: string[] = [
-  'Drove modernization of SIEM rules engines to improve agility and manageability.',
-  'Advanced real-time operational visibility and high-availability posture across cybersecurity platforms.',
-  'Led cross-functional engineering initiatives supporting a dual-SIEM posture and enrichment at scale.',
-  'Focused on uptime and latency reduction that supports Cyber Fusion Center workflows.'
+  'Lead a multidisciplinary engineering team delivering the core security telemetry platform end to end.',
+  'Architect scalable patterns that adapt to evolving threats while aligning detection, response, and risk objectives.',
+  'Partner with incident response, detection engineering, and threat intel to integrate workflows and reduce triage effort.',
+  'Mentor engineers to scale ownership, eliminate single points of failure, and sustain high-performing teams.'
 ];
 
 export const values: ValueCard[] = [

@@ -36,6 +36,7 @@ export default defineConfig({
         '@layouts': resolve(currentDir, 'src/layouts'),
         '@lib': resolve(currentDir, 'src/lib'),
         '@styles': resolve(currentDir, 'src/styles'),
+        '@content': resolve(repoRoot, 'content'),
         '@data': resolve(repoRoot, 'data')
       }
     },

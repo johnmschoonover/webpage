@@ -1,30 +1,31 @@
 ---
-title: "Dual SIEM Migration Playbook"
-description: "Led a risk-zero migration path by running two SIEM platforms in parallel with automated cutovers."
+title: "Multi-SIEM Migration Safeguards"
+description: "Codified migration patterns across multiple SIEM platforms while preserving security posture and uptime."
 timeframe: "2021–2022"
 tags: ["migration", "resilience"]
 impact:
-  - "Migrated 32K rules without downtime using progressive delivery"
-  - "Reduced duplicate alert noise by 48% through signal design"
-  - "Achieved 100% uptime through orchestrated cutovers"
+  - "Migrated 32K rules without downtime using staged multi-SIEM patterns"
+  - "Reduced duplicate alert noise by 48% through posture-aware signal design"
+  - "Achieved 100% uptime while maintaining security guardrails during cutovers"
 heroStat: "0 unplanned outages"
 order: 2
 ---
 
 ## Problem
 
-We needed to sunset a legacy SIEM that could not keep pace with ingestion growth, while the replacement platform required staged rollouts to validate parser parity and rule fidelity.
+We needed to sunset a legacy SIEM that could not keep pace with ingestion growth, while new platforms required curated rollout patterns to validate parser parity, rule fidelity, and guard our security posture.
 
 ## Approach
 
-Our team introduced a progressive delivery framework with synthetic data validation, blue/green connectors, and enforced runbook sign-off. Every use case shipped with an impact assessment and dashboards to verify parity during the dual-run.
+Our team introduced a pattern library that blended progressive delivery with posture safeguards—synthetic data validation, blue/green connectors, and enforced runbook sign-off across every route. Each use case shipped with an impact assessment, dashboards to verify parity during the parallel runs, and instrumentation to track SLO/SLA lift alongside cost-to-serve.
 
 ## Results
 
-* Retired 19 brittle ETL chains and replaced them with event streaming connectors.
-* Rebuilt parser pipeline as versioned packages with semantic release.
-* Enabled audit-ready traceability for every rule move.
+* Retired 19 brittle ETL chains and replaced them with posture-aware event streaming connectors.
+* Rebuilt parser pipeline as versioned packages with semantic release tied to multi-platform validation.
+* Established continuous observability loops that lifted SLO/SLA benchmarks while reducing ongoing maintenance costs.
+* Enabled audit-ready traceability for every rule move and migration pattern decision.
 
 ## Lessons Learned
 
-Treat migrations like products: instrument decisions, expose dashboards, and tell stakeholders what success looks like before cutover.
+Treat migrations like products: instrument decisions, expose dashboards, and define posture safeguards so stakeholders know the risk model before cutover.

@@ -5,11 +5,13 @@ import Card from '@components/Card.astro';
 import Timeline from '@components/Timeline.astro';
 import Callout from '@components/Callout.astro';
 import { getCollection } from 'astro:content';
-import { innovationThemes, experienceHighlights } from '@lib/utils';
+import { experienceHighlights } from '@lib/utils';
+import patents from '@content/data/patents.json';
 import profile from '@data/profile.json';
 
 const caseStudies = (await getCollection('case-studies')).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
 const posts = (await getCollection('posts')).sort((a, b) => (a.data.date > b.data.date ? -1 : 1)).slice(0, 3);
+const patentEntries = (patents as { title: string; status: string; summary: string }[]);
 const timeline = [
   {
     title: profile.current_role.title,
@@ -79,15 +81,15 @@ const timeline = [
   </section>
   <section class="space-y-6">
     <div class="flex flex-col gap-2">
-      <span class="text-xs uppercase tracking-[0.2em] text-muted-foreground">Innovation Themes</span>
-      <h2 class="font-display text-2xl font-semibold">Investing in resilient ingestion and detection patterns.</h2>
+      <span class="text-xs uppercase tracking-[0.2em] text-muted-foreground">Patents & IP</span>
+      <h2 class="font-display text-2xl font-semibold">Protecting resilient SIEM coverage and signal fidelity.</h2>
     </div>
     <div class="grid gap-4 md:grid-cols-2">
-      {innovationThemes.map((theme) => (
-        <div class="rounded-2xl border border-border bg-background/80 p-6" key={theme.title}>
-          <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground">Invention theme</p>
-          <h3 class="mt-2 font-display text-xl font-semibold">{theme.title}</h3>
-          <p class="mt-3 text-xs text-muted-foreground">{theme.todo}</p>
+      {patentEntries.map((patent) => (
+        <div class="rounded-2xl border border-border bg-background/80 p-6" key={patent.title}>
+          <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground">{patent.status}</p>
+          <h3 class="mt-2 font-display text-xl font-semibold">{patent.title}</h3>
+          <p class="mt-3 text-xs text-muted-foreground">{patent.summary}</p>
         </div>
       ))}
     </div>

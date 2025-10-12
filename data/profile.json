@@ -1,31 +1,41 @@
 {
   "name": "John Schoonover",
-  "tagline": "Director of Engineering — Cybersecurity (SIEM)",
-  "location_public": "Minnesota, Twin Cities area",
+  "tagline": "Director of Engineering",
+  "location_public": "Minnesota, USA",
   "email_public": "johnmschoonover@gmail.com",
-  "summary": "Engineering leader focused on SIEM platforms, real-time observability, and product-minded platform strategy.",
+  "summary": "Visionary Director of Engineering and named inventor on two in-flight patents with 8+ years in cybersecurity and 4+ years leading high-performing engineering teams across enterprise-scale environments. Recognized for designing scalable architectural patterns that support rapid adaptation in fast-evolving threat landscapes. Adept at aligning security engineering initiatives with organizational detection, response, and risk reduction objectives. Proven track record of building resilient platforms, empowering talent, and evolving infrastructure to accelerate cyber agility and operational excellence across the Cyber Fusion Center (CFC).",
   "current_role": {
-    "title": "Director of Engineering — Cybersecurity (SIEM)",
+    "title": "Director of Engineering - Cybersecurity - SIEM",
     "focus": [
-      "SIEM platform engineering",
-      "Enrichment at scale",
-      "Rules engine modernization",
-      "Dual-SIEM posture",
-      "Operational visibility and uptime"
+      "Security telemetry platform: ingestion, enrichment, storage, and access.",
+      "Scalable architectural patterns for fast-changing threat landscapes.",
+      "Alignment of detection, response, and risk reduction objectives.",
+      "Integrated workflows with incident response, detection engineering, and threat intel.",
+      "Infrastructure modernization across cloud and on-prem environments.",
+      "Mentorship that raises standards and eliminates single points of failure."
     ]
   },
   "objectives": [
     "Broaden scope across Cyber Fusion Center (CFC) engineering",
-    "Targeted: Data Engineering Manager — Security (Netflix, Aug 20, 2025)"
+    "Mentor teams to uphold high standards and ship resilient security outcomes"
   ],
   "education": [
     {
       "institution": "Western Governors University",
-      "degree": "BS, IT (Security Emphasis)"
+      "degree": "MBA"
+    },
+    {
+      "institution": "Western Governors University",
+      "degree": "BS, Cybersecurity"
+    },
+    {
+      "institution": "Thomas Nelson Community College",
+      "degree": "AS, Physics",
+      "note": "Graduated with Honors"
     },
     {
       "institution": "University of Virginia",
-      "note": "Attended; no BS degree"
+      "note": "Studies in Physics & Mathematics"
     }
   ],
   "innovation_themes": [
@@ -52,16 +62,16 @@
     }
   ],
   "links": {
-    "linkedin": "TODO: add URL",
+    "linkedin": "https://www.linkedin.com/in/johnmschoonover/",
     "resume": "/downloads/resume.pdf",
     "email": "mailto:johnmschoonover@gmail.com"
   },
   "skills_highlight": [
-    "Platform engineering",
-    "Detection/SIEM engineering",
-    "Observability at scale",
-    "Operational excellence",
-    "Product-minded leadership"
+    "Security engineering & architecture",
+    "Cloud and infrastructure integration",
+    "Tooling & scripting automation",
+    "Team leadership and mentorship",
+    "Cross-organizational strategy alignment"
   ],
   "disclaimers": [
     "Do not list any patents as 'granted' without patent numbers.",

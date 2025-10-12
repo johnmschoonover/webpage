@@ -6,7 +6,7 @@ tags: ["platform", "siem", "streaming"]
 impact:
   - "Reduced controllable event delay by 70% across 85B events/day"
   - "Unified 47 data sources with a hardened ingestion pipeline"
-  - "Delivered zero-downtime migration across dual SIEM vendors"
+  - "Delivered zero-downtime migration using multi-SIEM patterns that safeguarded posture"
 heroStat: "70% latency reduction"
 order: 1
 ---
@@ -17,13 +17,14 @@ Our cloud security operations center relied on a patchwork of legacy collectors 
 
 ## Approach
 
-We designed a dual-vendor ingestion backbone with a Kafka layer to normalize payloads, hardened routing through Zero Trust gateways, and an adaptive schema registry. This enabled hot/hot distribution, automated parser testing, and policy-driven routing.
+We designed a multi-vendor ingestion backbone with a Kafka layer to normalize payloads, hardened routing through Zero Trust gateways, and an adaptive schema registry. Policy-driven controls protected security posture while enabling hot/hot distribution, automated parser testing, and targeted routing.
 
 ## Results
 
 * Sustained < 90 second median ingestion delay during incident surges.
 * Introduced runbooks and golden signals consumed by 12 partner teams.
-* Exposed a feature flag system for content engineering to test parsers without impact.
+* Exposed a feature flag system for content engineering to test parsers without impact while honoring posture guardrails.
+* Instrumented SLO/SLA scorecards that lowered total cost of ownership and simplified upkeep rituals.
 
 ## Lessons Learned
 

@@ -25,23 +25,7 @@ const posts = defineCollection({
   })
 });
 
-const talks = defineCollection({
-  type: 'data',
-  schema: z.object({
-    title: z.string(),
-    event: z.string(),
-    year: z.number(),
-    location: z.string(),
-    link: z.string().url().optional(),
-    resources: z.array(z.object({
-      label: z.string(),
-      url: z.string().url()
-    })).default([])
-  })
-});
-
 export const collections = {
   'case-studies': caseStudies,
-  posts,
-  talks
+  posts
 };
