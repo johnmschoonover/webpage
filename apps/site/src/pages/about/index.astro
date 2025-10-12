@@ -4,17 +4,21 @@ import Callout from '@components/Callout.astro';
 import Figure from '@components/Figure.astro';
 import Tag from '@components/Tag.astro';
 import { values } from '@lib/utils';
+import profile from '@data/profile.json';
+const { current_role, objectives, location_public, innovation_themes } = profile;
+const aboutCopy = `As Director of Engineering — Cybersecurity (SIEM), I steward resilient security platforms that keep signals trustworthy and actionable. My work centers on SIEM platform engineering, enrichment at scale, rules-engine modernization, dual-SIEM posture, and sustaining operational visibility with low latency.`;
+const objectiveCopy = `I'm expanding that remit toward broader Cyber Fusion Center engineering leadership while exploring how those insights could translate to a future Data Engineering Manager — Security role at Netflix (targeting August 20, 2025).`;
+const innovationCopy = `Recent invention themes span ${innovation_themes[0]}, ${innovation_themes[1]}, ${innovation_themes[2]}, and ${innovation_themes[3]} to reinforce parse resilience and intelligent drop control.`;
+const closingCopy = `Outside of work, I tinker with a self-hosted Synology RackStation home lab, experiment with generative-AI tooling, and co-create tabletop/D&D helpers. If you are building something in that orbit, let's compare notes.`;
 ---
-<BaseLayout pageHeading="About John Schoonover" description="Executive leader focused on resilient security platforms.">
+<BaseLayout pageHeading="About John Schoonover" description="Director of Engineering shaping resilient SIEM platforms and collaborative teams.">
   <div class="grid gap-10 md:grid-cols-[2fr_1fr]">
     <div class="space-y-6">
-      <p class="text-lg text-muted-foreground">
-        I build resilient cybersecurity platforms and teams that thrive in ambiguity. Over the past decade I've led programs ranging from global SIEM modernization to real-time fusion center operations, helping executives translate risk into measurable investments.
-      </p>
-      <p class="text-muted-foreground">
-        The throughline is designing systems—technical, operational, and cultural—that make the right action the easy action. I obsess over instrumentation, clear ownership, and playbooks that empower people to operate with confidence.
-      </p>
-      <Callout title="Leadership philosophy" body="Clarity, autonomy, and accountability unlock high judgment teams. Start with purpose, amplify impact with data, and celebrate the builders." tone="success" />
+      <p class="text-lg text-muted-foreground">{aboutCopy}</p>
+      <p class="text-muted-foreground">{objectiveCopy}</p>
+      <p class="text-muted-foreground">{innovationCopy}</p>
+      <p class="text-muted-foreground">{closingCopy}</p>
+      <Callout title="Leadership philosophy" body="Platform-minded strategy, visible telemetry, and empowered teams turn cybersecurity programs into durable products." tone="success" />
       <section class="space-y-4">
         <h2 class="font-display text-2xl font-semibold">Values</h2>
         <div class="grid gap-4 md:grid-cols-3">
@@ -28,19 +32,19 @@ import { values } from '@lib/utils';
       </section>
     </div>
     <aside class="space-y-6">
-      <Figure src="/images/headshot-light.jpeg" alt="John Schoonover" caption="Yup, it's me!" />
+      <Figure src="/images/headshot-light.jpeg" alt="John Schoonover" caption="John in the Twin Cities." />
       <div class="space-y-3 rounded-2xl border border-border bg-muted/50 p-6">
         <h3 class="text-sm uppercase tracking-[0.2em] text-muted-foreground">Quick stats</h3>
         <ul class="space-y-2 text-sm text-muted-foreground">
-          <li><strong>Location:</strong> Seattle, WA</li>
-          <li><strong>Focus:</strong> Security engineering, data platforms, operational excellence</li>
-          <li><strong>Operating cadence:</strong> Systems thinking, measurable outcomes, teams-first</li>
+          <li><strong>Location:</strong> {location_public}</li>
+          <li><strong>Current focus:</strong> {current_role.focus[0]}</li>
+          <li><strong>Objectives:</strong> {objectives[0]}</li>
         </ul>
       </div>
       <div class="space-y-3 rounded-2xl border border-border bg-background/80 p-6">
         <h3 class="text-sm uppercase tracking-[0.2em] text-muted-foreground">Topics I'm exploring</h3>
         <div class="flex flex-wrap gap-2">
-          {['Security data fabrics', 'Command center design', 'Platform product management', 'Patents'].map((topic) => (
+          {['whisper_runner', 'Synology home lab', 'Stable Diffusion', 'Tabletop tooling', 'Personal finance analysis'].map((topic) => (
             <Tag label={topic} key={topic} />
           ))}
         </div>

@@ -1,4 +1,6 @@
 [
-  {"title": "Parse Failure Fingerprinting for Intelligent Drop Control", "status": "Filed", "year": 2025},
-  {"title": "UID-Based Drop Control in High-Throughput Pipelines", "status": "Draft", "year": 2025}
+  {"title": "Parse-failure resilience patterns", "status": "Invention theme", "note": "TODO: Provide patent application numbers if filed."},
+  {"title": "Fingerprinting for intelligent drop control", "status": "Invention theme", "note": "TODO: Provide patent application numbers if filed."},
+  {"title": "UID-based drop control for high-throughput pipelines", "status": "Invention theme", "note": "TODO: Provide patent application numbers if filed."},
+  {"title": "JSON schema + field validation combinations", "status": "Invention theme", "note": "TODO: Provide patent application numbers if filed."}
 ]

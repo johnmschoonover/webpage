@@ -1,0 +1,70 @@
+{
+  "name": "John Schoonover",
+  "tagline": "Director of Engineering — Cybersecurity (SIEM)",
+  "location_public": "Minnesota, Twin Cities area",
+  "email_public": "johnmschoonover@gmail.com",
+  "summary": "Engineering leader focused on SIEM platforms, real-time observability, and product-minded platform strategy.",
+  "current_role": {
+    "title": "Director of Engineering — Cybersecurity (SIEM)",
+    "focus": [
+      "SIEM platform engineering",
+      "Enrichment at scale",
+      "Rules engine modernization",
+      "Dual-SIEM posture",
+      "Operational visibility and uptime"
+    ]
+  },
+  "objectives": [
+    "Broaden scope across Cyber Fusion Center (CFC) engineering",
+    "Targeted: Data Engineering Manager — Security (Netflix, Aug 20, 2025)"
+  ],
+  "education": [
+    {
+      "institution": "Western Governors University",
+      "degree": "BS, IT (Security Emphasis)"
+    },
+    {
+      "institution": "University of Virginia",
+      "note": "Attended; no BS degree"
+    }
+  ],
+  "innovation_themes": [
+    "Parse-failure resilience patterns",
+    "Fingerprinting for intelligent drop control",
+    "UID-based drop control for high-throughput pipelines",
+    "JSON schema + field validation combinations"
+  ],
+  "projects": [
+    {
+      "name": "whisper_runner",
+      "description": "Experimental transcription/diarization workflow for longform audio (D&D sessions).",
+      "tags": ["ASR", "Diarization", "Whisper", "GPU"]
+    },
+    {
+      "name": "Home Lab",
+      "description": "Self-hosted services on Synology RackStation; WSL + NFS, Docker, site hosting.",
+      "tags": ["Synology", "NFS", "WSL", "Docker"]
+    },
+    {
+      "name": "GenAI Experiments",
+      "description": "Stable Diffusion, RTX 4080, Ollama exploration; local AI workflows.",
+      "tags": ["GenAI", "Local Inference", "RTX4080"]
+    }
+  ],
+  "links": {
+    "linkedin": "TODO: add URL",
+    "resume": "/downloads/resume.pdf",
+    "email": "mailto:johnmschoonover@gmail.com"
+  },
+  "skills_highlight": [
+    "Platform engineering",
+    "Detection/SIEM engineering",
+    "Observability at scale",
+    "Operational excellence",
+    "Product-minded leadership"
+  ],
+  "disclaimers": [
+    "Do not list any patents as 'granted' without patent numbers.",
+    "Avoid precise geolocation; keep to region-level."
+  ]
+}

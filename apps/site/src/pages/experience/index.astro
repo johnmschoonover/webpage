@@ -1,27 +1,33 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Timeline from '@components/Timeline.astro';
 import Card from '@components/Card.astro';
-import { resumeHighlights } from '@lib/utils';
-const timeline = resumeHighlights.map((role) => ({
-  title: role.role,
-  subtitle: role.org,
-  time: role.time,
-  bullets: role.achievements
-}));
+import { experienceHighlights } from '@lib/utils';
+import profile from '@data/profile.json';
+const { current_role, objectives, education, links } = profile;
 ---
-<BaseLayout pageHeading="Experience & CV" description="Roles, outcomes, and the principles guiding my leadership.">
+<BaseLayout pageHeading="Experience & CV" description="Focus areas, leadership objectives, and learning path.">
   <div class="grid gap-10 md:grid-cols-[1.6fr_1fr]">
     <section class="space-y-6">
       <p class="text-muted-foreground">
-        I've operated within highly regulated, high stakes environments. Whether modernizing SIEM pipelines or standing up cross-functional command cultures, the focus stays on measurable resilience and sustainable ways of working.
+        {current_role.title} with a platform mindset—driving SIEM engineering, enrichment at scale, rules-engine modernization, dual-SIEM posture, and operational visibility.
       </p>
-      <Timeline items={timeline} />
+      <ul class="list-disc space-y-3 pl-6 text-sm text-muted-foreground">
+        {experienceHighlights.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
       <Card
-        eyebrow="Download"
-        title="Executive CV"
-        description="One-page summary of leadership experience, impact metrics, and platform domains."
-        href="/downloads/john-schoonover-cv.pdf"
+        eyebrow="Objectives"
+        title="What's next"
+        description={`${objectives[0]}. ${objectives[1]}.`}
+        href="/contact"
+        cta="Start a conversation"
+      />
+      <Card
+        eyebrow="Resume"
+        title="Download resume"
+        description="Concise view of roles, scope, and platform initiatives."
+        href={links.resume}
         cta="Download PDF"
       />
     </section>
@@ -29,19 +35,21 @@ const timeline = resumeHighlights.map((role) => ({
       <div class="rounded-2xl border border-border bg-background/80 p-6">
         <h2 class="font-display text-lg font-semibold">Core competencies</h2>
         <ul class="mt-3 space-y-2 text-sm text-muted-foreground">
-          <li>• Platform strategy & technical vision</li>
-          <li>• Detection engineering and analytics pipelines</li>
-          <li>• Program design, roadmaps, and stakeholder alignment</li>
-          <li>• Patent pipeline enablement</li>
-          <li>• Executive communications & narrative storytelling</li>
+          {current_role.focus.map((focus) => (
+            <li key={focus}>• {focus}</li>
+          ))}
         </ul>
       </div>
       <div class="rounded-2xl border border-border bg-muted/40 p-6">
-        <h2 class="font-display text-lg font-semibold">Certifications & Education</h2>
+        <h2 class="font-display text-lg font-semibold">Education</h2>
         <ul class="mt-3 space-y-2 text-sm text-muted-foreground">
-          <li>• B.S. Computer Science — Georgia Tech</li>
-          <li>• CISSP, AWS Solutions Architect Professional</li>
-          <li>• Ongoing executive education: MIT Sloan — Platform Strategy</li>
+          {education.map((entry) => (
+            <li key={entry.institution}>
+              • {entry.institution}
+              {entry.degree ? ` — ${entry.degree}` : ''}
+              {entry.note ? ` — ${entry.note}` : ''}
+            </li>
+          ))}
         </ul>
       </div>
     </aside>

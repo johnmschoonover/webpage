@@ -8,6 +8,9 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 
+const currentDir = dirname(fileURLToPath(import.meta.url));
+const repoRoot = resolve(currentDir, '..', '..');
+
 export default defineConfig({
   site: 'https://theschoonover.net',
   integrations: [
@@ -29,10 +32,16 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        '@components': resolve(dirname(fileURLToPath(import.meta.url)), 'src/components'),
-        '@layouts': resolve(dirname(fileURLToPath(import.meta.url)), 'src/layouts'),
-        '@lib': resolve(dirname(fileURLToPath(import.meta.url)), 'src/lib'),
-        '@styles': resolve(dirname(fileURLToPath(import.meta.url)), 'src/styles')
+        '@components': resolve(currentDir, 'src/components'),
+        '@layouts': resolve(currentDir, 'src/layouts'),
+        '@lib': resolve(currentDir, 'src/lib'),
+        '@styles': resolve(currentDir, 'src/styles'),
+        '@data': resolve(repoRoot, 'data')
+      }
+    },
+    server: {
+      fs: {
+        allow: [repoRoot]
       }
     }
   }
