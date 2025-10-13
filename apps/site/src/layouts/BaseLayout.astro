@@ -16,19 +16,8 @@ const { title = 'John Schoonover — Cybersecurity Engineering Leader', descript
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title}</title>
-    <script is:inline>
-      (() => {
-        const STORAGE_KEY = 'theschoonover-theme';
-        try {
-          const root = document.documentElement;
-          const stored = window.localStorage.getItem(STORAGE_KEY);
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const theme = stored === 'light' || stored === 'dark' ? stored : prefersDark ? 'dark' : 'light';
-          root.classList.toggle('dark', theme === 'dark');
-          root.dataset.theme = theme;
-        } catch (error) {}
-      })();
-    </script>
+    <slot name="head" />
+    <script src="/scripts/theme-init.js" is:inline></script>
   </head>
   <body class="bg-background text-foreground">
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">Skip to content</a>
