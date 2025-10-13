@@ -11,14 +11,13 @@ const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags)));
     <h2 class="font-display text-xl font-semibold">Topics</h2>
     <div class="flex flex-wrap gap-2">
       {tags.map((tag) => (
-        <Tag label={tag} key={tag} />
+        <Tag label={tag} />
       ))}
     </div>
   </div>
   <div class="grid gap-6 md:grid-cols-2">
     {posts.map((post) => (
       <Card
-        key={post.id}
         eyebrow={new Date(post.data.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
         title={post.data.title}
         description={post.data.summary}
