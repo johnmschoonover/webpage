@@ -8,21 +8,36 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      CI: true
     steps:
       - uses: actions/checkout@v4
-      - name: Install pnpm
-        run: npm install -g pnpm
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
-          cache-dependency-path: .pnpm-lock.yaml
-      - uses: pnpm/action-setup@v4
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
           version: 8.15.4
+          run_install: false
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Lint & typecheck
+
+      - name: Typecheck
         run: pnpm --filter site astro check
+
       - name: Build
         run: pnpm --filter site build
+
+      - name: Upload production build
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: apps/site/dist
+          if-no-files-found: error
