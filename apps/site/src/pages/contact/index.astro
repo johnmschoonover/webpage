@@ -11,7 +11,7 @@ const captchaEnabled = Boolean(captchaSiteKey);
 <BaseLayout pageHeading="Contact" description="Reach out for platform strategy, SIEM collaboration, or home lab experiments.">
   {captchaEnabled && (
     <Fragment slot="head">
-      <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+      <script src="https://js.hcaptcha.com/1/api.js" async defer is:inline></script>
     </Fragment>
   )}
   <div class="grid gap-10 md:grid-cols-[1.2fr_1fr]">
@@ -52,7 +52,7 @@ const captchaEnabled = Boolean(captchaSiteKey);
         <h2 class="font-display text-lg font-semibold">Direct links</h2>
         <ul class="mt-3 space-y-2 text-sm text-muted-foreground">
           {contactChannels.map((channel) => (
-            <li key={channel.label}>
+            <li>
               {channel.todo ? (
                 <span>TODO: {channel.todo}</span>
               ) : (

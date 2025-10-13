@@ -55,7 +55,7 @@ const { title = 'John Schoonover — Cybersecurity Engineering Leader', descript
         </div>
         <div class="flex flex-wrap gap-3 text-sm text-muted-foreground">
           {contactChannels.map((channel) => (
-            <a key={channel.href} href={channel.href} class="rounded-full border border-border px-3 py-1 transition hover:bg-muted hover:text-foreground">
+            <a href={channel.href} class="rounded-full border border-border px-3 py-1 transition hover:bg-muted hover:text-foreground">
               {channel.label}
             </a>
           ))}

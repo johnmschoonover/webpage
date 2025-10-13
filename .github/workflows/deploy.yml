@@ -25,17 +25,14 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: pnpm-lock.yaml
 
-      - name: Install pnpm
-        run: npm install -g pnpm
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint and type check
-        run: pnpm lint && pnpm typecheck        # Adjust scripts as needed
+      - name: Type check
+        run: pnpm --filter site astro check
 
       - name: Build
-        run: pnpm build                        # Use your actual build script
+        run: pnpm build
 
       # Optional: Deploy step (e.g. to GitHub Pages, Vercel, Netlify)
       # - name: Deploy to GitHub Pages

@@ -13,7 +13,7 @@ const { current_role, objectives, education, links } = profile;
       </p>
       <ul class="list-disc space-y-3 pl-6 text-sm text-muted-foreground">
         {experienceHighlights.map((item) => (
-          <li key={item}>{item}</li>
+          <li>{item}</li>
         ))}
       </ul>
       <Card
@@ -36,7 +36,7 @@ const { current_role, objectives, education, links } = profile;
         <h2 class="font-display text-lg font-semibold">Core competencies</h2>
         <ul class="mt-3 space-y-2 text-sm text-muted-foreground">
           {current_role.focus.map((focus) => (
-            <li key={focus}>• {focus}</li>
+            <li>• {focus}</li>
           ))}
         </ul>
       </div>
@@ -44,7 +44,7 @@ const { current_role, objectives, education, links } = profile;
         <h2 class="font-display text-lg font-semibold">Education</h2>
         <ul class="mt-3 space-y-2 text-sm text-muted-foreground">
           {education.map((entry) => (
-            <li key={entry.institution}>
+            <li>
               • {entry.institution}
               {entry.degree ? ` — ${entry.degree}` : ''}
               {entry.note ? ` — ${entry.note}` : ''}

@@ -37,7 +37,6 @@ const timeline = [
     <div class="grid gap-6 md:grid-cols-3">
       {caseStudies.map((entry) => (
         <Card
-          key={entry.id}
           eyebrow={entry.data.timeframe}
           title={entry.data.title}
           description={entry.data.description}
@@ -69,7 +68,6 @@ const timeline = [
     <div class="grid gap-6 md:grid-cols-3">
       {posts.map((post) => (
         <Card
-          key={post.id}
           eyebrow={new Date(post.data.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
           title={post.data.title}
           description={post.data.summary}
@@ -86,7 +84,7 @@ const timeline = [
     </div>
     <div class="grid gap-4 md:grid-cols-2">
       {patentEntries.map((patent) => (
-        <div class="rounded-2xl border border-border bg-background/80 p-6" key={patent.title}>
+        <div class="rounded-2xl border border-border bg-background/80 p-6">
           <p class="text-xs uppercase tracking-[0.2em] text-muted-foreground">{patent.status}</p>
           <h3 class="mt-2 font-display text-xl font-semibold">{patent.title}</h3>
           <p class="mt-3 text-xs text-muted-foreground">{patent.summary}</p>
