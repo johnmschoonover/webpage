@@ -1,29 +1,69 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Card from '@components/Card.astro';
-import Tag from '@components/Tag.astro';
+import WritingGallery from '@components/Writing/WritingGallery';
 import { getCollection } from 'astro:content';
+
 const posts = (await getCollection('posts')).sort((a, b) => (a.data.date > b.data.date ? -1 : 1));
-const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags)));
+const clientPosts = posts.map((post) => ({
+  slug: post.slug,
+  title: post.data.title,
+  summary: post.data.summary,
+  date: post.data.date,
+  displayDate: new Date(post.data.date).toLocaleDateString(undefined, {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  }),
+  tags: post.data.tags ?? []
+}));
+const newestPost = clientPosts[0];
+const publishedCount = clientPosts.length;
+const tagCount = Array.from(new Set(clientPosts.flatMap((post) => post.tags))).length;
 ---
-<BaseLayout pageHeading="Writing" description="Notes on platform leadership, security engineering, and analytics.">
-  <div class="space-y-4">
-    <h2 class="font-display text-xl font-semibold">Topics</h2>
-    <div class="flex flex-wrap gap-2">
-      {tags.map((tag) => (
-        <Tag label={tag} />
-      ))}
+<BaseLayout
+  pageHeading="Writing"
+  description="Strategy notes and experiments from the security platform trenches."
+>
+  <section class="grid gap-8 rounded-3xl border border-border bg-gradient-to-br from-background via-background to-muted/30 p-8 shadow-sm md:grid-cols-[2fr,1fr]">
+    <div class="space-y-4">
+      <p class="text-sm uppercase tracking-[0.35em] text-muted-foreground">Field journal</p>
+      <h2 class="font-display text-3xl font-semibold text-foreground md:text-4xl">
+        Platform leadership insights delivered with practitioner clarity.
+      </h2>
+      <p class="text-base text-muted-foreground md:text-lg">
+        Explorations of how high-trust teams build resilient telemetry, shape defenses through data, and lead with empathy.
+        Subscribe via RSS or drop new prompts for future posts anytime.
+      </p>
+      <div class="flex flex-wrap gap-4 text-sm text-muted-foreground">
+        <span class="rounded-full border border-border px-3 py-1">
+          {publishedCount} {publishedCount === 1 ? 'post' : 'posts'} shipped
+        </span>
+        <span class="rounded-full border border-border px-3 py-1">{tagCount} topics</span>
+        {newestPost && (
+          <a
+            href={`/writing/${newestPost.slug}/`}
+            class="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-primary transition hover:border-primary hover:text-primary"
+          >
+            Latest: {newestPost.title}
+          </a>
+        )}
+      </div>
     </div>
-  </div>
-  <div class="grid gap-6 md:grid-cols-2">
-    {posts.map((post) => (
-      <Card
-        eyebrow={new Date(post.data.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
-        title={post.data.title}
-        description={post.data.summary}
-        href={`/writing/${post.slug}/`}
-        cta="Read"
-      />
-    ))}
-  </div>
+    <div class="space-y-4 rounded-2xl border border-border bg-background/80 p-6">
+      <h3 class="font-display text-lg font-semibold text-foreground">How to publish</h3>
+      <ol class="list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
+        <li>Draft posts in Markdown or MDX—keep intros tight and purposeful.</li>
+        <li>Use the publisher module below to create a new file under <code>src/content/posts</code>.</li>
+        <li>Commit, review, and ship. Add images to <code>public/images/posts</code> when needed.</li>
+      </ol>
+      <a
+        href="/admin/blog"
+        class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:shadow"
+      >
+        Open publisher
+      </a>
+    </div>
+  </section>
+
+  <WritingGallery client:load posts={clientPosts} />
 </BaseLayout>

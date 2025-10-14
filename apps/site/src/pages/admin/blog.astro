@@ -1,0 +1,21 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BlogPostForm from '@components/BlogPostForm';
+---
+<BaseLayout
+  title="Blog Publisher — John Schoonover"
+  description="Authenticated workspace for publishing new writing entries."
+  pageHeading="Blog Publisher"
+>
+  <section class="space-y-6 rounded-3xl border border-border bg-background/80 p-8 shadow-sm">
+    <p class="text-sm text-muted-foreground">
+      Use this form from a trusted environment only. Posts are written to <code>apps/site/src/content/posts</code> using the
+      slug you provide. Protect the optional <code>BLOG_PUBLISH_TOKEN</code> secret to restrict access in production.
+    </p>
+    <p class="text-sm text-muted-foreground">
+      Drafts are saved as MDX files. After submitting, review the generated file, add assets under
+      <code>apps/site/public/images/posts</code>, and open a pull request when you are ready to share.
+    </p>
+    <BlogPostForm client:load />
+  </section>
+</BaseLayout>
