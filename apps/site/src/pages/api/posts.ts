@@ -1,12 +1,35 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { access, mkdir, writeFile } from 'node:fs/promises';
-import { constants } from 'node:fs';
+import { constants, existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ensureSlug } from '@lib/slugify';
 
-const postsDirectory = fileURLToPath(new URL('../../content/posts/', import.meta.url));
+function findPostsDirectory() {
+  const moduleDir = path.dirname(fileURLToPath(import.meta.url));
+  const searchRoots = [moduleDir, process.cwd()];
+
+  for (const root of searchRoots) {
+    let current = root;
+    while (true) {
+      const candidate = path.join(current, 'src/content/posts');
+      if (existsSync(candidate)) {
+        return candidate;
+      }
+
+      const parent = path.dirname(current);
+      if (parent === current) {
+        break;
+      }
+      current = parent;
+    }
+  }
+
+  throw new Error('Unable to locate posts content directory from API route.');
+}
+
+const postsDirectory = findPostsDirectory();
 const BLOG_PUBLISH_TOKEN = import.meta.env.BLOG_PUBLISH_TOKEN;
 
 export const prerender = false;
