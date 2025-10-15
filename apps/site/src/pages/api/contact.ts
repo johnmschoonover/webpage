@@ -158,6 +158,17 @@ async function verifyHCaptcha(token: string | null, remoteIp: string | undefined
   }
 }
 
+export const GET: APIRoute = async () => {
+  return new Response(JSON.stringify({ ok: false, message: 'Method not allowed.' }), {
+    status: 405,
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+      'Allow': 'POST'
+    }
+  });
+};
+
 export const POST: APIRoute = async ({ request }) => {
   const contentType = request.headers.get('content-type') ?? '';
   if (!/(application\/x-www-form-urlencoded|multipart\/form-data)/i.test(contentType)) {
