@@ -14,10 +14,64 @@ type Props = {
   posts: PostSummary[];
 };
 
-function matchesQuery(post: PostSummary, query: string) {
-  if (!query) return true;
-  const haystack = [post.title, post.summary, post.tags.join(' ')].join(' ').toLowerCase();
-  return haystack.includes(query.toLowerCase());
+type IndexedPost = {
+  post: PostSummary;
+  normalizedTitle: string;
+  normalizedSummary: string;
+  normalizedTags: string[];
+  titleWords: string[];
+  summaryWords: string[];
+  tagWords: string[];
+};
+
+function normalizeForSearch(value: string) {
+  return value
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .replace(/[\-_/]+/g, ' ')
+    .toLowerCase();
+}
+
+function scorePost(indexed: IndexedPost, tokens: string[]) {
+  if (tokens.length === 0) {
+    return 1;
+  }
+
+  let score = 0;
+
+  for (const token of tokens) {
+    let tokenScore = 0;
+
+    if (indexed.titleWords.some((word) => word === token)) {
+      tokenScore += 6;
+    } else if (indexed.titleWords.some((word) => word.startsWith(token))) {
+      tokenScore += 4;
+    } else if (indexed.normalizedTitle.includes(token)) {
+      tokenScore += 2;
+    }
+
+    if (indexed.normalizedTags.some((tag) => tag === token)) {
+      tokenScore += 5;
+    } else if (indexed.normalizedTags.some((tag) => tag.startsWith(token))) {
+      tokenScore += 3;
+    } else if (indexed.tagWords.some((word) => word.includes(token))) {
+      tokenScore += 1;
+    }
+
+    if (indexed.summaryWords.some((word) => word === token)) {
+      tokenScore += 2;
+    } else if (indexed.normalizedSummary.includes(token)) {
+      tokenScore += 1;
+    }
+
+    if (tokenScore === 0) {
+      return 0;
+    }
+
+    score += tokenScore;
+  }
+
+  return score;
 }
 
 function formatTag(tag: string) {
@@ -31,6 +85,28 @@ export default function WritingGallery({ posts }: Props) {
   const [query, setQuery] = useState('');
   const [activeTag, setActiveTag] = useState<string | null>(null);
 
+  const indexedPosts = useMemo<IndexedPost[]>(() => {
+    return posts.map((post) => {
+      const normalizedTitle = normalizeForSearch(post.title);
+      const normalizedSummary = normalizeForSearch(post.summary);
+      const normalizedTags = post.tags.map((tag) => normalizeForSearch(tag));
+
+      const titleWords = normalizedTitle.split(/\s+/).filter(Boolean);
+      const summaryWords = normalizedSummary.split(/\s+/).filter(Boolean);
+      const tagWords = normalizedTags.flatMap((tag) => tag.split(/\s+/)).filter(Boolean);
+
+      return {
+        post,
+        normalizedTitle,
+        normalizedSummary,
+        normalizedTags,
+        titleWords,
+        summaryWords,
+        tagWords,
+      };
+    });
+  }, [posts]);
+
   const allTags = useMemo(() => {
     const map = new Map<string, number>();
     posts.forEach((post) => {
@@ -42,13 +118,32 @@ export default function WritingGallery({ posts }: Props) {
   }, [posts]);
 
   const filtered = useMemo(() => {
-    return posts.filter((post) => {
-      if (activeTag && !post.tags.includes(activeTag)) {
-        return false;
+    const normalizedQuery = normalizeForSearch(query);
+    const tokens = normalizedQuery.split(/\s+/).filter(Boolean);
+
+    const matches = indexedPosts
+      .filter((indexed) => {
+        if (activeTag && !indexed.post.tags.includes(activeTag)) {
+          return false;
+        }
+        return true;
+      })
+      .map((indexed) => ({
+        post: indexed.post,
+        score: scorePost(indexed, tokens),
+      }))
+      .filter(({ score }) => score > 0);
+
+    matches.sort((a, b) => {
+      if (b.score !== a.score) {
+        return b.score - a.score;
       }
-      return matchesQuery(post, query.trim().toLowerCase());
+
+      return new Date(b.post.date).getTime() - new Date(a.post.date).getTime();
     });
-  }, [posts, activeTag, query]);
+
+    return matches.map(({ post }) => post);
+  }, [indexedPosts, activeTag, query]);
 
   const featured = filtered[0];
   const remainder = filtered.slice(1);
