@@ -62,6 +62,12 @@ Refer to [`docs/OPS.md`](docs/OPS.md) for full deployment, backup, and rollback 
 - Watchtower or Portainer can automate container updates; ensure rollbacks are available by keeping previous build artifacts.
 
 ## Contributing
+### Spec-driven workflow
+- Start every net-new feature or major refactor by opening a **Spec** issue using the [GitHub template](.github/ISSUE_TEMPLATE/spec.yml). Keep the auto-applied `spec`/`docs` labels in place (add surface labels as needed) so planning work stays searchable. The issue should cite the authoritative requirement source (e.g., `docs/PRD.md`) and capture scope, acceptance criteria, rollout notes, and validation plan before coding begins.
+- Keep the spec issue up to date as decisions are made. Log amendments in the decision log section and link out to design artifacts or supporting documents committed in `docs/`.
+- Link each implementation PR back to the parent spec issue and confirm the acceptance criteria have been satisfied in the PR description. If the spec evolves mid-stream, update the template and secure reviewer sign-off before merging.
+
+### Day-to-day expectations
 1. Fork/branch from `main`.
 2. Follow Conventional Commit formatting (`type(scope): message`).
 3. Update relevant documentation and add links in README if new guides are created.

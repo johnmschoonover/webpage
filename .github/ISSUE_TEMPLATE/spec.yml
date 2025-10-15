@@ -1,0 +1,85 @@
+name: Spec
+description: Create or update a spec before implementation work begins.
+title: "Spec: [Feature/Area]"
+labels:
+  - docs
+  - spec
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Purpose
+        Use this template to capture the plan of record for a feature or change before coding starts. Reference relevant sections of the PRD and any supporting docs.
+  - type: input
+    id: spec_owner
+    attributes:
+      label: Spec owner
+      description: Who is responsible for shepherding this spec through review and implementation?
+      placeholder: "@owner"
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Problem & goals
+      description: What user problem are we solving? How does this map to PRD goals?
+      placeholder: "Describe the problem, desired outcomes, and affected personas."
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope & non-goals
+      description: Enumerate what is in-scope as well as explicit non-goals for this iteration.
+      placeholder: "In scope...\nOut of scope..."
+    validations:
+      required: true
+  - type: textarea
+    id: requirements
+    attributes:
+      label: Requirements & acceptance criteria
+      description: Link or quote the authoritative requirements (PRD sections, design docs) and list verifiable acceptance criteria.
+      placeholder: "- [ ] Requirement 1\n- [ ] Requirement 2"
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Proposed design
+      description: Provide architecture notes, mocks, sequence diagrams, or attach assets. Include open questions.
+      placeholder: "Architecture overview, data flow, component responsibilities..."
+    validations:
+      required: false
+  - type: textarea
+    id: rollout
+    attributes:
+      label: Rollout considerations
+      description: Document deployment plan, feature flags, analytics, docs, and support updates.
+      placeholder: "Deployment steps, migrations, analytics updates, docs to touch..."
+    validations:
+      required: false
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation plan
+      description: Capture how we will test the change (unit, integration, manual, a11y, Lighthouse) and who signs off. Indicate which CI jobs or checklists must be updated.
+      placeholder: "Testing strategy and owners."
+    validations:
+      required: true
+  - type: textarea
+    id: timeline
+    attributes:
+      label: Milestones
+      description: Break the work into trackable milestones and reference the issues/PRs that will implement them.
+      placeholder: "- Milestone 1 — #123\n- Milestone 2 — #124"
+    validations:
+      required: true
+  - type: textarea
+    id: updates
+    attributes:
+      label: Decision log
+      description: Capture notable changes to the spec, with date and reviewer approvals.
+      placeholder: "YYYY-MM-DD — Decision summary (reviewers)"
+    validations:
+      required: false
