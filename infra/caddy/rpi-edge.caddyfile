@@ -1,0 +1,50 @@
+# Raspberry Pi edge Caddy config for forwarding theschoonover.net to the RackStation
+#
+# 1. Replace 192.168.1.50 with the LAN IP or DNS name of the RackStation DSM reverse proxy.
+# 2. Update the certificate email/paths if you are not using Caddy's built-in ACME management.
+# 3. Drop this file in /etc/caddy/Caddyfile (or include via import) on the Raspberry Pi.
+# 4. Reload Caddy: sudo systemctl reload caddy
+
+theschoonover.net, www.theschoonover.net {
+  encode gzip zstd
+
+  @health path /health.json
+
+  reverse_proxy @health https://192.168.1.50 {
+    header_up Host {http.request.host}
+    header_up X-Real-IP {http.request.remote}
+    header_up X-Forwarded-For {http.request.remote}
+    header_up X-Forwarded-Proto {http.request.scheme}
+    transport http {
+      tls
+      tls_server_name {http.request.host}
+    }
+  }
+
+  reverse_proxy https://192.168.1.50 {
+    header_up Host {http.request.host}
+    header_up X-Real-IP {http.request.remote}
+    header_up X-Forwarded-For {http.request.remote}
+    header_up X-Forwarded-Proto {http.request.scheme}
+    transport http {
+      tls
+      tls_server_name {http.request.host}
+    }
+  }
+
+  header {
+    Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+    Referrer-Policy "strict-origin-when-cross-origin"
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "DENY"
+    X-XSS-Protection "1; mode=block"
+  }
+
+  tls {
+    # Uncomment if you want to supply your own certificates instead of using Caddy's managed certificates
+    # certificate_file /etc/letsencrypt/live/theschoonover.net/fullchain.pem
+    # key_file /etc/letsencrypt/live/theschoonover.net/privkey.pem
+    # issuer acme
+    # email admin@theschoonover.net
+  }
+}
