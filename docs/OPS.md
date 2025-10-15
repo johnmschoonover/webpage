@@ -45,6 +45,26 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
 4. Attach Let’s Encrypt certificate; configure auto-renew.
 5. Forwarded headers: enable `X-Forwarded-For` and `X-Forwarded-Proto`.
 
+### Raspberry Pi Edge Proxy (NGINX)
+If public traffic lands on a Raspberry Pi running nginx before reaching the RackStation, configure it as an SSL-terminating reverse proxy that forwards requests to DSM:
+
+1. Copy `infra/nginx/rpi-edge.conf` to the Pi (e.g., `/etc/nginx/conf.d/theschoonover.net.conf`).
+2. Replace the placeholder `192.168.1.50` with the RackStation’s LAN IP or DNS name.
+3. Update the `ssl_certificate` paths to match your Let’s Encrypt (or other) certificate locations on the Pi.
+4. Reload nginx: `sudo systemctl reload nginx`.
+
+The config enforces the same security headers as the internal RackStation nginx, preserves client IPs via the `X-Forwarded-*` headers, and proxies `/health.json` so uptime monitors continue to work end-to-end.
+
+### Raspberry Pi Edge Proxy (Caddy)
+If you prefer Caddy for its automatic certificate management and simpler syntax, mirror the same forwarding behavior with the provided Caddyfile:
+
+1. Copy `infra/caddy/rpi-edge.caddyfile` to the Pi (e.g., `/etc/caddy/Caddyfile`).
+2. Replace `192.168.1.50` with the RackStation’s LAN IP or DNS name (or internal DNS record).
+3. If you want to reuse existing certificates instead of Caddy’s built-in ACME, uncomment the `tls` stanza values and point them at your certificate and key paths.
+4. Reload Caddy: `sudo systemctl reload caddy`.
+
+The Caddyfile maintains the same security headers, preserves client IP details, forwards `/health.json` explicitly for uptime checks, and enables HTTP/2 + TLS for the hop between the Pi and DSM using `tls_server_name`.
+
 ## Docker Compose Commands
 ```bash
 # Start or update stack
