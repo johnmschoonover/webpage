@@ -1,4 +1,4 @@
-import { FormEvent, useMemo, useState } from 'react';
+import { type FormEvent, useMemo, useState } from 'react';
 import { ensureSlug } from '@lib/slugify';
 import { cn } from '@lib/utils';
 
