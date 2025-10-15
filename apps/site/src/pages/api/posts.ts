@@ -1,233 +1,262 @@
 import type { APIRoute } from 'astro';
+import { getCollection } from 'astro:content';
 import { access, mkdir, writeFile } from 'node:fs/promises';
 import { constants, existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { ensureSlug } from '@lib/slugify';
 
-const JSON_HEADERS = {
-  'Content-Type': 'application/json',
-  'Cache-Control': 'no-store'
-} as const;
+function findPostsDirectory() {
+  const moduleDir = path.dirname(fileURLToPath(import.meta.url));
+  const searchRoots = [moduleDir, process.cwd()];
 
-const moduleDirectory = path.dirname(fileURLToPath(import.meta.url));
-const defaultPostsDirectory = path.resolve(moduleDirectory, '../../content/posts');
+  for (const root of searchRoots) {
+    let current = root;
+    while (true) {
+      const candidate = path.join(current, 'src/content/posts');
+      if (existsSync(candidate)) {
+        return candidate;
+      }
 
-const candidateDirectories = [
-  defaultPostsDirectory,
-  path.resolve(process.cwd(), 'apps/site/src/content/posts'),
-  path.resolve(process.cwd(), 'src/content/posts')
-];
+      const parent = path.dirname(current);
+      if (parent === current) {
+        break;
+      }
+      current = parent;
+    }
+  }
 
-async function ensureDirectory(target: string) {
+  throw new Error('Unable to locate posts content directory from API route.');
+}
+
+const postsDirectory = findPostsDirectory();
+const BLOG_PUBLISH_TOKEN = import.meta.env.BLOG_PUBLISH_TOKEN;
+
+export const prerender = false;
+
+async function ensureDirectoryExists(directory: string) {
+  await mkdir(directory, { recursive: true });
+}
+
+async function fileExists(filePath: string) {
   try {
-    await access(target, constants.W_OK);
-    return target;
-  } catch (error) {
-    const nodeError = error as NodeJS.ErrnoException;
-    if (nodeError.code === 'ENOENT') {
-      await mkdir(target, { recursive: true });
-      return target;
-    }
-
-    throw error;
+    await access(filePath, constants.F_OK);
+    return true;
+  } catch {
+    return false;
   }
 }
 
-function resolvePostsDirectory() {
-  for (const directory of candidateDirectories) {
-    if (existsSync(directory)) {
-      return directory;
-    }
+function formatDate(value: string | undefined) {
+  if (!value) {
+    return new Date().toISOString().slice(0, 10);
   }
 
-  return defaultPostsDirectory;
-}
-
-function toArray(value: unknown) {
-  if (Array.isArray(value)) {
-    return value.map(String);
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return new Date().toISOString().slice(0, 10);
   }
 
-  if (typeof value === 'string') {
-    return value
-      .split(/[,\n]/)
-      .map((part) => part.trim())
-      .filter(Boolean);
-  }
-
-  return [];
-}
-
-function sanitiseFrontmatter(value: string) {
-  return value.replace(/"/g, '\\"').trim();
-}
-
-function slugify(value: string) {
-  const base = value
-    .toLowerCase()
-    .trim()
-    .replace(/['"]+/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)+/g, '');
-
-  if (base) {
-    return base;
-  }
-
-  const timestamp = new Date().toISOString().slice(0, 10);
-  return `post-${timestamp}`;
+  return parsed.toISOString().slice(0, 10);
 }
 
 function buildFrontmatter(payload: {
   title: string;
   summary: string;
+  date: string;
   tags: string[];
-  body: string;
-  date?: string;
+  canonical?: string;
+  updated?: string;
 }) {
-  const { title, summary, tags, body, date } = payload;
-  const renderedTags = tags.map((tag) => `"${sanitiseFrontmatter(tag)}"`).join(', ');
-  const published = date ? new Date(date) : new Date();
-  const isoDate = Number.isNaN(published.getTime()) ? new Date() : published;
+  const lines = [
+    `title: ${JSON.stringify(payload.title)}`,
+    `summary: ${JSON.stringify(payload.summary)}`,
+    `date: \"${payload.date}\"`
+  ];
 
-  const frontmatter = `---\n` +
-    `title: "${sanitiseFrontmatter(title)}"\n` +
-    `date: ${isoDate.toISOString()}\n` +
-    `summary: "${sanitiseFrontmatter(summary)}"\n` +
-    `tags: [${renderedTags}]\n` +
-    `---\n\n`;
+  if (payload.tags.length > 0) {
+    lines.push(`tags: [${payload.tags.map((tag) => JSON.stringify(tag)).join(', ')}]`);
+  }
 
-  return frontmatter + `${body.trim()}\n`;
+  if (payload.canonical) {
+    lines.push(`canonical: ${JSON.stringify(payload.canonical)}`);
+  }
+
+  if (payload.updated) {
+    lines.push(`updated: \"${payload.updated}\"`);
+  }
+
+  return `---\n${lines.join('\n')}\n---\n`;
 }
 
-async function writePostFile(directory: string, slug: string, contents: string) {
-  const targetPath = path.join(directory, `${slug}.mdx`);
+function validateBody(body: unknown) {
+  if (typeof body !== 'string' || body.trim().length < 50) {
+    return 'Post body must contain at least 50 characters.';
+  }
+  return undefined;
+}
 
-  if (existsSync(targetPath)) {
+function validateSummary(summary: string) {
+  if (summary.length < 20) {
+    return 'Summary should contain at least 20 characters to provide context.';
+  }
+  if (summary.length > 300) {
+    return 'Summary must be under 300 characters to keep meta descriptions concise.';
+  }
+  return undefined;
+}
+
+function normalizeTags(input: unknown) {
+  if (!input) return [] as string[];
+  if (Array.isArray(input)) {
+    return input
+      .map((tag) => (typeof tag === 'string' ? tag.trim() : ''))
+      .filter(Boolean)
+      .map((tag) => tag.toLowerCase());
+  }
+  if (typeof input === 'string') {
+    return input
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter(Boolean)
+      .map((tag) => tag.toLowerCase());
+  }
+  return [] as string[];
+}
+
+function normalizeCanonical(value: unknown) {
+  if (typeof value !== 'string') return undefined;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+  try {
+    const url = new URL(trimmed);
+    return url.toString();
+  } catch {
+    return undefined;
+  }
+}
+
+function normalizeUpdated(value: unknown) {
+  if (typeof value !== 'string') return undefined;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+  const parsed = new Date(trimmed);
+  if (Number.isNaN(parsed.getTime())) return undefined;
+  return parsed.toISOString().slice(0, 10);
+}
+
+function respondWithJson(status: number, body: Record<string, unknown>) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store'
+    }
+  });
+}
+
+function authorize(request: Request) {
+  if (!BLOG_PUBLISH_TOKEN) {
+    return { ok: true } as const;
+  }
+
+  const header = request.headers.get('authorization');
+  if (!header) {
     return {
       ok: false,
-      status: 409,
-      body: {
-        ok: false,
-        message: `A post with the slug “${slug}” already exists.`,
-        slug
-      }
+      response: respondWithJson(401, { ok: false, message: 'Missing authorization header.' })
     } as const;
   }
 
-  await writeFile(targetPath, contents, 'utf8');
+  const [, token] = header.split(/Bearer\s+/i);
+  if (!token || token.trim() !== BLOG_PUBLISH_TOKEN) {
+    return {
+      ok: false,
+      response: respondWithJson(401, { ok: false, message: 'Invalid publish token.' })
+    } as const;
+  }
 
-  return {
-    ok: true,
-    status: 201,
-    body: {
-      ok: true,
-      slug,
-      path: targetPath
-    }
-  } as const;
+  return { ok: true } as const;
 }
 
-function parseBody(record: Record<string, unknown>) {
-  const title = typeof record.title === 'string' ? record.title.trim() : '';
-  const summary = typeof record.summary === 'string' ? record.summary.trim() : '';
-  const body = typeof record.body === 'string' ? record.body : '';
-  const tags = toArray(record.tags);
-  const date = typeof record.date === 'string' ? record.date : undefined;
-  const slugOverride = typeof record.slug === 'string' ? record.slug.trim() : undefined;
+export const GET: APIRoute = async () => {
+  const posts = await getCollection('posts');
+  const payload = posts
+    .map((post) => ({
+      slug: post.slug,
+      title: post.data.title,
+      summary: post.data.summary,
+      date: post.data.date,
+      tags: post.data.tags ?? []
+    }))
+    .sort((a, b) => (a.date > b.date ? -1 : 1));
 
-  const errors: Record<string, string> = {};
-
-  if (!title) {
-    errors.title = 'Title is required.';
-  }
-
-  if (!summary) {
-    errors.summary = 'Summary is required.';
-  }
-
-  if (!body.trim()) {
-    errors.body = 'Body content is required.';
-  }
-
-  if (tags.length === 0) {
-    errors.tags = 'At least one tag is required.';
-  }
-
-  if (slugOverride && !/^[-a-z0-9]+$/.test(slugOverride)) {
-    errors.slug = 'Slug may only include lowercase letters, numbers, and hyphens.';
-  }
-
-  return {
-    errors,
-    post: {
-      title,
-      summary,
-      body,
-      tags,
-      date,
-      slug: slugOverride || slugify(title)
-    }
-  } as const;
-}
-
-export const prerender = false;
+  return respondWithJson(200, { ok: true, posts: payload });
+};
 
 export const POST: APIRoute = async ({ request }) => {
-  const contentType = request.headers.get('content-type') ?? '';
+  const authResult = authorize(request);
+  if (!authResult.ok) {
+    return authResult.response;
+  }
 
-  if (!/application\/json/i.test(contentType)) {
-    return new Response(
-      JSON.stringify({ ok: false, message: 'Unsupported content type. Expecting application/json.' }),
-      { status: 415, headers: JSON_HEADERS }
-    );
+  const contentType = request.headers.get('content-type') ?? '';
+  if (!contentType.toLowerCase().includes('application/json')) {
+    return respondWithJson(415, {
+      ok: false,
+      message: 'Use application/json content type.'
+    });
   }
 
   let payload: Record<string, unknown>;
-
   try {
-    payload = (await request.json()) as Record<string, unknown>;
+    payload = await request.json();
   } catch {
-    return new Response(JSON.stringify({ ok: false, message: 'Invalid JSON payload.' }), {
-      status: 400,
-      headers: JSON_HEADERS
+    return respondWithJson(400, { ok: false, message: 'Invalid JSON payload.' });
+  }
+
+  const title = typeof payload.title === 'string' ? payload.title.trim() : '';
+  const summary = typeof payload.summary === 'string' ? payload.summary.trim() : '';
+  const body = typeof payload.body === 'string' ? payload.body : '';
+  const tags = normalizeTags(payload.tags);
+  const canonical = normalizeCanonical(payload.canonical);
+  const updated = normalizeUpdated(payload.updated);
+  const slug = ensureSlug(typeof payload.slug === 'string' ? payload.slug : undefined, title);
+  const date = formatDate(typeof payload.date === 'string' ? payload.date : undefined);
+
+  if (!title) {
+    return respondWithJson(400, { ok: false, message: 'Title is required.' });
+  }
+
+  const summaryError = validateSummary(summary);
+  if (summaryError) {
+    return respondWithJson(400, { ok: false, message: summaryError });
+  }
+
+  const bodyError = validateBody(body);
+  if (bodyError) {
+    return respondWithJson(400, { ok: false, message: bodyError });
+  }
+
+  await ensureDirectoryExists(postsDirectory);
+  const fileName = `${slug}.mdx`;
+  const filePath = path.join(postsDirectory, fileName);
+
+  if (await fileExists(filePath)) {
+    return respondWithJson(409, {
+      ok: false,
+      message: `A post with the slug \"${slug}\" already exists.`
     });
   }
 
-  const { errors, post } = parseBody(payload);
+  const frontmatter = buildFrontmatter({ title, summary, date, tags, canonical, updated });
+  const contents = `${frontmatter}\n${body.trim()}\n`;
 
-  if (Object.keys(errors).length > 0) {
-    return new Response(
-      JSON.stringify({ ok: false, message: 'Validation failed.', errors }),
-      { status: 422, headers: JSON_HEADERS }
-    );
-  }
+  await writeFile(filePath, contents, 'utf-8');
 
-  const targetDirectory = resolvePostsDirectory();
-
-  try {
-    const directory = await ensureDirectory(targetDirectory);
-    const frontmatter = buildFrontmatter(post);
-    const result = await writePostFile(directory, post.slug, frontmatter);
-
-    return new Response(JSON.stringify(result.body), {
-      status: result.status,
-      headers: JSON_HEADERS
-    });
-  } catch (error) {
-    console.error('Failed to write blog post', error);
-    return new Response(
-      JSON.stringify({ ok: false, message: 'Failed to persist blog post content.' }),
-      { status: 500, headers: JSON_HEADERS }
-    );
-  }
-};
-
-export const GET: APIRoute = async () =>
-  new Response(JSON.stringify({ ok: false, message: 'Method not allowed. Use POST to submit content.' }), {
-    status: 405,
-    headers: {
-      ...JSON_HEADERS,
-      Allow: 'POST'
-    }
+  return respondWithJson(201, {
+    ok: true,
+    slug,
+    path: `src/content/posts/${fileName}`
   });
+};

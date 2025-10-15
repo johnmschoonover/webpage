@@ -1,195 +1,264 @@
-import { type ChangeEvent, type FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useMemo, useState } from 'react';
+import { ensureSlug } from '@lib/slugify';
+import { cn } from '@lib/utils';
 
-const initialForm = {
+type FormState = {
+  title: string;
+  summary: string;
+  body: string;
+  tags: string;
+  date: string;
+  updated: string;
+  canonical: string;
+  slug: string;
+  token: string;
+};
+
+type SubmissionState =
+  | { status: 'idle' }
+  | { status: 'submitting' }
+  | { status: 'success'; message: string; path: string }
+  | { status: 'error'; message: string };
+
+const initialFormState: FormState = {
   title: '',
   summary: '',
-  tags: '',
   body: '',
-  date: ''
+  tags: '',
+  date: new Date().toISOString().slice(0, 10),
+  updated: '',
+  canonical: '',
+  slug: '',
+  token: ''
 };
 
-type SubmissionState = 'idle' | 'submitting' | 'success' | 'error';
-
-type ApiResponse = {
-  ok: boolean;
-  message?: string;
-  slug?: string;
-  errors?: Record<string, string>;
-};
-
-function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/['"`]+/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)+/g, '');
+function normalizeTags(tags: string) {
+  return tags
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
 }
 
 export default function BlogPostForm() {
-  const [form, setForm] = useState(initialForm);
-  const [status, setStatus] = useState<SubmissionState>('idle');
-  const [message, setMessage] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [form, setForm] = useState<FormState>(initialFormState);
+  const [submission, setSubmission] = useState<SubmissionState>({ status: 'idle' });
 
-  const slug = useMemo(() => slugify(form.title) || 'post-preview', [form.title]);
+  const derivedSlug = useMemo(() => {
+    return ensureSlug(form.slug, form.title);
+  }, [form.slug, form.title]);
 
-  function updateField(key: keyof typeof initialForm) {
-    return (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setForm((current) => ({ ...current, [key]: event.target.value }));
-    };
+  const tagList = useMemo(() => normalizeTags(form.tags), [form.tags]);
+
+  function updateField<Key extends keyof FormState>(key: Key, value: FormState[Key]) {
+    setForm((prev) => ({ ...prev, [key]: value }));
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setSubmission({ status: 'submitting' });
 
-    setStatus('submitting');
-    setMessage(null);
-    setFieldErrors({});
+    const payload = {
+      title: form.title.trim(),
+      summary: form.summary.trim(),
+      body: form.body.trim(),
+      tags: tagList,
+      date: form.date,
+      updated: form.updated.trim() || undefined,
+      canonical: form.canonical.trim() || undefined,
+      slug: form.slug.trim() || undefined
+    };
 
     try {
       const response = await fetch('/api/posts', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: form.title,
-          summary: form.summary,
-          body: form.body,
-          tags: form.tags,
-          date: form.date || undefined
-        })
+        headers: {
+          'Content-Type': 'application/json',
+          ...(form.token ? { Authorization: `Bearer ${form.token}` } : {})
+        },
+        body: JSON.stringify(payload)
       });
 
-      const payload = (await response.json()) as ApiResponse;
+      const body = (await response.json()) as { ok: boolean; message?: string; path?: string; slug?: string };
 
-      if (!response.ok || !payload.ok) {
-        setStatus('error');
-        setMessage(payload.message ?? 'Failed to create blog post.');
-        setFieldErrors(payload.errors ?? {});
+      if (!response.ok || !body.ok) {
+        setSubmission({
+          status: 'error',
+          message: body.message ?? 'The server rejected the post. Please review the fields and try again.'
+        });
         return;
       }
 
-      setStatus('success');
-      setMessage(`Post saved! Slug: ${payload.slug ?? slug}`);
-      setForm(initialForm);
+      setSubmission({
+        status: 'success',
+        message: `Draft created for slug “${body.slug ?? derivedSlug}”.`,
+        path: body.path ?? ''
+      });
+      setForm(initialFormState);
     } catch (error) {
-      console.error('Blog post submission failed', error);
-      setStatus('error');
-      setMessage('An unexpected error occurred while saving the post.');
+      console.error('Failed to publish post', error);
+      setSubmission({
+        status: 'error',
+        message: 'Unexpected error while sending the post. Check your connection and try again.'
+      });
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid gap-2">
-        <label className="text-sm font-medium" htmlFor="title">
-          Title
-        </label>
-        <input
-          id="title"
-          name="title"
-          type="text"
-          value={form.title}
-          onChange={updateField('title')}
-          required
-          className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-        />
-        {fieldErrors.title ? (
-          <p className="text-sm text-rose-600" role="alert">
-            {fieldErrors.title}
+    <form className="space-y-8" onSubmit={handleSubmit}>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-2">
+          <label htmlFor="token" className="text-sm font-medium text-foreground">
+            Publisher token
+          </label>
+          <input
+            id="token"
+            type="password"
+            value={form.token}
+            onChange={(event) => updateField('token', event.target.value)}
+            placeholder="Optional — required if BLOG_PUBLISH_TOKEN is set"
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/40"
+          />
+          <p className="text-xs text-muted-foreground">
+            Stored only in memory and sent with this request. Configure <code>BLOG_PUBLISH_TOKEN</code> to require it.
           </p>
-        ) : null}
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="slug" className="text-sm font-medium text-foreground">
+            Custom slug
+          </label>
+          <input
+            id="slug"
+            value={form.slug}
+            onChange={(event) => updateField('slug', event.target.value)}
+            placeholder="Optional — defaults to the title"
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/40"
+          />
+          <p className="text-xs text-muted-foreground">Final slug preview: <code>{derivedSlug}</code></p>
+        </div>
       </div>
 
-      <div className="grid gap-2">
-        <label className="text-sm font-medium" htmlFor="summary">
-          Summary
-        </label>
-        <textarea
-          id="summary"
-          name="summary"
-          value={form.summary}
-          onChange={updateField('summary')}
-          rows={3}
-          required
-          className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-        />
-        {fieldErrors.summary ? (
-          <p className="text-sm text-rose-600" role="alert">
-            {fieldErrors.summary}
-          </p>
-        ) : null}
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-2">
+          <label htmlFor="title" className="text-sm font-medium text-foreground">
+            Title
+          </label>
+          <input
+            id="title"
+            required
+            value={form.title}
+            onChange={(event) => updateField('title', event.target.value)}
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/40"
+          />
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="summary" className="text-sm font-medium text-foreground">
+            Summary
+          </label>
+          <textarea
+            id="summary"
+            required
+            value={form.summary}
+            onChange={(event) => updateField('summary', event.target.value)}
+            className="h-32 w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/40"
+          />
+        </div>
       </div>
 
-      <div className="grid gap-2">
-        <label className="text-sm font-medium" htmlFor="tags">
-          Tags <span className="font-normal text-slate-500">(comma or newline separated)</span>
-        </label>
-        <textarea
-          id="tags"
-          name="tags"
-          value={form.tags}
-          onChange={updateField('tags')}
-          rows={2}
-          placeholder="leadership, strategy"
-          required
-          className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-        />
-        {fieldErrors.tags ? (
-          <p className="text-sm text-rose-600" role="alert">
-            {fieldErrors.tags}
-          </p>
-        ) : null}
-      </div>
-
-      <div className="grid gap-2">
-        <label className="text-sm font-medium" htmlFor="date">
-          Publish date <span className="font-normal text-slate-500">(optional ISO string)</span>
-        </label>
-        <input
-          id="date"
-          name="date"
-          type="datetime-local"
-          value={form.date}
-          onChange={updateField('date')}
-          className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-        />
-      </div>
-
-      <div className="grid gap-2">
-        <label className="text-sm font-medium" htmlFor="body">
-          Body
+      <div className="space-y-2">
+        <label htmlFor="body" className="text-sm font-medium text-foreground">
+          Post body (MDX supported)
         </label>
         <textarea
           id="body"
-          name="body"
-          value={form.body}
-          onChange={updateField('body')}
-          rows={12}
           required
-          className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+          value={form.body}
+          onChange={(event) => updateField('body', event.target.value)}
+          className="min-h-[16rem] w-full rounded-md border border-border bg-background px-3 py-2 text-sm font-mono outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/40"
         />
-        {fieldErrors.body ? (
-          <p className="text-sm text-rose-600" role="alert">
-            {fieldErrors.body}
-          </p>
-        ) : null}
+        <p className="text-xs text-muted-foreground">
+          Write in Markdown or MDX. Uploads assets separately to <code>apps/site/public/images/posts</code>.
+        </p>
       </div>
 
-      <p className="text-sm text-slate-500">Slug preview: <span className="font-mono text-slate-700 dark:text-slate-300">{slug}</span></p>
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="space-y-2">
+          <label htmlFor="date" className="text-sm font-medium text-foreground">
+            Publish date
+          </label>
+          <input
+            id="date"
+            type="date"
+            value={form.date}
+            onChange={(event) => updateField('date', event.target.value)}
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/40"
+          />
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="updated" className="text-sm font-medium text-foreground">
+            Last updated
+          </label>
+          <input
+            id="updated"
+            type="date"
+            value={form.updated}
+            onChange={(event) => updateField('updated', event.target.value)}
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/40"
+          />
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="canonical" className="text-sm font-medium text-foreground">
+            Canonical URL
+          </label>
+          <input
+            id="canonical"
+            type="url"
+            value={form.canonical}
+            onChange={(event) => updateField('canonical', event.target.value)}
+            placeholder="https://example.com/post"
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/40"
+          />
+        </div>
+      </div>
 
-      <button
-        type="submit"
-        disabled={status === 'submitting'}
-        className="inline-flex items-center justify-center rounded bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 disabled:cursor-not-allowed disabled:bg-slate-400"
-      >
-        {status === 'submitting' ? 'Saving…' : 'Save post'}
-      </button>
+      <div className="space-y-2">
+        <label htmlFor="tags" className="text-sm font-medium text-foreground">
+          Tags
+        </label>
+        <input
+          id="tags"
+          value={form.tags}
+          onChange={(event) => updateField('tags', event.target.value)}
+          placeholder="leadership, analytics, platform"
+          className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/40"
+        />
+        <p className="text-xs text-muted-foreground">
+          Separate tags with commas. Current tags: {tagList.length > 0 ? tagList.join(', ') : 'none yet'}.
+        </p>
+      </div>
 
-      <div aria-live="polite" className="min-h-[1.5rem] text-sm">
-        {message ? (
-          <span className={status === 'error' ? 'text-rose-600' : 'text-emerald-600'}>{message}</span>
-        ) : null}
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <button
+          type="submit"
+          disabled={submission.status === 'submitting'}
+          className={cn(
+            'inline-flex items-center justify-center rounded-md bg-primary px-5 py-2 text-sm font-medium text-primary-foreground shadow transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:cursor-not-allowed disabled:opacity-60'
+          )}
+        >
+          {submission.status === 'submitting' ? 'Saving draft…' : 'Create post draft'}
+        </button>
+        <div role="status" aria-live="polite" className="text-sm">
+          {submission.status === 'success' && (
+            <p className="text-emerald-500">
+              {submission.message}{' '}
+              {submission.path && (
+                <>
+                  File saved to <code>{submission.path}</code>.
+                </>
+              )}
+            </p>
+          )}
+          {submission.status === 'error' && <p className="text-destructive">{submission.message}</p>}
+        </div>
       </div>
     </form>
   );
