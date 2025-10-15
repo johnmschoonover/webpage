@@ -2,7 +2,7 @@ name: Spec
 description: Create or update a spec before implementation work begins.
 title: "Spec: [Feature/Area]"
 labels:
-  - documentation
+  - docs
   - spec
 assignees: []
 body:
@@ -63,7 +63,7 @@ body:
     id: validation
     attributes:
       label: Validation plan
-      description: Capture how we will test the change (unit, integration, manual, a11y, Lighthouse) and who signs off.
+      description: Capture how we will test the change (unit, integration, manual, a11y, Lighthouse) and who signs off. Indicate which CI jobs or checklists must be updated.
       placeholder: "Testing strategy and owners."
     validations:
       required: true

@@ -108,6 +108,9 @@
 ## 4) Issues & PR Workflow
 
 * Create GitHub labels: `feat`, `fix`, `infra`, `content`, `a11y`, `perf`, `docs`.
+* **Spec gate (pre-implementation):** Open a GitHub issue using `.github/ISSUE_TEMPLATE/spec.yml` for every net-new feature, major refactor, or infra change. Tag the issue with `spec` + surface labels, link to the authoritative requirement source (`docs/PRD.md`, design deep dives), and fill in acceptance criteria, rollout steps, validation plan, and decision log entries as they evolve.
+* **Spec lifecycle:** Keep the spec issue updated as design decisions land. Capture reviewer approvals in the decision log, attach diagrams/assets committed to `docs/`, and break work into referenced implementation issues/PRs via the Milestones section.
+* **Implementation PR expectations:** Reference the parent spec issue in each PR description, restate which acceptance criteria are satisfied, and call out any spec deltas that require reviewer acknowledgement before merge.
 * Conventional commits; one scope per PR; size S/M.
 * Branch protection: required checks (typecheck, build, test, a11y, LHCI).
 
