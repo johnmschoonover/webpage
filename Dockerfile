@@ -3,8 +3,9 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Enable pnpm via Corepack
-RUN corepack enable
+# Enable pnpm via Corepack and pin to the required version
+RUN corepack enable \
+    && corepack prepare pnpm@10.19.0 --activate
 
 # Install workspace dependencies with pnpm using a two-phase copy to leverage Docker layer caching
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
