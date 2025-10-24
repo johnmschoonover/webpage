@@ -19,7 +19,7 @@
 * **Styles:** Tailwind CSS + shadcn/ui, lucide icons.
 * **Content:** MD/MDX in `/content`. Images in `/public`. OG image generator.
 * **Runtime:** Node.js 20.11.x LTS (align with `node` Docker base image for Synology compatibility).
-* **Package Manager:** pnpm 10.19.0. Keep the workspace `packageManager` field authoritative and ensure every CI workflow (e.g., `deploy.yml`) installs the same pnpm release—either by pinning the version in `pnpm/action-setup` or delegating to Corepack—before running `pnpm install --frozen-lockfile`.
+* **Package Manager:** pnpm 10.19.0. Keep the workspace `packageManager` field authoritative and ensure every automation entry point (GitHub Actions, Docker images, local setup docs, etc.) installs the same pnpm release—either by pinning the version in `pnpm/action-setup`/`corepack` or delegating to Corepack—before running `pnpm install --frozen-lockfile`. When bumping pnpm, search the entire repository (e.g., `rg "pnpm" .github docs infra`) for hard-coded versions so workflows, scripts, and documentation stay in sync with the workspace pin.
 * **Analytics (optional):** Self‑hosted Plausible via Docker.
 * **Forms:** API route with nodemailer to SMTP relay (Synology MailPlus or env‑provided SMTP). hCaptcha.
 
