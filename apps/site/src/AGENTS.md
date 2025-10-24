@@ -21,6 +21,9 @@ subdirectories (e.g., `components/`, `layouts/`) take precedence for their scope
 - Only use hard-coded fallback URLs (`https://github.com/johnmschoonover`) when canonical data is missing, and annotate the code
   with a TODO explaining why.
 
+## Interaction Rules
+- Any link or button that triggers a file download must set the HTML `download` attribute so the asset is saved locally instead of navigating away.
+
 ## QA Loop
 - Run `pnpm --filter site build` before requesting review; capture warnings in the PR if any appear.
 - Spot-check responsive layouts at 375px, 768px, and ≥1280px widths.
