@@ -18,6 +18,7 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
 | `HCAPTCHA_SITEKEY`, `HCAPTCHA_SECRET` | hCaptcha keys for contact form | Frontend + API | hCaptcha dashboard |
 | `PLAUSIBLE_DOMAIN`, `PLAUSIBLE_API_HOST` | Self-hosted Plausible analytics | Plausible container | Docker compose `.env` |
 | `SSH_DEPLOY_KEY` | Read-only key for RackStation deploys | GitHub Actions secret | Stored as deploy key |
+| `REGISTRY_USERNAME`, `REGISTRY_PASSWORD` | Credentials for `docker.theschoonover.net` | GitHub Actions secret | DSM Credentials Manager |
 
 ## Deployment Runbook
 1. **Prep Git:**
@@ -30,8 +31,8 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
    - Workflow uses `SSH_DEPLOY_KEY` to `rsync` `dist/` to the DSM Docker bind mount (e.g., `/volume1/docker/site/dist`).
    - DSM reverse proxy serves updated static files through nginx container.
 4. **RackStation Deploy (container mode, optional):**
-   - `docker build -t registry.local/theschoonover-site:<sha> .`
-   - `docker push registry.local/theschoonover-site:<sha>`
+   - `docker build -t docker.theschoonover.net/theschoonover/site:<sha> .`
+   - `docker push docker.theschoonover.net/theschoonover/site:<sha>`
    - Watchtower or Portainer pulls latest image and restarts stack.
 5. **Post-Deploy Verification:**
    - Hit `https://theschoonover.net/health` and confirm `200` with correct version hash.
