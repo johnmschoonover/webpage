@@ -414,7 +414,20 @@ pnpm test
 
 ---
 
-## 17) Documentation Deliverables & Owners
+## 17) Guardrails After Brand Misses
+
+When any personal-brand surface (hero, footer, contact, command palette, etc.) fails to meet expectations, establish a scoped
+`AGENTS.md` alongside that surface **before** making corrective changes. The scoped file must:
+
+1. Outline tone, visual priorities, and CTA hierarchy for the surface.
+2. List the canonical data sources (e.g., `data/profile.json`, content collections) that feed the surface.
+3. Capture the QA loop required before merge (copy review, responsive sweep, accessibility spot-check).
+
+Do not proceed with fixes until the scoped guardrail doc exists and the checklist is acknowledged in the PR description.
+
+---
+
+## 18) Documentation Deliverables & Owners
 
 * **`docs/OPS.md` minimum contents:** Deployment runbook (RackStation steps, Docker Compose commands), backup/restore procedures, incident response contacts, environment variable matrix, and rollback instructions. *Owner:* Agent E (Infra) with review from Agent F (QA).
 * **Content Guide (`docs/content-guide.md` or README section):** Voice/tone guardrails, MDX formatting conventions, asset naming/location rules, metadata/frontmatter checklist, accessibility reminders (alt text, captions). *Owner:* Agent B (Content) with sign-off from John.

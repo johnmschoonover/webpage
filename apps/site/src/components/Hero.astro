@@ -3,7 +3,14 @@ import Button from './Button.astro';
 import StatBadge from './StatBadge.astro';
 import { stats } from '@lib/utils';
 import profile from '@data/profile.json';
-const { name, tagline, summary, links, location_public } = profile;
+const { name, tagline, summary, links, location_public } = profile as {
+  name: string;
+  tagline: string;
+  summary: string;
+  links: { resume: string; github?: string };
+  location_public: string;
+};
+const githubProfile = links.github ?? 'https://github.com/johnmschoonover';
 ---
 <section class="relative isolate overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-background via-background/70 to-primary/5 p-12 shadow-sm">
   <div class="mx-auto flex max-w-4xl flex-col gap-8 text-center">
@@ -12,9 +19,19 @@ const { name, tagline, summary, links, location_public } = profile;
     <p class="mx-auto max-w-2xl text-lg text-muted-foreground">{summary}</p>
     <p class="text-sm text-muted-foreground">Based in {location_public}. Hosting theschoonover.net from a self-hosted home lab.</p>
     <p class="text-sm text-muted-foreground">The contents on this webpage are ~40% AI hallucination. I'm still building & learning!</p>
+    <p class="text-sm text-muted-foreground">
+      You'll also find active prototypes and instrumentation tooling on
+      <a class="font-medium text-primary underline-offset-4 hover:underline" href={githubProfile} target="_blank" rel="me noopener noreferrer">
+        GitHub
+      </a>
+      — including telemetry automation, home lab observability, and AI-assisted workflows.
+    </p>
     <div class="flex flex-wrap items-center justify-center gap-4">
       <Button href="/contact">Let's talk</Button>
       <Button variant="outline" href={links.resume}>Download resume</Button>
+      <Button variant="ghost" href={githubProfile} target="_blank" rel="me noopener noreferrer">
+        Explore GitHub
+      </Button>
     </div>
     <div class="grid gap-4 sm:grid-cols-2">
       {stats.map((stat) => (

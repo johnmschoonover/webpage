@@ -6,6 +6,9 @@ type ContactChannel = {
   label: string;
   href: string;
   todo?: string;
+  description?: string;
+  external?: boolean;
+  rel?: string;
 };
 
 type HighlightStat = {
@@ -23,12 +26,42 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const linkedinLink = profile.links.linkedin;
+const githubLink = profile.links.github;
+
+const createChannel = (
+  label: string,
+  href: string | undefined,
+  description: string,
+  external = false,
+  rel?: string
+): ContactChannel => {
+  if (!href || href.startsWith('TODO')) {
+    return { label, href: '#', todo: `Add ${label} URL` };
+  }
+
+  return { label, href, description, external, rel };
+};
 
 export const contactChannels: ContactChannel[] = [
-  linkedinLink.startsWith('TODO')
-    ? { label: 'LinkedIn', href: '#', todo: 'Add LinkedIn URL' }
-    : { label: 'LinkedIn', href: linkedinLink },
-  { label: 'Email', href: profile.links.email }
+  createChannel(
+    'GitHub',
+    githubLink,
+    'Open-source prototypes, instrumentation experiments, and infrastructure notes.',
+    true,
+    'me noopener noreferrer'
+  ),
+  createChannel(
+    'LinkedIn',
+    linkedinLink,
+    'Professional updates, speaking requests, and collaboration highlights.',
+    true,
+    'noopener noreferrer'
+  ),
+  {
+    label: 'Email',
+    href: profile.links.email,
+    description: 'Direct channel for project briefs and partnership inquiries.'
+  }
 ];
 
 export const stats: HighlightStat[] = profile.current_role.focus.map((focus) => ({

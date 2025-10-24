@@ -7,6 +7,8 @@ interface CommandAction {
   description: string;
   href: string;
   shortcut?: string;
+  external?: boolean;
+  rel?: string;
 }
 
 const actions: CommandAction[] = [
@@ -16,7 +18,14 @@ const actions: CommandAction[] = [
   { title: 'Case Studies', description: 'Deep dives on platform programs', href: '/case-studies' },
   { title: 'Writing', description: 'Articles and essays', href: '/writing' },
   { title: 'Patents & IP', description: 'Filed and in-flight intellectual property', href: '/patents' },
-  { title: 'Contact', description: 'Securely reach out', href: '/contact' }
+  { title: 'Contact', description: 'Securely reach out', href: '/contact' },
+  {
+    title: 'GitHub',
+    description: 'Explore prototypes, lab notes, and automation repos',
+    href: 'https://github.com/johnmschoonover',
+    external: true,
+    rel: 'me noopener noreferrer'
+  }
 ];
 
 export function CommandK() {
@@ -87,6 +96,8 @@ export function CommandK() {
                 <li key={action.href}>
                   <a
                     href={action.href}
+                    target={action.external ? '_blank' : undefined}
+                    rel={action.external ? action.rel ?? 'noopener noreferrer' : undefined}
                     onClick={() => setOpen(false)}
                     className={cn(
                       'block rounded-xl px-4 py-3 text-sm text-muted-foreground transition hover:bg-muted hover:text-foreground',
