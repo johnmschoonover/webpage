@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   site:
-    image: ghcr.io/theschoonover/site:latest
+    image: docker.theschoonover.net/theschoonover/site:latest
     restart: unless-stopped
     environment:
       NODE_ENV: production
