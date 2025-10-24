@@ -1,0 +1,16 @@
+# Exclude VCS and local artifacts
+.git
+.gitignore
+node_modules
+apps/site/node_modules
+pnpm-store
+.pnpm-store
+.pnpm-state
+.DS_Store
+.env*
+dist
+coverage
+artifacts
+.tmp
+.tmp*
+*.log
