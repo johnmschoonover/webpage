@@ -6,6 +6,7 @@ node_modules/
 dist/
 build/
 apps/site/dist/
+apps/site/public/downloads/
 apps/site/.astro/
 
 # Logs

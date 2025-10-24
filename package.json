@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "pnpm --filter site dev",
     "build": "pnpm --filter site build",
-    "preview": "pnpm --filter site preview"
+    "preview": "pnpm --filter site preview",
+    "check:links": "pnpm --filter site build && pnpm --filter site exec linkinator dist/index.html --recurse --silent --skip 'mailto:,tel:'"
   }
 }
