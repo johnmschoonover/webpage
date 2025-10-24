@@ -164,7 +164,7 @@
 * **Styling:** Tailwind CSS + shadcn/ui for accessible components; Icons via lucide.
 * **Content:** Markdown/MDX in `content/` with front‑matter; image assets in `public/`.
 * **Runtime:** Node.js 20.11.x LTS (DSM-compatible); pin via `.nvmrc` and CI.
-* **Package Manager:** pnpm 8.15.1 with `pnpm-lock.yaml` committed and enforced via Corepack.
+* **Package Manager:** pnpm 10.19.0 with `pnpm-lock.yaml` committed and enforced via Corepack.
 * **Analytics:** Self‑hosted Plausible (Docker on RackStation) or lightweight serverless endpoint.
 * **Forms:** Next.js / Astro endpoint + nodemailer (SMTP to Synology MailPlus) or Cloudflare Email Routing; hCaptcha for bot protection.
 * **Diagrams:** `@mermaid-js/mermaid` or `kroki` static renders during build.

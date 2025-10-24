@@ -11,7 +11,7 @@ Personal brand site for John Schoonover, optimized for fast, accessible storytel
 ## Getting Started
 ### Prerequisites
 - Node.js 20.11.x (use `fnm`/`nvm` or Docker image to match production).
-- pnpm 8.15.1 (`corepack enable` recommended).
+- pnpm 10.19.0 (`corepack enable` recommended).
 - GitHub deploy key (read access) for CI/CD interactions.
 
 ### Initial Setup
