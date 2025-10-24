@@ -34,6 +34,24 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
    - `docker build -t docker.theschoonover.net/theschoonover/site:<sha> .`
    - `docker push docker.theschoonover.net/theschoonover/site:<sha>`
    - Watchtower or Portainer pulls latest image and restarts stack.
+
+### Test registry credentials locally
+Before storing or rotating the `REGISTRY_USERNAME` / `REGISTRY_PASSWORD` secrets in GitHub, validate them against the internal registry from a workstation with Docker installed:
+
+1. Copy `.env.registry.example` to `.env.registry` (ignored by git) at the repo root and update the password:
+   ```bash
+   cp .env.registry.example .env.registry
+   $EDITOR .env.registry
+   ```
+   Replace `REGISTRY_PASSWORD` with the credential from DSM's Credential Manager.
+2. Run the helper script to mirror the GitHub Actions `docker/login-action` step:
+   ```bash
+   ./scripts/test-registry-login.sh
+   ```
+3. Confirm `Login Succeeded`. If you see TLS or auth failures, verify the RackStation certificate trust chain and that the account is not locked out.
+
+The script simply shells out to `docker login` using `--password-stdin`, so it is safe to run on macOS, Linux, or Windows Subsystem for Linux with Docker Desktop.
+
 5. **Post-Deploy Verification:**
    - Hit `https://theschoonover.net/health` and confirm `200` with correct version hash.
    - Run Lighthouse smoke test (CI publishes report) and manual keyboard sweep.
