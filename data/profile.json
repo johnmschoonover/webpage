@@ -63,9 +63,15 @@
   ],
   "links": {
     "linkedin": "https://www.linkedin.com/in/johnmschoonover/",
+    "github": "https://github.com/johnmschoonover",
     "resume": "/downloads/resume.pdf",
     "email": "mailto:johnmschoonover@gmail.com"
   },
+  "github_focus": [
+    "Security telemetry automation, parsing resilience, and detection engineering tooling.",
+    "Synology RackStation home lab infrastructure, observability, and platform reliability experiments.",
+    "Applied AI workflows that translate large-language-model research into practical operations support."
+  ],
   "skills_highlight": [
     "Security engineering & architecture",
     "Cloud and infrastructure integration",

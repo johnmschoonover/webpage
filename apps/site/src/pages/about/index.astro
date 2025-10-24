@@ -5,7 +5,15 @@ import Figure from '@components/Figure.astro';
 import Tag from '@components/Tag.astro';
 import { values } from '@lib/utils';
 import profile from '@data/profile.json';
-const { current_role, objectives, location_public, innovation_themes } = profile;
+const { current_role, objectives, location_public, innovation_themes, links, github_focus = [] } = profile as {
+  current_role: { focus: string[] };
+  objectives: string[];
+  location_public: string;
+  innovation_themes: string[];
+  links: { github?: string };
+  github_focus?: string[];
+};
+const githubProfile = links.github ?? 'https://github.com/johnmschoonover';
 const aboutCopy = `As Director of Engineering — Cybersecurity (SIEM), I lead the multidisciplinary team behind our security telemetry platform—spanning ingestion, enrichment, storage, and access. I architect adaptable patterns, align detection and response initiatives to enterprise risk objectives, and evolve infrastructure so the Cyber Fusion Center can move with confidence.`;
 const objectiveCopy = `I'm expanding that remit toward broader Cyber Fusion Center engineering leadership, doubling down as a dedicated contributor and mentor who raises the bar for resilient security outcomes.`;
 const innovationCopy = `Recent invention themes span ${innovation_themes[0]}, ${innovation_themes[1]}, ${innovation_themes[2]}, and ${innovation_themes[3]} to reinforce parse resilience and intelligent drop control.`;
@@ -40,6 +48,29 @@ const closingCopy = `Outside of work, I tinker with a self-hosted Synology RackS
           <li><strong>Current focus:</strong> {current_role.focus[0]}</li>
           <li><strong>Objectives:</strong> {objectives[0]}</li>
         </ul>
+      </div>
+      <div class="space-y-3 rounded-2xl border border-border bg-background/80 p-6">
+        <h3 class="text-sm uppercase tracking-[0.2em] text-muted-foreground">Building in public</h3>
+        <p class="text-sm text-muted-foreground">
+          I document platform learnings, detection engineering automation, and home lab upgrades directly on GitHub to keep the craft transparent.
+        </p>
+        <ul class="space-y-2 text-xs text-muted-foreground">
+          {github_focus.slice(0, 3).map((focus) => (
+            <li class="flex items-start gap-2">
+              <span aria-hidden class="mt-1 h-1.5 w-1.5 rounded-full bg-primary"></span>
+              <span>{focus}</span>
+            </li>
+          ))}
+        </ul>
+        <a
+          href={githubProfile}
+          target="_blank"
+          rel="me noopener noreferrer"
+          class="inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:underline"
+        >
+          Follow on GitHub
+          <span aria-hidden>↗</span>
+        </a>
       </div>
       <div class="space-y-3 rounded-2xl border border-border bg-background/80 p-6">
         <h3 class="text-sm uppercase tracking-[0.2em] text-muted-foreground">Topics I'm exploring</h3>
