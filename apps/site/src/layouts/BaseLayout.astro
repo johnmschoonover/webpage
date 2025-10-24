@@ -4,11 +4,13 @@ import { CommandK } from '@components/CommandK';
 import Button from '@components/Button.astro';
 import { ThemeToggle } from '@components/ThemeToggle';
 import { contactChannels } from '@lib/utils';
+import profile from '@data/profile.json';
 const { title = 'John Schoonover — Cybersecurity Engineering Leader', description = 'Building reliable, data-driven security platforms that scale.', pageHeading } = Astro.props as {
   title?: string;
   description?: string;
   pageHeading?: string;
 };
+const resumeLink = profile.links.resume ?? '/downloads/resume.pdf';
 ---
 <html lang="en" class="scroll-smooth">
   <head>
@@ -35,8 +37,8 @@ const { title = 'John Schoonover — Cybersecurity Engineering Leader', descript
         <div class="flex items-center gap-2">
           <CommandK client:load />
           <ThemeToggle client:load />
-          <Button variant="outline" size="sm" href="/downloads/john-schoonover-cv.pdf">
-            Download CV
+          <Button variant="outline" size="sm" href={resumeLink}>
+            Download resume
           </Button>
         </div>
       </div>

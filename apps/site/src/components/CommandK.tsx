@@ -14,7 +14,7 @@ interface CommandAction {
 const actions: CommandAction[] = [
   { title: 'Home', description: 'Return to the landing page', href: '/' },
   { title: 'About', description: 'Learn about John', href: '/about' },
-  { title: 'Experience', description: 'View the CV and highlights', href: '/experience' },
+  { title: 'Experience', description: 'Review the resume and highlights', href: '/experience' },
   { title: 'Case Studies', description: 'Deep dives on platform programs', href: '/case-studies' },
   { title: 'Writing', description: 'Articles and essays', href: '/writing' },
   { title: 'Patents & IP', description: 'Filed and in-flight intellectual property', href: '/patents' },

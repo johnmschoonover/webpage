@@ -20,6 +20,8 @@ subdirectories (e.g., `components/`, `layouts/`) take precedence for their scope
 - Introduce new surfaces via utilities in `@lib/utils` when multiple areas require the same metadata (e.g., `contactChannels`).
 - Only use hard-coded fallback URLs (`https://github.com/johnmschoonover`) when canonical data is missing, and annotate the code
   with a TODO explaining why.
+- When presenting resume download CTAs, source the link from `profile.links.resume` (or a helper that reads it) to keep every
+  surface aligned.
 
 ## QA Loop
 - Run `pnpm --filter site build` before requesting review; capture warnings in the PR if any appear.
