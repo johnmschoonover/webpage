@@ -50,18 +50,18 @@ const tagCount = Array.from(new Set(clientPosts.flatMap((post) => post.tags))).l
       </div>
     </div>
     <div class="space-y-4 rounded-2xl border border-border bg-background/80 p-6">
-      <h3 class="font-display text-lg font-semibold text-foreground">How to publish</h3>
+      <h3 class="font-display text-lg font-semibold text-foreground">How publishing works</h3>
       <ol class="list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
-        <li>Draft posts in Markdown or MDX—keep intros tight and purposeful.</li>
-        <li>Use the publisher module below to create a new file under <code>src/content/posts</code>.</li>
-        <li>Commit, review, and ship. Add images to <code>public/images/posts</code> when needed.</li>
+        <li>
+          Draft posts locally in Markdown or MDX. The repo keeps everything under
+          <code>apps/site/src/content/posts</code> so copy lives alongside code reviews.
+        </li>
+        <li>
+          Commit the new file and any images in <code>apps/site/public/images/posts</code>, then open a pull request on GitHub for
+          review.
+        </li>
+        <li>Ship once checks pass and the writing reads clearly on mobile and desktop.</li>
       </ol>
-      <a
-        href="/admin/blog"
-        class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:shadow"
-      >
-        Open publisher
-      </a>
     </div>
   </section>
 
