@@ -44,7 +44,6 @@ jobs:
         run: |
           docker buildx imagetools create \
             --tag "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.release.tag_name }}" \
-            --tag "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:release_commit${{ steps.meta.outputs.short_sha }}" \
             --tag "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:release_latest" \
             "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.short_sha }}"
 
