@@ -1,7 +1,20 @@
 ---
-const { eyebrow, title, description, href, cta } = Astro.props;
+const { eyebrow, title, description, href, cta, download } = Astro.props as {
+  eyebrow: string;
+  title: string;
+  description: string;
+  href: string;
+  cta?: string;
+  download?: string | boolean;
+};
 ---
-<a href={href} class="group block rounded-2xl border border-border bg-background/90 p-6 shadow-sm transition hover:-translate-y-1 hover:bg-background">
+<a
+  href={href}
+  download={
+    typeof download === 'boolean' ? (download ? '' : undefined) : download
+  }
+  class="group block rounded-2xl border border-border bg-background/90 p-6 shadow-sm transition hover:-translate-y-1 hover:bg-background"
+>
   <div class="flex flex-col gap-4">
     <span class="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">{eyebrow}</span>
     <h3 class="font-display text-xl font-semibold text-foreground group-hover:text-primary">{title}</h3>
