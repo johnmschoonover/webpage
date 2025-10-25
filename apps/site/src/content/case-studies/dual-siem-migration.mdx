@@ -1,31 +1,31 @@
 ---
 title: "Multi-SIEM Migration Safeguards"
-description: "Codified migration patterns across multiple SIEM platforms while preserving security posture and uptime."
-timeframe: "2021–2022"
-tags: ["migration", "resilience"]
+description: "Templated ETL pipelines replaced vendor SIEMs, shrinking onboarding cycles and boosting platform reliability."
+timeframe: "2017–2020"
+tags: ["migration", "platform"]
 impact:
-  - "Migrated 32K rules without downtime using staged multi-SIEM patterns"
-  - "Reduced duplicate alert noise by 48% through posture-aware signal design"
-  - "Achieved 100% uptime while maintaining security guardrails during cutovers"
-heroStat: "0 unplanned outages"
+  - "Cut feed onboarding from two-week cycles to under an hour with push-button templates"
+  - "Retired vendor SIEM stacks while sustaining >99.9% platform uptime"
+  - "Freed security teams to reinvest in monitoring and alerting improvements"
+heroStat: "Onboarding cycle: 2 weeks → <1 hour"
 order: 2
 ---
 
 ## Problem
 
-We needed to sunset a legacy SIEM that could not keep pace with ingestion growth, while new platforms required curated rollout patterns to validate parser parity, rule fidelity, and guard our security posture.
+The security organization relied on a mix of vendor-managed SIEMs whose divergent pipelines slowed expansion. Each new feed demanded bespoke ETL work, manual documentation, and coordination across tools, stretching delivery cycles to two weeks and driving up licensing and maintenance costs.
 
 ## Approach
 
-Our team introduced a pattern library that blended progressive delivery with posture safeguards—synthetic data validation, blue/green connectors, and enforced runbook sign-off across every route. Each use case shipped with an impact assessment, dashboards to verify parity during the parallel runs, and instrumentation to track SLO/SLA lift alongside cost-to-serve.
+We shifted from rules-first migration toward a cost-benefit program centered on automation. A templating engine generated end-to-end configurations—from ETL to datastore schemas, management APIs, and UI wiring—leaving only the unique parsing to customize. Every template emitted documentation and guardrails so platform patterns could be extended safely as coverage expanded.
 
 ## Results
 
-* Retired 19 brittle ETL chains and replaced them with posture-aware event streaming connectors.
-* Rebuilt parser pipeline as versioned packages with semantic release tied to multi-platform validation.
-* Established continuous observability loops that lifted SLO/SLA benchmarks while reducing ongoing maintenance costs.
-* Enabled audit-ready traceability for every rule move and migration pattern decision.
+* Offboarded the vendor SIEMs onto a unified platform while preserving posture and >99.9% uptime.
+* Reduced feed-manipulation iterations from two weeks to about four hours at launch, then refined the tooling to deliver sub-hour—and often single-digit minute—cycles.
+* Shifted engineering focus toward higher-value monitoring, alerting, and feed quality auditing.
+* Introduced per-document visibility into failures and early-warning signals for platform issues.
 
 ## Lessons Learned
 
-Treat migrations like products: instrument decisions, expose dashboards, and define posture safeguards so stakeholders know the risk model before cutover.
+Investing in reusable ingestion templates pays down both cost and toil: once the scaffolding spans the entire stack, security teams can evolve faster without sacrificing reliability.
