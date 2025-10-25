@@ -9,7 +9,8 @@ const caseStudies = defineCollection({
     tags: z.array(z.string()),
     impact: z.array(z.string()).min(1),
     heroStat: z.string().optional(),
-    order: z.number().default(0)
+    order: z.number().default(0),
+    internal: z.boolean().optional()
   })
 });
 
