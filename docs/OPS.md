@@ -27,8 +27,8 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
    - Tag release for promotion: `git tag -a release-YYYY-MM-DD -m "Release notes"` then `git push --tags`.
 2. **Trigger CI/CD:**
    - The **PR Validation** workflow (`.github/workflows/pr-validation.yml`) runs on every pull request, performing `pnpm install`, Astro type checking, and a production `pnpm build` without touching container registries.
-   - The **Main Image Publish** workflow (`.github/workflows/main-publish.yml`) runs on pushes to `main`, publishes container tags `{{sha}}`, `main_commit<sha[:8]>`, and `main_latest` to `docker.theschoonover.net/theschoonover/site`, and feeds the preview stack.
-   - The **Release Tag Publish** workflow (`.github/workflows/release.yml`) fires when a GitHub release is published, confirms the matching `main_commit<sha[:8]>` image exists, and retags it as `release_commit<sha[:8]>`, `release_latest`, and the GitHub release tag for production Watchtower to promote.
+  - The **Main Image Publish** workflow (`.github/workflows/main-publish.yml`) runs on pushes to `main`, publishes container tags `{{sha}}`, `<sha[:8]>`, and `main_latest` to `docker.theschoonover.net/theschoonover/site`, and feeds the preview stack.
+  - The **Release Tag Publish** workflow (`.github/workflows/release.yml`) fires when a GitHub release is published, confirms the matching `<sha[:8]>` image exists, and retags it as `release_commit<sha[:8]>`, `release_latest`, and the GitHub release tag for production Watchtower to promote.
 3. **RackStation Deploy (rsync mode):**
    - Workflow uses `SSH_DEPLOY_KEY` to `rsync` `dist/` to the DSM Docker bind mount (e.g., `/volume1/docker/site/dist`).
    - DSM reverse proxy serves updated static files through nginx container.

@@ -21,7 +21,7 @@ jobs:
         id: meta
         run: |
           FULL_SHA=$(git rev-parse "$GITHUB_SHA")
-          SHORT_SHA=${FULL_SHA:0:8}
+          SHORT_SHA=$(git rev-parse --short=8 "$GITHUB_SHA")
           echo "full_sha=$FULL_SHA" >> "$GITHUB_OUTPUT"
           echo "short_sha=$SHORT_SHA" >> "$GITHUB_OUTPUT"
 
@@ -38,7 +38,7 @@ jobs:
       - name: Verify source image exists
         run: |
           docker buildx imagetools inspect \
-            "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main_commit${{ steps.meta.outputs.short_sha }}"
+            "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.short_sha }}"
 
       - name: Retag main image for release
         run: |
@@ -46,7 +46,7 @@ jobs:
             --tag "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.release.tag_name }}" \
             --tag "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:release_commit${{ steps.meta.outputs.short_sha }}" \
             --tag "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:release_latest" \
-            "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main_commit${{ steps.meta.outputs.short_sha }}"
+            "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.short_sha }}"
 
       - name: Post job cleanup
         run: echo "Release tags published."
