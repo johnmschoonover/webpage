@@ -4,14 +4,16 @@ import { getCollection } from 'astro:content';
 import Callout from '@components/Callout.astro';
 
 export async function getStaticPaths() {
-  const caseStudies = await getCollection('case-studies');
+  const caseStudies = await getCollection('case-studies', ({ data }) => !data.internal);
   return caseStudies.map((entry) => ({
     params: { slug: entry.slug }
   }));
 }
 
 const { slug } = Astro.params;
-const entry = (await getCollection('case-studies')).find((item) => item.slug === slug);
+const entry = (
+  await getCollection('case-studies', ({ data }) => !data.internal)
+).find((item) => item.slug === slug);
 if (!entry) {
   throw new Error(`Case study not found for slug: ${slug}`);
 }

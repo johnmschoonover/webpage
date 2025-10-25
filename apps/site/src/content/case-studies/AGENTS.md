@@ -1,3 +1,15 @@
+---
+title: "Case Studies Guardrails"
+description: "Internal contributor instructions for managing the case studies content collection."
+timeframe: "N/A"
+tags: ["internal", "guardrail"]
+impact:
+  - "Instructional reference for curating the case studies library."
+heroStat: "Guardrails maintained"
+order: -1
+internal: true
+---
+
 # AGENTS.md — Case Studies Content Guardrails
 
 ## Scope
