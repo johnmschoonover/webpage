@@ -38,14 +38,19 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Capture commit metadata
+        id: git-meta
+        run: |
+          SHORT_SHA=$(git rev-parse --short=8 HEAD)
+          echo "short_sha=$SHORT_SHA" >> "$GITHUB_OUTPUT"
+
       - name: Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value={{sha}}
-            type=raw,value=main_commit{{sha:8}}
+            type=raw,value=${{ steps.git-meta.outputs.short_sha }}
             type=raw,value=main_latest
 
       - name: Set up Docker Buildx
