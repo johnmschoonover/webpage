@@ -1,14 +1,12 @@
-name: Deploy
+name: Preview Publish
 
 on:
   push:
     branches: [main]
-    tags:
-      - 'release-*'
   pull_request:
 
 jobs:
-  build-and-deploy:
+  build-and-publish-preview:
     runs-on: ubuntu-latest
 
     env:
@@ -46,12 +44,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value={{sha}}
-            type=raw,value=main_commit{{sha:8}},enable=${{ github.ref == 'refs/heads/main' }}
-            type=raw,value=main_latest,enable=${{ github.ref == 'refs/heads/main' }}
-            type=raw,value=release_commit{{sha:8}},enable=${{ github.event_name == 'push' && github.ref_type == 'tag' && startsWith(github.ref_name, 'release-') }}
-            type=raw,value=release_latest,enable=${{ github.event_name == 'push' && github.ref_type == 'tag' && startsWith(github.ref_name, 'release-') }}
-            type=ref,event=tag
+            type=raw,value={{sha}},enable=${{ github.event_name == 'push' }}
+            type=raw,value=main_commit{{sha:8}},enable=${{ github.event_name == 'push' }}
+            type=raw,value=main_latest,enable=${{ github.event_name == 'push' }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
