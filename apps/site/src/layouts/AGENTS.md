@@ -6,7 +6,7 @@ utility controls.
 
 ## Tone & CTA Hierarchy
 - Header keeps navigation concise: About, Experience, Case Studies, Writing, Patents, Contact.
-- Provide a clear active-page affordance in the header using a subtle brand-blue bar (around 2–4px tall) that works in both light and dark themes; prefer reusing existing utility tokens over hard-coded hex values.
+- Provide a clear active-page affordance in the header using a subtle brand-blue bar (around 2–4px tall) that works in both light and dark themes; prefer reusing existing utility tokens over hard-coded hex values. Pair it with a complementary bottom hover indicator so navigation affordances feel balanced for mouse and keyboard users. Extend the `.site-nav-link` helper in `apps/site/src/styles/global.css` when adding new states so every page keeps the same interaction pattern.
 - Primary action in the header should accelerate recruiter/contact intent (CV download, contact) and must stay above the fold on
 desktop.
 - Footer must enumerate every active outreach channel from `contactChannels` so visitors always see GitHub, LinkedIn, and email.

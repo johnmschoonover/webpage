@@ -12,12 +12,12 @@ const { title = 'John Schoonover — Cybersecurity Engineering Leader', descript
 };
 const resumeLink = profile.links.resume ?? '/downloads/resume.pdf';
 const navItems = [
-  { label: 'About', href: '/about', indicator: 'top' },
-  { label: 'Experience', href: '/experience', indicator: 'bottom' },
-  { label: 'Case Studies', href: '/case-studies', indicator: 'top' },
-  { label: 'Writing', href: '/writing', indicator: 'bottom' },
-  { label: 'Patents', href: '/patents', indicator: 'top' },
-  { label: 'Contact', href: '/contact', indicator: 'bottom' },
+  { label: 'About', href: '/about' },
+  { label: 'Experience', href: '/experience' },
+  { label: 'Case Studies', href: '/case-studies' },
+  { label: 'Writing', href: '/writing' },
+  { label: 'Patents', href: '/patents' },
+  { label: 'Contact', href: '/contact' },
 ] as const;
 const currentPath = Astro.url.pathname;
 const matchPath = (href: string) => {
@@ -42,31 +42,20 @@ const matchPath = (href: string) => {
       <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
         <a href="/" class="font-display text-lg font-semibold">theschoonover.net</a>
         <nav class="hidden items-stretch gap-2 text-sm md:flex">
-          {navItems.map(({ href, label, indicator }) => {
+          {navItems.map(({ href, label }) => {
             const isActive = matchPath(href);
             return (
               <a
                 href={href}
                 class:list={[
-                  'group relative flex flex-col items-center justify-center px-2 py-2 font-medium transition',
+                  'site-nav-link inline-flex items-center justify-center px-2 py-2 font-medium transition',
                   'text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:text-foreground',
                   isActive ? 'text-foreground' : undefined,
                 ]}
                 aria-current={isActive ? 'page' : undefined}
                 data-active={isActive ? 'true' : undefined}
-                data-indicator={indicator}
               >
                 <span>{label}</span>
-                <span
-                  aria-hidden="true"
-                  class:list={[
-                    'pointer-events-none absolute left-1/2 w-[58%] max-w-[3.5rem] -translate-x-1/2 rounded-full bg-primary/70 transition-all duration-200 ease-out',
-                    'opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 group-focus:opacity-100 group-focus:scale-100 group-focus-visible:opacity-100 group-focus-visible:scale-100',
-                    isActive ? 'opacity-100 scale-100' : undefined,
-                    indicator === 'top' ? '-top-1.5 h-0.5' : undefined,
-                    indicator === 'bottom' ? '-bottom-1.5 h-0.5' : undefined,
-                  ]}
-                ></span>
               </a>
             );
           })}

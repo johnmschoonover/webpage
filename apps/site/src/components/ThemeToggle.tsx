@@ -8,8 +8,12 @@ const STORAGE_KEY = 'theschoonover-theme';
 
 const getPreferredTheme = (): Theme => {
   if (typeof window === 'undefined') return 'light';
-  const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
-  if (stored === 'light' || stored === 'dark') return stored;
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
+    if (stored === 'light' || stored === 'dark') return stored;
+  } catch {
+    // Ignore storage access errors (e.g., Safari private browsing).
+  }
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 };
 
@@ -25,18 +29,27 @@ export function ThemeToggle() {
 
   useEffect(() => {
     applyThemeClass(theme);
-    window.localStorage.setItem(STORAGE_KEY, theme);
+    try {
+      window.localStorage.setItem(STORAGE_KEY, theme);
+    } catch {
+      // Ignore storage access errors so the toggle still works.
+    }
   }, [theme]);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const listener = (event: MediaQueryListEvent) => {
       setTheme(event.matches ? 'dark' : 'light');
     };
 
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', listener);
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', listener);
+      return () => mediaQuery.removeEventListener('change', listener);
+    }
 
-    return () => mediaQuery.removeEventListener('change', listener);
+    // Safari < 14 fallback.
+    mediaQuery.addListener(listener);
+    return () => mediaQuery.removeListener(listener);
   }, []);
 
   return (
