@@ -9,7 +9,18 @@ interface Props {
 }
 
 const { eyebrow, title, description, href, cta, download } = Astro.props as Props;
-const downloadAttr = typeof download === 'string' ? download : download ? '' : undefined;
+const downloadAttr = (() => {
+  if (typeof download === 'string') {
+    return download;
+  }
+
+  if (!download) {
+    return undefined;
+  }
+
+  const fileName = href.split('/').pop()?.split('?')[0];
+  return fileName ?? '';
+})();
 ---
 <a
   href={href}

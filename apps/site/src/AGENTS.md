@@ -22,7 +22,7 @@ subdirectories (e.g., `components/`, `layouts/`) take precedence for their scope
   with a TODO explaining why.
 
 ## Interaction Rules
-- Any link or button that triggers a file download must set the HTML `download` attribute so the asset is saved locally instead of navigating away.
+- Any link or button that triggers a file download must set the HTML `download` attribute so the asset is saved locally instead of navigating away, and provide an explicit filename (derive from the canonical href when one isn't supplied in data).
 
 ## QA Loop
 - Run `pnpm --filter site build` before requesting review; capture warnings in the PR if any appear.

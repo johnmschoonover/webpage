@@ -3,7 +3,14 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Card from '@components/Card.astro';
 import { experienceHighlights } from '@lib/utils';
 import profile from '@data/profile.json';
-const { current_role, objectives, education, links } = profile;
+const { current_role, objectives, education, links } = profile as {
+  current_role: typeof profile.current_role;
+  objectives: typeof profile.objectives;
+  education: typeof profile.education;
+  links: { resume?: string };
+};
+const resumeHref = links.resume ?? '/downloads/resume.pdf';
+const resumeFileName = resumeHref.split('/').pop()?.split('?')[0] ?? 'resume.pdf';
 ---
 <BaseLayout pageHeading="Experience & CV" description="Focus areas, leadership objectives, and learning path.">
   <div class="grid gap-10 md:grid-cols-[1.6fr_1fr]">
@@ -27,8 +34,8 @@ const { current_role, objectives, education, links } = profile;
         eyebrow="Resume"
         title="Download resume"
         description="Concise view of roles, scope, and platform initiatives."
-        href={links.resume}
-        download
+        href={resumeHref}
+        download={resumeFileName}
         cta="Download PDF"
       />
     </section>

@@ -10,7 +10,9 @@ const { title = 'John Schoonover — Cybersecurity Engineering Leader', descript
   description?: string;
   pageHeading?: string;
 };
-const { links } = profile as { links: { resume: string } };
+const { links } = profile as { links: { resume?: string } };
+const resumeHref = links.resume ?? '/downloads/resume.pdf';
+const resumeFileName = resumeHref.split('/').pop()?.split('?')[0] ?? 'resume.pdf';
 ---
 <html lang="en" class="scroll-smooth">
   <head>
@@ -37,7 +39,7 @@ const { links } = profile as { links: { resume: string } };
         <div class="flex items-center gap-2">
           <CommandK client:load />
           <ThemeToggle client:load />
-          <Button variant="outline" size="sm" href={links.resume} download>
+          <Button variant="outline" size="sm" href={resumeHref} download={resumeFileName}>
             Download CV
           </Button>
         </div>
