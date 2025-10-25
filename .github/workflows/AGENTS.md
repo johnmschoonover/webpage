@@ -1,6 +1,6 @@
 # AGENTS.md — Workflow Guardrails
 
-- Keep preview and release publishing in separate workflows: `preview.yml` handles PR/main validation plus `main_*` tags, while `release.yml` is reserved for `release-*` tag pushes and `release_*` tags.
-- Use pnpm 10.19.0 and Node.js 20 in all workflows to stay aligned with the workspace pin.
-- For preview workflows, ensure container pushes happen only on `push` events (never on pull requests) and limit tags to the `main_*` aliases described in `docs/OPS.md`.
-- Release workflows must publish `release_commit<sha[:8]>` and `release_latest` alongside the raw tag reference so RackStation Watchtower can promote the image.
+- Maintain three workflows: `pr-validation.yml` (pull request checks only), `main-publish.yml` (push to `main` builds and pushes the `main_*` image tags), and `release.yml` (retags the matching `main_commit` image when a GitHub release is published).
+- In every workflow use pnpm 10.19.0 and Node.js 20 to stay aligned with the workspace pin.
+- Ensure only the `main-publish.yml` workflow pushes container images on CI; PR validation must remain build-only.
+- Release retagging must confirm the `main_commit<sha[:8]>` image exists, then publish `release_commit<sha[:8]>`, `release_latest`, and the GitHub release tag so Watchtower can promote without rebuilding.

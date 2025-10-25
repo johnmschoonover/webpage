@@ -26,16 +26,16 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
    - Merge changes to `main` via reviewed PR.
    - Tag release for promotion: `git tag -a release-YYYY-MM-DD -m "Release notes"` then `git push --tags`.
 2. **Trigger CI/CD:**
-   - The **Preview Publish** workflow (`.github/workflows/preview.yml`) runs on pull requests and merges to `main`, building the Astro site with `pnpm build`.
-   - When the workflow runs on `main`, it publishes container tags `{{sha}}`, `main_commit<sha[:8]>`, and `main_latest` to `docker.theschoonover.net/theschoonover/site` for the preview stack.
-   - The **Release Publish** workflow (`.github/workflows/release.yml`) fires only for `release-*` tags and pushes `release_commit<sha[:8]>` and `release_latest` images that production Watchtower follows; ordinary branch pushes never emit `release_*` aliases.
+   - The **PR Validation** workflow (`.github/workflows/pr-validation.yml`) runs on every pull request, performing `pnpm install`, Astro type checking, and a production `pnpm build` without touching container registries.
+   - The **Main Image Publish** workflow (`.github/workflows/main-publish.yml`) runs on pushes to `main`, publishes container tags `{{sha}}`, `main_commit<sha[:8]>`, and `main_latest` to `docker.theschoonover.net/theschoonover/site`, and feeds the preview stack.
+   - The **Release Tag Publish** workflow (`.github/workflows/release.yml`) fires when a GitHub release is published, confirms the matching `main_commit<sha[:8]>` image exists, and retags it as `release_commit<sha[:8]>`, `release_latest`, and the GitHub release tag for production Watchtower to promote.
 3. **RackStation Deploy (rsync mode):**
    - Workflow uses `SSH_DEPLOY_KEY` to `rsync` `dist/` to the DSM Docker bind mount (e.g., `/volume1/docker/site/dist`).
    - DSM reverse proxy serves updated static files through nginx container.
 4. **RackStation Deploy (container mode):**
    - No manual build required; CI publishes the images directly to the internal registry.
    - For preview validation, Watchtower tracks `main_latest` and refreshes the `site_main_preview` container bound to port `8079`.
-   - Production promotion occurs by pushing a `release-*` tag—Watchtower pulls `release_latest` within five minutes and restarts the `site` service.
+   - Production promotion occurs when a GitHub release is published for the desired commit; Watchtower sees the `release_*` tags within five minutes and restarts the `site` service.
 
 ### Configure Watchtower auto-updates
 Watchtower runs alongside the production stack to poll the RackStation registry for new container tags and restart services automatically. The compose file already defines the service—follow the steps below to provision credentials and verify the automation.
