@@ -22,6 +22,8 @@ subdirectories (e.g., `components/`, `layouts/`) take precedence for their scope
   with a TODO explaining why.
 - When presenting resume download CTAs, source the link from `profile.links.resume` (or a helper that reads it) to keep every
   surface aligned.
+- All download CTAs must include the HTML `download` attribute (optionally with a filename) so assets save locally instead of
+  navigating away from the site.
 
 ## QA Loop
 - Run `pnpm --filter site build` before requesting review; capture warnings in the PR if any appear.
