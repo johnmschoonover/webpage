@@ -48,7 +48,7 @@ const matchPath = (href: string) => {
               <a
                 href={href}
                 class:list={[
-                  'group relative flex flex-col items-center justify-center px-2 py-2 font-medium transition',
+                  'site-nav-link inline-flex items-center justify-center px-2 py-2 font-medium transition',
                   'text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:text-foreground',
                   isActive ? 'text-foreground' : undefined,
                 ]}
@@ -56,22 +56,6 @@ const matchPath = (href: string) => {
                 data-active={isActive ? 'true' : undefined}
               >
                 <span>{label}</span>
-                <span
-                  aria-hidden="true"
-                  class:list={[
-                    'pointer-events-none absolute left-1/2 w-[58%] max-w-[3.5rem] -translate-x-1/2 rounded-full bg-primary/80 transition-all duration-200 ease-out',
-                    '-top-1.5 h-0.5',
-                    isActive ? 'opacity-100' : 'opacity-0',
-                  ]}
-                ></span>
-                <span
-                  aria-hidden="true"
-                  class:list={[
-                    'pointer-events-none absolute left-1/2 w-[58%] max-w-[3.5rem] -translate-x-1/2 rounded-full bg-primary/60 transition-all duration-200 ease-out',
-                    '-bottom-1.5 h-0.5 opacity-0',
-                    'group-hover:opacity-100 group-focus:opacity-100 group-focus-visible:opacity-100',
-                  ]}
-                ></span>
               </a>
             );
           })}

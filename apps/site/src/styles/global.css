@@ -73,3 +73,40 @@ progress.reading-progress::-moz-progress-bar {
 .prose {
   @apply prose-neutral max-w-none dark:prose-invert;
 }
+
+.site-nav-link {
+  position: relative;
+  isolation: isolate;
+}
+
+.site-nav-link::before,
+.site-nav-link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 58%;
+  max-width: 3.5rem;
+  height: 0.125rem;
+  border-radius: 9999px;
+  background-color: hsl(var(--primary));
+  opacity: 0;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.site-nav-link::before {
+  top: -0.4rem;
+}
+
+.site-nav-link[data-active='true']::before {
+  opacity: 1;
+}
+
+.site-nav-link::after {
+  bottom: -0.4rem;
+}
+
+.site-nav-link:hover::after,
+.site-nav-link:focus-visible::after {
+  opacity: 0.75;
+}
