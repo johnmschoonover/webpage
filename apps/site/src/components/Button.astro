@@ -42,12 +42,23 @@ const {
   class: className,
   variant = 'default',
   size = 'default',
+  download,
   ...attrs
 } = Astro.props as Props;
 const variantProps = { variant, size };
+const normalizedDownload =
+  typeof download === 'boolean'
+    ? download
+      ? ''
+      : undefined
+    : download;
+const anchorAttrs =
+  normalizedDownload !== undefined
+    ? { ...attrs, download: normalizedDownload }
+    : attrs;
 ---
 {href ? (
-  <a href={href} class={cn(buttonVariants(variantProps), className)} {...attrs}>
+  <a href={href} class={cn(buttonVariants(variantProps), className)} {...anchorAttrs}>
     <slot />
   </a>
 ) : (
