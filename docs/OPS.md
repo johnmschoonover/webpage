@@ -18,7 +18,7 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
 | `HCAPTCHA_SITEKEY`, `HCAPTCHA_SECRET` | hCaptcha keys for contact form | Frontend + API | hCaptcha dashboard |
 | `PLAUSIBLE_DOMAIN`, `PLAUSIBLE_API_HOST` | Self-hosted Plausible analytics | Plausible container | Docker compose `.env` |
 | `SSH_DEPLOY_KEY` | Read-only key for RackStation deploys | GitHub Actions secret | Stored as deploy key |
-| `REGISTRY_USERNAME`, `REGISTRY_PASSWORD` | Credentials for `docker.theschoonover.net` | GitHub Actions secret | DSM Credentials Manager |
+| `REGISTRY_USERNAME`, `REGISTRY_PASSWORD` | Credentials for `docker.theschoonover.net` | GitHub Actions secret & RackStation Watchtower env | DSM Credentials Manager |
 
 ## Deployment Runbook
 1. **Prep Git:**
@@ -33,7 +33,53 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
 4. **RackStation Deploy (container mode, optional):**
    - `docker build -t docker.theschoonover.net/theschoonover/site:<sha> .`
    - `docker push docker.theschoonover.net/theschoonover/site:<sha>`
-   - Watchtower or Portainer pulls latest image and restarts stack.
+   - Watchtower pulls the updated tag within five minutes and restarts the `site` container.
+
+### Configure Watchtower auto-updates
+Watchtower runs alongside the production stack to poll the RackStation registry for new container tags and restart services automatically. The compose file already defines the service—follow the steps below to provision credentials and verify the automation.
+
+1. **Generate a Docker config with registry credentials**
+   - SSH into the RackStation and change into the `infra/` directory that holds `docker-compose.yml`.
+   - Create a credentials folder next to the compose file: `mkdir -p watchtower-config`.
+   - Run a targeted login that stores credentials in that folder: `docker login docker.theschoonover.net --username <service-account> --password-stdin --config ./watchtower-config`.
+   - Confirm `watchtower-config/config.json` exists and contains an auth block for `docker.theschoonover.net`. Watchtower mounts this file read-only when the stack starts.
+2. **Launch the stack with Watchtower enabled**
+   - From the `infra/` directory run `docker compose up -d`.
+   - Confirm both the `site` and `watchtower` services report `Up` in DSM Docker UI or via `docker compose ps`.
+3. **Verify registry access**
+   - Check logs with `docker compose logs -f watchtower`. The watcher should log `Found new site image` after you push a new tag from CI.
+   - If you see auth errors, rerun `./scripts/test-registry-login.sh` locally to validate the credentials and ensure the RackStation trusts the registry TLS certificate.
+4. **Test an auto-update**
+   - Push a throwaway tag (e.g., `docker push docker.theschoonover.net/theschoonover/site:watchtower-smoke`).
+   - Update the `site` service temporarily to point at that tag (`docker compose up -d site`). Within the poll interval, Watchtower should pull the canonical `latest` tag and restart the container—confirm by checking `docker compose logs site` for the restart timestamp.
+   - Once verified, delete the temporary tag from the registry or let Watchtower clean up old images automatically.
+
+Watchtower uses scoped labels on the `site` service, so additional containers can opt in later by applying the same `com.centurylinklabs.watchtower.enable=true` label with a shared scope name.
+
+> **Why not an environment variable?** Watchtower authenticates to private registries via the standard Docker `config.json`. As long as the mounted config includes an entry for `docker.theschoonover.net`, no extra environment flag is required (and none exists) to list the registry.
+
+### Publish the static bundle with DSM Web Station
+If you prefer to serve the Astro build without Docker, DSM Web Station can expose the exported `dist/` directory as a traditional virtual host. This is useful for quickly validating a manual upload like the one performed on 2025-10-24.
+
+1. **Enable Web Station and create a site root**
+   - DSM Package Center → install/enable **Web Station** and **Apache HTTP Server** (static hosting only needs the core package).
+   - DSM Control Panel → Shared Folder → create (or reuse) a folder such as `/volume1/web/theschoonover-net`.
+   - Grant write access to the deploy user (the account tied to `SSH_DEPLOY_KEY` if CI/CD will push the files).
+2. **Upload the Astro build**
+   - Run `pnpm build` locally or in CI; upload or `rsync` the contents of `apps/site/dist/` into the Web Station folder created above. Preserve the folder structure so `/index.html` and `/assets/` land at the root.
+3. **Create a Web Station virtual host**
+   - Web Station → **Virtual Host** → **Create** → select **Name-based**.
+   - Set **Hostname** to the production domain (e.g., `theschoonover.net`) or a staging subdomain, choose the shared folder path, and pick the **HTTP Back-end Server** type “Static”.
+   - If you already rely on DSM’s reverse proxy, keep it in place and point the backend to `http://127.0.0.1:<auto-port>` shown in the virtual host summary.
+4. **Wire up TLS and redirects**
+   - DSM Control Panel → Security → Certificate → assign the Let’s Encrypt cert to the new virtual host.
+   - Application Portal → Reverse Proxy (or Web Station **HSTS** settings) → force HTTPS and enable HSTS so the static site keeps the same security posture as the containerized nginx stack.
+5. **Verify the deployment**
+   - Visit the hostname directly (e.g., `https://theschoonover.net`) via the internet and confirm the build hash matches the uploaded bundle.
+   - From DSM, open Web Station → **Virtual Host** → click **View** to ensure the portal preview loads without directory listing warnings.
+   - If assets 404, re-run the upload with `rsync --delete` to clear stale files and confirm folder permissions inherit for `http` user.
+
+To revert to the Docker-based workflow later, simply point the DSM reverse proxy back to the container and stop the Web Station virtual host—no additional cleanup is required.
 
 ### Test registry credentials locally
 Before storing or rotating the `REGISTRY_USERNAME` / `REGISTRY_PASSWORD` secrets in GitHub, validate them against the internal registry from a workstation with Docker installed:
@@ -155,4 +201,6 @@ Maintain a chronological log of significant operational events below (latest at 
 
 | Date | Event | Owner | Notes |
 |------|-------|-------|-------|
+| 2025-10-25 | Watchtower smoke test | John Schoonover | Validated Watchtower auto-pull/restart against `docker.theschoonover.net` after pushing a fresh `site` tag; CI/CD path confirmed end-to-end. |
+| 2025-10-24 | Manual static deploy | John Schoonover | Built `apps/site` with `pnpm build` and uploaded `dist/` bundle to DSM Web Station share for production validation. |
 | YYYY-MM-DD | _Placeholder_ | _Name_ | _Details_ |
