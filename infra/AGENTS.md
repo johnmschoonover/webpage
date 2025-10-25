@@ -6,4 +6,4 @@
 - For private registries, mount a Docker `config.json` into the Watchtower container (or set `DOCKER_CONFIG`) instead of inventing custom environment variables—the upstream image only understands the standard Docker auth file.
 - When adding new operational docs for infra changes, update `docs/OPS.md` in the same PR so runbooks stay synchronized.
 - Log meaningful infra exercises (smoke tests, failovers) in the `docs/OPS.md` Operations Journal so future maintainers can trace validation history.
-- CI publishes `main_latest` for the preview stack and `release_latest` for production—compose files should reference those tags explicitly so Watchtower only promotes after an intentional tag push.
+- CI publishes `main_latest` for the preview stack and `release_latest` for production—compose files should reference those tags explicitly so Watchtower only promotes after an intentional tag push. When editing workflows, guard `release_*` tags so they only render on `release-*` ref pushes.

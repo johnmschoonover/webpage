@@ -26,9 +26,9 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
    - Merge changes to `main` via reviewed PR.
    - Tag release for promotion: `git tag -a release-YYYY-MM-DD -m "Release notes"` then `git push --tags`.
 2. **Trigger CI/CD:**
-   - GitHub Actions workflow builds the Astro site with `pnpm build`.
-   - On merges to `main`, the workflow publishes container tags `{{sha}}`, `main_commit<sha[:8]>`, and `main_latest` to `docker.theschoonover.net/theschoonover/site` for the preview stack.
-   - When a `release-*` tag is pushed, the same workflow publishes `release_commit<sha[:8]>` and `release_latest` tags that production Watchtower follows.
+   - The **Preview Publish** workflow (`.github/workflows/preview.yml`) runs on pull requests and merges to `main`, building the Astro site with `pnpm build`.
+   - When the workflow runs on `main`, it publishes container tags `{{sha}}`, `main_commit<sha[:8]>`, and `main_latest` to `docker.theschoonover.net/theschoonover/site` for the preview stack.
+   - The **Release Publish** workflow (`.github/workflows/release.yml`) fires only for `release-*` tags and pushes `release_commit<sha[:8]>` and `release_latest` images that production Watchtower follows; ordinary branch pushes never emit `release_*` aliases.
 3. **RackStation Deploy (rsync mode):**
    - Workflow uses `SSH_DEPLOY_KEY` to `rsync` `dist/` to the DSM Docker bind mount (e.g., `/volume1/docker/site/dist`).
    - DSM reverse proxy serves updated static files through nginx container.
