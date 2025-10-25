@@ -18,3 +18,4 @@ These guidelines apply to every MDX file inside `apps/site/src/content/case-stud
 - Verify that any new figures, timestamps, or partner counts have corresponding source data or subject-matter approval before committing.
 - Confirm the timeframe in frontmatter matches the narrative era called out in the body copy.
 - Run `pnpm lint` or the relevant content build command if copy edits introduce new MDX syntax or components.
+- When retiring a case study, remove related assets and check for lingering references (index pages, navigation, cross-links) so readers never hit dead routes.
