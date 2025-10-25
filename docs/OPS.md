@@ -7,8 +7,9 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
 | Environment | Purpose | Hosting Details | Branch | Core Services | Notes |
 |-------------|---------|-----------------|--------|---------------|-------|
 | Local Dev   | Component/content work, QA before PR | Developer workstation, Node.js 20.11.x with pnpm 8.15.1 | feature branches | Astro dev server (`pnpm dev`) | Use `.env.local` for secrets; never commit.
+| Main Preview | Auto-refresh stack for merged changes | RackStation Docker stack exposing port `8079` | `main` | `site_main_preview` container following `main_latest`, shared nginx config | LAN/VPN only; validates integration before promotion.
 | Staging     | Optional dry-run for major releases | RackStation Docker stack, staging compose profile | `staging` (optional) | `site` static container, `nginx` reverse proxy | Enable HTTP basic auth if exposed.
-| Production  | Public site | RackStation Docker stack served via DSM reverse proxy at `theschoonover.net` | `main` | `site` static container, `nginx` reverse proxy, optional `plausible` | Watchtower monitors production tags.
+| Production  | Public site | RackStation Docker stack served via DSM reverse proxy at `theschoonover.net` | `main` | `site` static container, `nginx` reverse proxy, optional `plausible` | Watchtower tracks `release_*` tags.
 
 ### Required Secrets & Configuration
 | Variable | Description | Scope | Source |
@@ -23,17 +24,18 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
 ## Deployment Runbook
 1. **Prep Git:**
    - Merge changes to `main` via reviewed PR.
-   - Tag release if desired: `git tag -a vX.Y.Z -m "Release notes"` then `git push --tags`.
+   - Tag release for promotion: `git tag -a release-YYYY-MM-DD -m "Release notes"` then `git push --tags`.
 2. **Trigger CI/CD:**
    - GitHub Actions workflow builds the Astro site with `pnpm build`.
-   - Artifact uploaded to workflow for verification.
+   - On merges to `main`, the workflow publishes container tags `{{sha}}`, `main_commit<sha[:8]>`, and `main_latest` to `docker.theschoonover.net/theschoonover/site` for the preview stack.
+   - When a `release-*` tag is pushed, the same workflow publishes `release_commit<sha[:8]>` and `release_latest` tags that production Watchtower follows.
 3. **RackStation Deploy (rsync mode):**
    - Workflow uses `SSH_DEPLOY_KEY` to `rsync` `dist/` to the DSM Docker bind mount (e.g., `/volume1/docker/site/dist`).
    - DSM reverse proxy serves updated static files through nginx container.
-4. **RackStation Deploy (container mode, optional):**
-   - `docker build -t docker.theschoonover.net/theschoonover/site:<sha> .`
-   - `docker push docker.theschoonover.net/theschoonover/site:<sha>`
-   - Watchtower pulls the updated tag within five minutes and restarts the `site` container.
+4. **RackStation Deploy (container mode):**
+   - No manual build required; CI publishes the images directly to the internal registry.
+   - For preview validation, Watchtower tracks `main_latest` and refreshes the `site_main_preview` container bound to port `8079`.
+   - Production promotion occurs by pushing a `release-*` tag—Watchtower pulls `release_latest` within five minutes and restarts the `site` service.
 
 ### Configure Watchtower auto-updates
 Watchtower runs alongside the production stack to poll the RackStation registry for new container tags and restart services automatically. The compose file already defines the service—follow the steps below to provision credentials and verify the automation.
@@ -51,7 +53,7 @@ Watchtower runs alongside the production stack to poll the RackStation registry 
    - If you see auth errors, rerun `./scripts/test-registry-login.sh` locally to validate the credentials and ensure the RackStation trusts the registry TLS certificate.
 4. **Test an auto-update**
    - Push a throwaway tag (e.g., `docker push docker.theschoonover.net/theschoonover/site:watchtower-smoke`).
-   - Update the `site` service temporarily to point at that tag (`docker compose up -d site`). Within the poll interval, Watchtower should pull the canonical `latest` tag and restart the container—confirm by checking `docker compose logs site` for the restart timestamp.
+   - Update the `site` service temporarily to point at that tag (`docker compose up -d site`). Within the poll interval, Watchtower should pull the canonical `release_latest` tag and restart the container—confirm by checking `docker compose logs site` for the restart timestamp.
    - Once verified, delete the temporary tag from the registry or let Watchtower clean up old images automatically.
 
 Watchtower uses scoped labels on the `site` service, so additional containers can opt in later by applying the same `com.centurylinklabs.watchtower.enable=true` label with a shared scope name.
