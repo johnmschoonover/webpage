@@ -3,14 +3,14 @@ import PostLayout from '@layouts/PostLayout.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
   return posts.map((entry) => ({
     params: { slug: entry.slug }
   }));
 }
 
 const { slug } = Astro.params;
-const entry = (await getCollection('posts')).find((item) => item.slug === slug);
+const entry = (await getCollection('posts', ({ data }) => !data.draft)).find((item) => item.slug === slug);
 if (!entry) {
   throw new Error(`Post not found: ${slug}`);
 }

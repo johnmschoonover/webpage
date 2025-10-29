@@ -3,7 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import WritingGallery from '@components/Writing/WritingGallery';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('posts')).sort((a, b) => (a.data.date > b.data.date ? -1 : 1));
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort((a, b) => (a.data.date > b.data.date ? -1 : 1));
 const clientPosts = posts.map((post) => ({
   slug: post.slug,
   title: post.data.title,
@@ -24,7 +24,7 @@ const tagCount = Array.from(new Set(clientPosts.flatMap((post) => post.tags))).l
   pageHeading="Writing"
   description="Strategy notes and experiments from the security platform trenches."
 >
-  <section class="grid gap-8 rounded-3xl border border-border bg-gradient-to-br from-background via-background to-muted/30 p-8 shadow-sm md:grid-cols-[2fr,1fr]">
+  <section class="grid gap-8 rounded-3xl border border-border bg-gradient-to-br from-background via-background to-muted/30 p-8 shadow-sm">
     <div class="space-y-4">
       <p class="text-sm uppercase tracking-[0.35em] text-muted-foreground">Field journal</p>
       <h2 class="font-display text-3xl font-semibold text-foreground md:text-4xl">
@@ -48,20 +48,6 @@ const tagCount = Array.from(new Set(clientPosts.flatMap((post) => post.tags))).l
           </a>
         )}
       </div>
-    </div>
-    <div class="space-y-4 rounded-2xl border border-border bg-background/80 p-6">
-      <h3 class="font-display text-lg font-semibold text-foreground">How publishing works</h3>
-      <ol class="list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
-        <li>
-          Draft posts locally in Markdown or MDX. The repo keeps everything under
-          <code>apps/site/src/content/posts</code> so copy lives alongside code reviews.
-        </li>
-        <li>
-          Commit the new file and any images in <code>apps/site/public/images/posts</code>, then open a pull request on GitHub for
-          review.
-        </li>
-        <li>Ship once checks pass and the writing reads clearly on mobile and desktop.</li>
-      </ol>
     </div>
   </section>
 

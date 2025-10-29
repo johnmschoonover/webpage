@@ -25,6 +25,8 @@ subdirectories (e.g., `components/`, `layouts/`) take precedence for their scope
 - All download CTAs must include the HTML `download` attribute (optionally with a filename) so assets save locally instead of
   navigating away from the site, and component wrappers must preserve the attribute as an empty string when no explicit
   filename is provided.
+- For writing workflows, point contributors to `apps/site/src/content/posts/README.md` instead of embedding bespoke instructions
+  within components.
 
 ## QA Loop
 - Run `pnpm --filter site build` before requesting review; capture warnings in the PR if any appear.
