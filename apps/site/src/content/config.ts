@@ -22,7 +22,9 @@ const posts = defineCollection({
     date: z.string(),
     tags: z.array(z.string()).default([]),
     canonical: z.string().optional(),
-    updated: z.string().optional()
+    updated: z.string().optional(),
+    heroImage: z.string().optional(),
+    draft: z.boolean().default(false)
   })
 });
 
