@@ -1,0 +1,42 @@
+---
+title: "Home Lab Telemetry: Wazuh SIEM, Zeek NSM, and a Raspberry Pi Edge"
+summary: "Placeholder notes on wiring Wazuh, Zeek, and an NGINX edge node into a home lab telemetry stack."
+date: 2025-03-17
+tags:
+  - security
+  - telemetry
+  - homelab
+  - networking
+draft: true
+---
+
+> **Status:** Placeholder draft capturing the framing, key takeaways, and TODOs for a future long-form post.
+
+## Why pair SIEM and NSM at home?
+- Capture the end-to-end journey of standing up Wazuh for endpoint and log analytics while Zeek inspects east-west traffic.
+- Document how the combination drives better detection engineering reps without burning production resources.
+- Highlight the empathy gained for platform teams by dealing with noisy baselines, update cadence, and storage planning firsthand.
+
+## Reference architecture
+1. **Core services:** Wazuh manager + indexer on the lab's Proxmox cluster; Zeek sensors tapping a mirrored port on the core switch.
+2. **Edge node:** Raspberry Pi 5 running NGINX for TLS termination, basic auth, and reverse proxying the Wazuh dashboard through a segmented VLAN.
+3. **Network flow:** Untrusted devices land in a monitored subnet, DNS sinkhole forwards logs to Wazuh, and Zeek enriches flows with JA3/HTTP metadata.
+
+## Implementation beats to expand later
+- Install Wazuh via the official all-in-one Docker compose, swap in custom index retention, and script agent enrollment for laptops + homelab services.
+- Compile Zeek from the latest stable release on Debian, manage scripts with `zkg`, and forward Zeek logs into Wazuh using Filebeat.
+- Harden the Raspberry Pi (immutable OS, SSH keys only, unattended upgrades) before installing NGINX with a dual-cert setup (Let's Encrypt + self-signed fallback).
+- Use NGINX stream module as a lightweight TCP load balancer for future passive taps.
+
+## Operational lessons (outline)
+- Handling noisy home IoT traffic with Zeek packages such as `zeek-amp-monitor`.
+- Mapping MITRE ATT&CK detections in Wazuh to actual lab exercises.
+- Building Grafana dashboards fed by Wazuh's API for "morning coffee" health checks.
+- Automating updates with Ansible playbooks across all three tiers.
+
+## Follow-up tasks before publishing
+- Flesh out screenshots of Wazuh dashboards and Zeek logs for each milestone.
+- Capture the exact NGINX config snippets (headers, mTLS, rate limiting).
+- Record the Ansible inventory and tags used for orchestration.
+- Validate the setup against a controlled attack simulation (Caldera or Atomic Red Team) and document detection hits.
+
