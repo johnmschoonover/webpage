@@ -22,5 +22,6 @@ LABEL org.opencontainers.image.source="https://github.com/theschoonover/webpage"
 COPY infra/nginx/site.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/apps/site/dist /usr/share/nginx/html
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 8080
+USER nginx
+CMD ["nginx", "-g", "daemon off; pid /tmp/nginx.pid;"]
