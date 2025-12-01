@@ -18,7 +18,7 @@ export default defineConfig({
   integrations: [
     mdx({
       remarkPlugins: [remarkGfm, remarkMath],
-      rehypePlugins: [[rehypeSlug], [rehypeAutolinkHeadings, { behavior: 'append' }], [rehypeKatex]]
+      rehypePlugins: [[rehypeSlug], [rehypeAutolinkHeadings, { behavior: 'append' }], [rehypeKatex, { output: 'html' }]]
     }),
     tailwind({
       applyBaseStyles: false
