@@ -13,7 +13,7 @@ We are taught that prime numbers are the noise of the number line—unpredictabl
 
 I recently went down a computational rabbit hole investigating the sequence:
 
-`$$S_n = p_n + p_{n+1} - 1$$`
+$$S_n = p_n + p_{n+1} - 1$$
 
 The question was simple: Is the sum of consecutive primes (minus one) prime more often than a random odd integer?
 
@@ -23,7 +23,7 @@ Standard math says the density should fade logarithmically. But when I built a h
 
 To see the pattern, I needed scale. Checking a few million primes wasn't enough; I needed billions.
 
-I built a custom analysis tool in Rust using a segmented sieve and bitvec to handle integers up to `$N=10^{10}$` while keeping RAM usage under 2GB. The tool doesn't just count primes; it categorizes them by the "Gap" between the neighbors (`$g = p_{n+1} - p_n$`).
+I built a custom analysis tool in Rust using a segmented sieve and bitvec to handle integers up to $N=10^{10}$ while keeping RAM usage under 2GB. The tool doesn't just count primes; it categorizes them by the "Gap" between the neighbors ($g = p_{n+1} - p_n$).
 
 When I visualized the data, the "random" noise collapsed into a massive, jagged sawtooth.
 
@@ -33,7 +33,7 @@ When I visualized the data, the "random" noise collapsed into a massive, jagged 
 
 The data revealed a consistent, predictive bias:
 
-- **Gap 2 ("Twin Primes"):** The sum `$S_n$` is prime only ~9% of the time.
+- **Gap 2 ("Twin Primes"):** The sum $S_n$ is prime only ~9% of the time.
 - **Gap 4 ("Cousin Primes"):** The success rate jumps to ~14%.
 - **Gap 6:** It crashes back down to ~9%.
 
@@ -47,10 +47,10 @@ I developed a heuristic I call "Shielding Score" to explain this. The Sieve of E
 
 However, specific gap sizes mathematically "shield" the sum from these factors.
 
-Consider the sum `$S = 2p + g - 1$`.
+Consider the sum $S = 2p + g - 1$.
 
-- **The "Exposed" Gap (Gap 2):** `$S = 2p + 1$`. If `$p \equiv 1 \pmod 3$`, then `$S$` is divisible by 3. The "Mod 3" bullet hits us 50% of the time.
-- **The "Shielded" Gap (Gap 4):** `$S = 2p + 3$`. Since `$p$` is prime (>3), `$2p$` is never divisible by 3. Therefore, `$2p+3$` can never be divisible by 3. Gap 4 has a permanent "Shield" against the number 3.
+- **The "Exposed" Gap (Gap 2):** $S = 2p + 1$. If $p \equiv 1 \pmod 3$, then $S$ is divisible by 3. The "Mod 3" bullet hits us 50% of the time.
+- **The "Shielded" Gap (Gap 4):** $S = 2p + 3$. Since $p$ is prime (>3), $2p$ is never divisible by 3. Therefore, $2p+3$ can never be divisible by 3. Gap 4 has a permanent "Shield" against the number 3.
 
 ## The Juggernaut: Gap 34
 
@@ -59,10 +59,10 @@ This explains why Gap 4 beats Gap 2. But why is Gap 34 the king?
 I ran the modular arithmetic for Gap 34 against the first few primes:
 
 - **Mod 3:** Shielded.
-- **Mod 5:** Shielded (`$34 \equiv 4 \pmod 5$`).
-- **Mod 7:** Shielded (`$34 \equiv 6 \pmod 7$`).
+- **Mod 5:** Shielded ($34 \equiv 4 \pmod 5$).
+- **Mod 7:** Shielded ($34 \equiv 6 \pmod 7$).
 
-Gap 34 is a Triple Shield. It is mathematically impossible for the sum `$S_n$` (associated with a gap of 34) to be divisible by 3, 5, or 7. It effectively has a "free pass" through the densest minefield of the sieve, leaving it exposed only to primes `$\ge 11$`.
+Gap 34 is a Triple Shield. It is mathematically impossible for the sum $S_n$ (associated with a gap of 34) to be divisible by 3, 5, or 7. It effectively has a "free pass" through the densest minefield of the sieve, leaving it exposed only to primes $\ge 11$.
 
 ## Proof: Theory vs. Reality
 
@@ -70,7 +70,7 @@ To validate this, I updated the Rust tool to calculate a "Theoretical Boost" bas
 
 [Insert your "Theory Verification" Scatter Plot Here]
 
-The result was a near-perfect linear correlation (`$R^2 \approx 1.0$`).
+The result was a near-perfect linear correlation ($R^2 \approx 1.0$).
 
 - **The Blue Dot (Far Right):** That’s Gap 34.
 - **The Trend:** The success rate of any given gap is almost entirely determined by how many modular "shields" it possesses.
@@ -83,4 +83,4 @@ Gap 34 isn't a statistical outlier; it is architecturally superior. It defeats t
 
 The code for the prime-shield-analyzer—including the segmented sieve, shielding calculator, and visualization engine—is open source and available below.
 
-[Link to GitHub Repo]
+[https://github.com/johnmschoonover/prime_shield_analyzer](https://github.com/johnmschoonover/prime_shield_analyzer)
