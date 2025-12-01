@@ -22,6 +22,7 @@
     "autoprefixer": "^10.4.17",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "katex": "^0.16.25",
     "lucide-react": "^0.424.0",
     "postcss": "^8.4.39",
     "react": "^18.3.1",
