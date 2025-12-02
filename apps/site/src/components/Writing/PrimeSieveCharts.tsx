@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -144,21 +144,24 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
       y: m * p.x + b,
     }));
 
-    const data: ChartData<'scatter'> = {
+    const data: ChartData<'scatter' | 'line'> = {
       datasets: [
         {
+          type: 'scatter' as const,
           label: 'Gap 4 (Red)',
           data: verificationData.filter((p) => p.gap === 4),
           backgroundColor: 'rgba(255, 99, 132, 1)',
           pointRadius: 6,
         },
         {
+          type: 'scatter' as const,
           label: 'Gap 34 (Blue)',
           data: verificationData.filter((p) => p.gap === 34),
           backgroundColor: 'rgba(54, 162, 235, 1)',
           pointRadius: 6,
         },
         {
+          type: 'scatter' as const,
           label: 'Other Gaps',
           data: verificationData.filter((p) => p.gap !== 4 && p.gap !== 34),
           backgroundColor: 'rgba(0, 0, 0, 0.2)',
