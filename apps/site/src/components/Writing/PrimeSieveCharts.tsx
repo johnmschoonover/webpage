@@ -9,6 +9,9 @@ import {
   Title,
   Tooltip,
   Legend,
+  ScatterController,
+  LineController,
+  BarController,
   type ChartData,
   type ChartOptions,
 } from 'chart.js';
@@ -23,7 +26,10 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ScatterController,
+  LineController,
+  BarController
 );
 
 // --- Types ---
