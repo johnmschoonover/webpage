@@ -319,6 +319,3 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
       </div>
     );
   }
-
-  return null;
-}
