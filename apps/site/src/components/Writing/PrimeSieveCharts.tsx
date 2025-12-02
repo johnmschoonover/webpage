@@ -186,6 +186,7 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
 
     const options: ChartOptions<'scatter'> = {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: { position: 'bottom' },
         tooltip: {
@@ -205,7 +206,11 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
     };
 
     // Cast data to any to bypass strict type checking for mixed charts
-    return <Chart type='scatter' data={data as any} options={options} />;
+    return (
+      <div className="w-full h-96 relative">
+        <Chart type='scatter' data={data as any} options={options} />
+      </div>
+    );
   }
 
   // --- Chart: Oscillation (Line) ---
@@ -255,6 +260,7 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
 
     const options: ChartOptions<'line'> = {
       responsive: true,
+      maintainAspectRatio: false,
       interaction: {
           mode: 'index',
           intersect: false,
@@ -276,7 +282,11 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
       },
     };
 
-    return <Line data={data} options={options} />;
+    return (
+      <div className="w-full h-96 relative">
+        <Line data={data} options={options} />
+      </div>
+    );
   }
 
   // --- Chart: Gap Spectrum (Bar) ---
@@ -296,14 +306,16 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
 
     const options: ChartOptions<'bar'> = {
       responsive: true,
+      maintainAspectRatio: false,
       scales: {
         y: { beginAtZero: true, title: { display: true, text: 'Success Rate' } },
         x: { title: { display: true, text: 'Gap Size' } },
       },
     };
 
-    return <Bar data={data} options={options} />;
+    return (
+      <div className="w-full h-96 relative">
+        <Bar data={data} options={options} />
+      </div>
+    );
   }
-
-  return null;
-}
