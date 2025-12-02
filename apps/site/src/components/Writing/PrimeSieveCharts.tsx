@@ -64,6 +64,14 @@ interface ReportMetadata {
 // Pointing to the GitHub Pages deployment of the Rust tool's report
 const BASE_URL = 'https://johnmschoonover.github.io/prime_shield_analyzer/';
 
+// Dark mode friendly colors
+const CHART_COLORS = {
+  grid: 'rgba(255, 255, 255, 0.1)',
+  text: '#9ca3af', // gray-400
+  title: '#e5e7eb', // gray-200
+  scatterOther: 'rgba(255, 255, 255, 0.3)',
+};
+
 export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -170,7 +178,7 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
           type: 'scatter' as const,
           label: 'Other Gaps',
           data: verificationData.filter((p) => p.gap !== 4 && p.gap !== 34),
-          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+          backgroundColor: CHART_COLORS.scatterOther,
           pointRadius: 3,
         },
         {
@@ -188,7 +196,10 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'bottom' },
+        legend: { 
+            position: 'bottom',
+            labels: { color: CHART_COLORS.text }
+        },
         tooltip: {
           callbacks: {
             label: (ctx: any) => {
@@ -200,8 +211,16 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
         },
       },
       scales: {
-        x: { title: { display: true, text: 'Theoretical Boost Score' } },
-        y: { title: { display: true, text: 'Observed Success Rate' } },
+        x: { 
+            title: { display: true, text: 'Theoretical Boost Score', color: CHART_COLORS.title },
+            grid: { color: CHART_COLORS.grid },
+            ticks: { color: CHART_COLORS.text }
+        },
+        y: { 
+            title: { display: true, text: 'Observed Success Rate', color: CHART_COLORS.title },
+            grid: { color: CHART_COLORS.grid },
+            ticks: { color: CHART_COLORS.text }
+        },
       },
     };
 
@@ -266,7 +285,10 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
           intersect: false,
       },
       plugins: {
-        legend: { position: 'bottom' },
+        legend: { 
+            position: 'bottom',
+            labels: { color: CHART_COLORS.text }
+        },
         tooltip: {
             callbacks: {
                 label: (ctx) => `${ctx.dataset.label}: ${(ctx.raw as number).toFixed(4)}`
@@ -274,10 +296,15 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
         }
       },
       scales: {
-        y: { title: { display: true, text: 'Ratio' } },
+        y: { 
+            title: { display: true, text: 'Ratio', color: CHART_COLORS.title },
+            grid: { color: CHART_COLORS.grid },
+            ticks: { color: CHART_COLORS.text }
+        },
         x: {
-          title: { display: true, text: 'N (Bin Start)' },
-          ticks: { maxTicksLimit: 8 },
+          title: { display: true, text: 'N (Bin Start)', color: CHART_COLORS.title },
+          grid: { color: CHART_COLORS.grid },
+          ticks: { color: CHART_COLORS.text, maxTicksLimit: 8 },
         },
       },
     };
@@ -307,9 +334,21 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
     const options: ChartOptions<'bar'> = {
       responsive: true,
       maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: CHART_COLORS.text } },
+      },
       scales: {
-        y: { beginAtZero: true, title: { display: true, text: 'Success Rate' } },
-        x: { title: { display: true, text: 'Gap Size' } },
+        y: { 
+            beginAtZero: true, 
+            title: { display: true, text: 'Success Rate', color: CHART_COLORS.title },
+            grid: { color: CHART_COLORS.grid },
+            ticks: { color: CHART_COLORS.text }
+        },
+        x: { 
+            title: { display: true, text: 'Gap Size', color: CHART_COLORS.title },
+            grid: { color: CHART_COLORS.grid },
+            ticks: { color: CHART_COLORS.text }
+        },
       },
     };
 
