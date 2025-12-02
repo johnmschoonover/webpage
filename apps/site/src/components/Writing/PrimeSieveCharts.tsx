@@ -12,7 +12,7 @@ import {
   type ChartData,
   type ChartOptions,
 } from 'chart.js';
-import { Scatter, Line, Bar } from 'react-chartjs-2';
+import { Line, Bar, Chart } from 'react-chartjs-2';
 
 // Register ChartJS components
 ChartJS.register(
@@ -198,7 +198,8 @@ export default function PrimeSieveCharts({ chartType }: PrimeSieveChartsProps) {
       },
     };
 
-    return <Scatter data={data} options={options} />;
+    // Cast data to any to bypass strict type checking for mixed charts
+    return <Chart type='scatter' data={data as any} options={options} />;
   }
 
   // --- Chart: Oscillation (Line) ---
