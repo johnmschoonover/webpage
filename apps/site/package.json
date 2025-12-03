@@ -18,7 +18,7 @@
     "@astrojs/tailwind": "^5.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@tailwindcss/typography": "^0.5.12",
-    "astro": "^4.11.3",
+    "astro": "^5.15.9",
     "autoprefixer": "^10.4.17",
     "chart.js": "^4.5.1",
     "class-variance-authority": "^0.7.0",
