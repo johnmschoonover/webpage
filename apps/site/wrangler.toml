@@ -1,6 +1,9 @@
 name = "webpage"
 compatibility_date = "2024-12-05"
 
+main = "./dist/_worker.js"
+assets = { directory = "./dist" }
+
 [observability]
 enabled = false
 head_sampling_rate = 1
