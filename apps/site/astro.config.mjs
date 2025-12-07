@@ -17,7 +17,9 @@ const repoRoot = resolve(currentDir, '..', '..');
 export default defineConfig({
   site: 'https://theschoonover.net',
   output: 'server',
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: 'compile'
+  }),
   integrations: [
     mdx({
       remarkPlugins: [remarkGfm, remarkMath],
