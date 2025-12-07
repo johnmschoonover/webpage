@@ -9,7 +9,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "deploy": "astro build && wrangler deploy",
+    "worker:deploy": "astro build && wrangler deploy",
     "preview": "astro preview",
     "astro": "astro"
   },
