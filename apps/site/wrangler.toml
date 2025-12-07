@@ -1,6 +1,9 @@
 name = "webpage"
-main = "dist/_worker.js"
+main = "dist/_worker.js/index.js"
 compatibility_date = "2024-12-05"
+
+[site]
+bucket = "./dist"
 
 [observability]
 enabled = false
