@@ -9,7 +9,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "deploy-cf": "astro build && wrangler deploy",
+    "deploy-cf": "astro build && rm dist/_routes.json && wrangler deploy",
     "preview": "astro preview",
     "astro": "astro"
   },
