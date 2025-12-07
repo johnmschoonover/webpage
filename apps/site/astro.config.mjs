@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import mdx from '@astrojs/mdx';
-import node from '@astrojs/node';
+import cloudflare from '@astrojs/cloudflare';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
@@ -17,9 +17,7 @@ const repoRoot = resolve(currentDir, '..', '..');
 export default defineConfig({
   site: 'https://theschoonover.net',
   output: 'server',
-  adapter: node({
-    mode: 'standalone'
-  }),
+  adapter: cloudflare(),
   integrations: [
     mdx({
       remarkPlugins: [remarkGfm, remarkMath],
