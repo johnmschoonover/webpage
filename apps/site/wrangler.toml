@@ -1,9 +1,5 @@
 name = "webpage"
-main = "worker-wrapper.js"
 compatibility_date = "2024-12-05"
-
-[site]
-bucket = "./dist"
 
 [observability]
 enabled = false
