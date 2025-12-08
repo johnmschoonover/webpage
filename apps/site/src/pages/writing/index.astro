@@ -3,6 +3,8 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import WritingGallery from '@components/Writing/WritingGallery';
 import { getCollection } from 'astro:content';
 
+Astro.response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
+
 const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort((a, b) => (a.data.date > b.data.date ? -1 : 1));
 const clientPosts = posts.map((post) => ({
   slug: post.slug,

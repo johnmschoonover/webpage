@@ -9,6 +9,8 @@ import { experienceHighlights } from '@lib/utils';
 import patents from '@content/data/patents.json';
 import profile from '@data/profile.json';
 
+Astro.response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
+
 const caseStudies = (await getCollection('case-studies')).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
 const posts = (await getCollection('posts')).sort((a, b) => (a.data.date > b.data.date ? -1 : 1)).slice(0, 3);
 const patentEntries = (patents as { title: string; status: string; summary: string }[]);
