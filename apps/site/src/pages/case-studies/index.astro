@@ -3,6 +3,9 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Card from '@components/Card.astro';
 import Tag from '@components/Tag.astro';
 import { getCollection } from 'astro:content';
+
+Astro.response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
+
 const caseStudies = (
   await getCollection('case-studies', ({ data }) => !data.internal)
 ).sort((a, b) => a.data.order - b.data.order);
