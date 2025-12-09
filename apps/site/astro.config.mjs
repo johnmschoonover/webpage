@@ -5,6 +5,7 @@ import mdx from '@astrojs/mdx';
 import cloudflare from '@astrojs/cloudflare';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
+import sitemap from '@astrojs/sitemap';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
@@ -28,7 +29,8 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false
     }),
-    react()
+    react(),
+    sitemap()
   ],
   markdown: {
     shikiConfig: {
