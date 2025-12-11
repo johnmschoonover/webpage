@@ -1,0 +1,33 @@
+
+> site@0.0.1 predev /app/apps/site
+> node ../../scripts/sync-downloads.mjs
+
+Synced downloads → /app/apps/site/public/downloads
+
+> site@0.0.1 dev /app/apps/site
+> astro dev
+
+00:50:07 [@astrojs/cloudflare] Enabling sessions with Cloudflare KV with the "SESSION" KV binding.
+00:50:07 [@astrojs/cloudflare] If you see the error "Invalid binding `SESSION`" in your build output, you need to add the binding to your wrangler config file.
+00:50:07 [types] Generated 1ms
+00:50:08 [content] Syncing content
+00:50:08 [content] Synced content
+00:50:08 [vite] Re-optimizing dependencies because vite config has changed
+
+ astro  v5.15.9 ready in 3608 ms
+
+┃ Local    http://127.0.0.1:4321/
+
+00:50:08 watching for file changes...
+
+ update  ▶ New version of Astro available: 5.16.5
+  Run pnpm dlx @astrojs/upgrade to update
+
+00:50:22 [200] /keystatic 260ms
+00:50:25 [200] /keystatic 7ms
+00:50:46 [200] /keystatic 10ms
+00:50:46 [200] /keystatic 5ms
+00:50:47 [200] /api/keystatic/tree 77ms
+/app/apps/site:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  site@0.0.1 dev: `astro dev`
+Command failed with signal "SIGTERM"
