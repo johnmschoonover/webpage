@@ -3,6 +3,7 @@ import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import mdx from '@astrojs/mdx';
 import cloudflare from '@astrojs/cloudflare';
+import keystatic from '@keystatic/astro';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
@@ -28,7 +29,8 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false
     }),
-    react()
+    react(),
+    keystatic()
   ],
   markdown: {
     shikiConfig: {
