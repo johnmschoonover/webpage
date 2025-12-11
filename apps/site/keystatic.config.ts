@@ -6,10 +6,14 @@ const isProd = import.meta.env.PROD;
 const getPath = (path: string) => isProd ? `apps/site/${path}` : path;
 
 export default config({
-  storage: {
-    kind: 'github',
-    repo: 'johnmschoonover/webpage',
-  },
+  storage: isProd
+    ? {
+        kind: 'github',
+        repo: 'johnmschoonover/webpage',
+      }
+    : {
+        kind: 'local',
+      },
   collections: {
     posts: collection({
       label: 'Posts',
