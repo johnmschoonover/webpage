@@ -46,6 +46,8 @@ To enable this, you must configure a **GitHub App**.
 3.  Add the following variables to both **Production** and **Preview** environments (if applicable, see below):
     *   `KEYSTATIC_GITHUB_CLIENT_ID`: (Your Client ID)
     *   `KEYSTATIC_GITHUB_CLIENT_SECRET`: (Your Client Secret)
+    *   `KEYSTATIC_SECRET`: A random long string (e.g., generate with `openssl rand -base64 32`). Used for signing session cookies.
+    *   `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`: (Optional) The slug of your GitHub App (e.g., `theschoonover-cms`). This improves the UI for installing the app.
 4.  **Redeploy** your site for the variables to take effect.
 
 ### Step 4: Install the App
