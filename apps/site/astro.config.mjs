@@ -3,6 +3,7 @@ import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import mdx from '@astrojs/mdx';
 import cloudflare from '@astrojs/cloudflare';
+import keystatic from '@keystatic/astro';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
@@ -30,6 +31,7 @@ export default defineConfig({
       applyBaseStyles: false
     }),
     react(),
+    keystatic(),
     sitemap()
   ],
   markdown: {

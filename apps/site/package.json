@@ -19,6 +19,8 @@
     "@astrojs/rss": "^4.0.14",
     "@astrojs/sitemap": "^3.6.0",
     "@astrojs/tailwind": "^5.1.0",
+    "@keystatic/astro": "^5.0.6",
+    "@keystatic/core": "^0.5.48",
     "@radix-ui/react-slot": "^1.1.0",
     "@tailwindcss/typography": "^0.5.12",
     "astro": "^5.15.9",
