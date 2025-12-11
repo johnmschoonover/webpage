@@ -10,6 +10,8 @@ export default config({
     ? {
         kind: 'github',
         repo: 'johnmschoonover/webpage',
+        clientId: import.meta.env.KEYSTATIC_GITHUB_CLIENT_ID,
+        clientSecret: import.meta.env.KEYSTATIC_GITHUB_CLIENT_SECRET,
       }
     : {
         kind: 'local',

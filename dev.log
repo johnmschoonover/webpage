@@ -31,3 +31,5 @@ Synced downloads → /app/apps/site/public/downloads
 /app/apps/site:
  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  site@0.0.1 dev: `astro dev`
 Command failed with signal "SIGTERM"
+01:07:49 [watch] keystatic.config.ts
+01:07:49 [watch] keystatic.config.ts
