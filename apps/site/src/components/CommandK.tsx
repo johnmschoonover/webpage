@@ -17,7 +17,7 @@ const actions: CommandAction[] = [
   { title: 'Experience', description: 'Review the resume and highlights', href: '/experience' },
   { title: 'Case Studies', description: 'Deep dives on platform programs', href: '/case-studies' },
   { title: 'Writing', description: 'Articles and essays', href: '/writing' },
-  { title: 'Patents & IP', description: 'Filed and in-flight intellectual property', href: '/patents' },
+  { title: 'Deliverables', description: 'Filed patents, in-flight IP, and key projects', href: '/deliverables' },
   { title: 'Contact', description: 'Securely reach out', href: '/contact' },
   {
     title: 'GitHub',

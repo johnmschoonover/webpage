@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "title": "Process for Real-Time Validation of Comprehensive Visibility for \"perfect feeds\"",
+      "status": "Patent Pending",
+      "summary": "Validates end-to-end visibility for high-value telemetry so blind spots, ingestion gaps, and rule efficacy impacts surface before they affect detections.",
+      "highlights": [
+        "Systematizes visibility checks across heterogeneous feeds to confirm \"perfect feed\" coverage.",
+        "Enables proactive mitigation of ingestion, parsing, and detection blind spots."
+      ]
+    },
+    {
+      "title": "Criticality-Aware Drop Control for High-Throughput SIEM Pipelines",
+      "status": "Patent In-Flight",
+      "summary": "Maintains propagation of rare, high-value security events while managing volume through context-aware drop controls.",
+      "highlights": [
+        "Balances noise reduction with the need to keep rare signals visible to downstream detections.",
+        "Adapts thresholds using rule context so critical events survive volume mitigation."
+      ]
+    }
+  ]
+}
