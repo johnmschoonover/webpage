@@ -1,4 +1,5 @@
-import { config, fields, collection, component, singleton } from '@keystatic/core';
+import { config, fields, collection, singleton } from '@keystatic/core';
+import { block } from '@keystatic/core/content-components';
 import React from 'react';
 
 // In Prod (GitHub mode), paths are relative to repo root: apps/site/src/content/...
@@ -43,16 +44,20 @@ export default config({
             }
           },
           components: {
-            Latex: component({
+            Latex: block({
               label: 'Latex',
               schema: {
                 formula: fields.text({ label: 'Formula', multiline: true }),
                 block: fields.checkbox({ label: 'Block Mode', defaultValue: false }),
               },
-              preview: (props) => {
-                return <code>{props.fields.formula.value}</code>;
+              ContentView: (props) => {
+                return (
+                  <div style={{ padding: '8px', background: '#f8fafc', borderRadius: '4px', border: '1px solid #e2e8f0' }}>
+                    <code>{props.value.formula}</code>
+                  </div>
+                );
               }
-            }) as any
+            })
           }
         }),
       },
