@@ -1,4 +1,5 @@
-import { config, fields, collection } from '@keystatic/core';
+import { config, fields, collection, component } from '@keystatic/core';
+import React from 'react';
 
 // In Prod (GitHub mode), paths are relative to repo root: apps/site/src/content/...
 // In Dev (Local mode), paths are relative to CWD (apps/site): src/content/...
@@ -40,6 +41,18 @@ export default config({
               directory: getPath('public/images/posts'),
               publicPath: '/images/posts/',
             }
+          },
+          components: {
+            Latex: component({
+              label: 'Latex',
+              schema: {
+                formula: fields.text({ label: 'Formula', multiline: true }),
+                block: fields.checkbox({ label: 'Block Mode', defaultValue: false }),
+              },
+              preview: (props) => {
+                return <code>{props.fields.formula.value}</code>;
+              }
+            }) as any
           }
         }),
       },
