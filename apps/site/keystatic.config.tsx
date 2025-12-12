@@ -1,4 +1,4 @@
-import { config, fields, collection, component } from '@keystatic/core';
+import { config, fields, collection, component, singleton } from '@keystatic/core';
 import React from 'react';
 
 // In Prod (GitHub mode), paths are relative to repo root: apps/site/src/content/...
@@ -83,6 +83,32 @@ export default config({
             }
           }
         }),
+      },
+    }),
+  },
+  singletons: {
+    deliverables: singleton({
+      label: 'Deliverables',
+      path: isProd ? 'content/data/deliverables' : '../../content/data/deliverables',
+      format: { data: 'json' },
+      schema: {
+        items: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Title' }),
+            status: fields.text({ label: 'Status' }),
+            summary: fields.text({ label: 'Summary', multiline: true }),
+            highlights: fields.array(fields.text({ label: 'Highlight' }), {
+              label: 'Highlights',
+              itemLabel: (props) => props.value,
+            }),
+            year: fields.text({ label: 'Year' }),
+            url: fields.url({ label: 'URL' }),
+          }),
+          {
+            label: 'Deliverables',
+            itemLabel: (props) => props.fields.title.value,
+          }
+        ),
       },
     }),
   },

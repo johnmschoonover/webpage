@@ -6,14 +6,14 @@ import Timeline from '@components/Timeline.astro';
 import Callout from '@components/Callout.astro';
 import { getCollection } from 'astro:content';
 import { experienceHighlights } from '@lib/utils';
-import patents from '@content/data/patents.json';
+import deliverables from '@content/data/deliverables.json';
 import profile from '@data/profile.json';
 
 Astro.response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
 
 const caseStudies = (await getCollection('case-studies')).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
 const posts = (await getCollection('posts')).sort((a, b) => (a.data.date > b.data.date ? -1 : 1)).slice(0, 3);
-const patentEntries = (patents as { title: string; status: string; summary: string }[]);
+const patentEntries = (deliverables.items as { title: string; status: string; summary: string }[]);
 const timeline = [
   {
     title: profile.current_role.title,
@@ -81,7 +81,7 @@ const timeline = [
   </section>
   <section class="space-y-6">
     <div class="flex flex-col gap-2">
-      <span class="text-xs uppercase tracking-[0.2em] text-muted-foreground">Patents & IP</span>
+      <span class="text-xs uppercase tracking-[0.2em] text-muted-foreground">Deliverables</span>
       <h2 class="font-display text-2xl font-semibold">Protecting resilient SIEM coverage and signal fidelity.</h2>
     </div>
     <div class="grid gap-4 md:grid-cols-2">
