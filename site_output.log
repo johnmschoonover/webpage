@@ -1,0 +1,39 @@
+
+> site@0.0.1 predev /app/apps/site
+> node ../../scripts/sync-downloads.mjs
+
+Synced downloads → /app/apps/site/public/downloads
+
+> site@0.0.1 dev /app/apps/site
+> astro dev
+
+03:29:20 [@astrojs/cloudflare] Enabling sessions with Cloudflare KV with the "SESSION" KV binding.
+03:29:20 [@astrojs/cloudflare] If you see the error "Invalid binding `SESSION`" in your build output, you need to add the binding to your wrangler config file.
+03:29:21 [types] Generated 1ms
+03:29:22 [content] Syncing content
+03:29:22 [content] Synced content
+03:29:22 [vite] Re-optimizing dependencies because vite config has changed
+
+ astro  v5.15.9 ready in 4458 ms
+
+┃ Local    http://127.0.0.1:4321/
+
+03:29:22 watching for file changes...
+03:29:26 [WARN] [router] getStaticPaths() ignored in dynamic page /src/pages/writing/[slug].astro. Add `export const prerender = true;` to prerender the page as static HTML during the build process.
+03:29:29 [200] /writing/2025-12-07-defeating-the-sieve-part-2-the-mod-3-trap 1031ms
+LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+03:30:05 [200] /writing/2025-12-07-defeating-the-sieve-part-2-the-mod-3-trap 19ms
+LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+03:32:23 [watch] src/content/posts/2025-12-07-defeating-the-sieve-part-2-the-mod-3-trap.mdx
+03:32:23 [glob-loader] Reloaded data from 2025-12-07-defeating-the-sieve-part-2-the-mod-3-trap.mdx
+03:32:42 [200] /writing/2025-12-07-defeating-the-sieve-part-2-the-mod-3-trap 197ms

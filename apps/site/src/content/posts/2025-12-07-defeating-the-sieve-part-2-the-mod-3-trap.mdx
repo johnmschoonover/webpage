@@ -10,6 +10,7 @@ draft: false
 ---
 
 import PrimeSieveCharts from '../../components/Writing/PrimeSieveCharts';
+import Latex from '../../components/Latex';
 
 Last week, I wrote about **[Defeating the Sieve](/writing/2025-11-30-defeating-the-sieve)**. I showed how specific prime gaps (like Gap 34) act as "Shields," locking the sum of consecutive primes into a safe residue class that mathematically guarantees they cannot be divisible by 3, 5, or 7.
 
@@ -17,13 +18,13 @@ I thought I had the complete picture. I was wrong.
 
 To validate the theory, I decided to run a "Boss Fight." I pointed my Rust tool at **Gap 210**.
 
-Gap 210 ($2 \times 3 \times 5 \times 7$) is a "Champion Number." It is divisible by every prime up to 7. Under my original theory, I expected it to be neutral—or perhaps even a "Super Shield" due to its massive neighbors (209 and 211).
+Gap 210 (<Latex formula={String.raw`2 \times 3 \times 5 \times 7`} />) is a "Champion Number." It is divisible by every prime up to 7. Under my original theory, I expected it to be neutral—or perhaps even a "Super Shield" due to its massive neighbors (209 and 211).
 
 Instead, it crashed.
 
 ## The 100 Billion Stress Test
 
-I spun up a simulation to scan the first **100 Billion ($10^{11}$)** primes. This wasn't just a sampling; it was a census.
+I spun up a simulation to scan the first **100 Billion (<Latex formula={String.raw`10^{11}`} />)** primes. This wasn't just a sampling; it was a census.
 
 When the results came back, Gap 210 wasn't just underperforming; it was failing spectacularly.
 
@@ -40,19 +41,19 @@ I realized my "Shielding Theory" was only half the equation. It explained the Hi
 
 The culprit is the number 3.
 
-Recall the sum formula: $S = 2p + g - 1$.
+Recall the sum formula: <Latex formula={String.raw`S = 2p + g - 1`} />.
 
 ### The Shield (Gap 14)
-Gap 14 is not divisible by 3 ($14 \equiv 2 \pmod 3$).
-Because $p$ is prime, it cannot be divisible by 3. But for Gap 14, $p$ also *cannot* be $1 \pmod 3$, or the neighbor $p+14$ would be divisible by 3.
-This forces $p$ into a specific slot ($2 \pmod 3$).
+Gap 14 is not divisible by 3 (<Latex formula={String.raw`14 \equiv 2 \pmod 3`} />).
+Because <Latex formula={String.raw`p`} /> is prime, it cannot be divisible by 3. But for Gap 14, <Latex formula={String.raw`p`} /> also *cannot* be <Latex formula={String.raw`1 \pmod 3`} />, or the neighbor <Latex formula={String.raw`p+14`} /> would be divisible by 3.
+This forces <Latex formula={String.raw`p`} /> into a specific slot (<Latex formula={String.raw`2 \pmod 3`} />).
 Result: **The sum is guaranteed safe.**
 
 ### The Trap (Gap 210)
-Gap 210 *is* divisible by 3 ($210 \equiv 0 \pmod 3$).
-This breaks the lock. The prime $p$ is free to be $1$ or $2 \pmod 3$.
-- If $p \equiv 1$, the sum is prime-safe.
-- If $p \equiv 2$, the sum is divisible by 3.
+Gap 210 *is* divisible by 3 (<Latex formula={String.raw`210 \equiv 0 \pmod 3`} />).
+This breaks the lock. The prime <Latex formula={String.raw`p`} /> is free to be 1 or <Latex formula={String.raw`2 \pmod 3`} />.
+- If <Latex formula={String.raw`p \equiv 1`} />, the sum is prime-safe.
+- If <Latex formula={String.raw`p \equiv 2`} />, the sum is divisible by 3.
 
 It becomes a coin flip. The sum fails **50%** of the time.
 
@@ -69,7 +70,8 @@ But for Gap 210, only **50%** are safe.
 By being divisible by 3, Gap 210 loses the natural "odd number advantage." It falls into a statistical trap that penalizes it relative to the baseline.
 
 We calculated the exact penalty factor:
-$$\frac{50\% \text{ (Trap Safety)}}{66\% \text{ (Baseline Safety)}} = 0.75$$
+
+<Latex formula={String.raw`\frac{50\% \text{ (Trap Safety)}}{66\% \text{ (Baseline Safety)}} = 0.75`} block />
 
 ## The Unified Field Theory
 
@@ -79,7 +81,7 @@ When we apply this **0.75x Penalty** to gaps divisible by 3 (like 6, 30, and 210
   <PrimeSieveCharts chartType="verification_v2" client:visible />
 </div>
 
-The scatter plot above shows our new prediction model against the actual data from the $10^{11}$ run. The correlation is no longer just "good"; it is mathematically precise.
+The scatter plot above shows our new prediction model against the actual data from the <Latex formula={String.raw`10^{11}`} /> run. The correlation is no longer just "good"; it is mathematically precise.
 
 - **Gap 14** rides high because of the Neighbor Shield.
 - **Gap 210** sits low because of the Mod 3 Trap.
@@ -91,8 +93,8 @@ Gap 34 isn't just lucky because it has armor. It is lucky because it avoids the 
 
 In the architecture of prime sums, there are three forces at play:
 1.  **The Baseline:** The raw logarithmic density of primes.
-2.  **The Shield:** Neighbors ($g \pm 1$) that block divisibility.
-3.  **The Trap:** Factors ($g$) that invite divisibility.
+2.  **The Shield:** Neighbors (<Latex formula={String.raw`g \pm 1`} />) that block divisibility.
+3.  **The Trap:** Factors (<Latex formula={String.raw`g`} />) that invite divisibility.
 
 The "randomness" of primes is just a lack of resolution. If you look close enough, the dice are loaded.
 
