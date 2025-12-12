@@ -1,0 +1,44 @@
+---
+title: Multi-SIEM Migration Safeguards
+description: >-
+  Replaced fragmented legacy SIEMs with a unified, automated ingestion
+  framework,  reducing onboarding time by 99%.
+timeframe: 2017–2020
+tags:
+  - migration
+  - platform
+  - automation
+impact:
+  - >-
+    Slash feed onboarding time from multi-week cycles to under an hour via
+    automation
+  - Retired legacy vendor stacks while sustaining >99.9% platform availability
+  - >-
+    Redirected engineering capacity from manual ETL toil to high-value detection
+    engineering
+heroStat: 'Onboarding cycle: 2 weeks → <1 hour'
+order: 2
+internal: false
+---
+## The Problem
+
+The security organization faced operational friction due to a reliance on disparate, vendor-managed SIEMs. Each platform required bespoke ETL integration, manual documentation, and complex coordination to onboard new data. This fragmentation stretched delivery cycles to two weeks, inflated licensing costs, and created "knowledge silos" that hampered rapid response.
+
+## The Strategy
+
+We moved away from manual integration toward a **Configuration-as-Code** philosophy.
+
+* **Templated Ingestion:** Developed a standardized ingestion framework that automated the provisioning of the entire pipeline—from schema definitions to storage retention policies.
+* **Abstraction Layer:** Abstracted complexity so engineers only needed to define unique parsing logic, while the framework handled reliability, routing, and management overhead.
+* **Safety Guardrails:** Embedded validation checks and documentation requirements directly into the generation process, ensuring that speed did not compromise stability.
+
+## Key Outcomes
+
+* **Strategic Consolidation:** Successfully migrated off legacy vendor SIEMs onto a unified internal platform without disrupting security posture.
+* **Velocity Shift:** Reduced the data onboarding lifecycle from two weeks to **under an hour**, enabling the organization to ingest critical threat intelligence almost immediately.
+* **Operational Resilience:** Maintained **>99.9% uptime** throughout the migration by utilizing automated regression testing and canary deployments for new feeds.
+* **Enhanced Visibility:** Introduced granular, document-level error tracking, allowing the platform team to catch ingestion failures before they impacted detection rules.
+
+## Leadership Takeaways
+
+**Standardization is Scalability.** Investing in reusable ingestion patterns pays down technical debt immediately. When the "scaffolding" is automated, security teams can focus on analyzing threats rather than fighting with data pipelines.
