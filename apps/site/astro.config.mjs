@@ -6,6 +6,7 @@ import cloudflare from '@astrojs/cloudflare';
 import keystatic from '@keystatic/astro';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
+import sitemap from '@astrojs/sitemap';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
@@ -30,7 +31,8 @@ export default defineConfig({
       applyBaseStyles: false
     }),
     react(),
-    keystatic()
+    keystatic(),
+    sitemap()
   ],
   markdown: {
     shikiConfig: {

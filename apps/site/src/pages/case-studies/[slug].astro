@@ -3,6 +3,8 @@ import PostLayout from '@layouts/PostLayout.astro';
 import { getCollection } from 'astro:content';
 import Callout from '@components/Callout.astro';
 
+export const prerender = true;
+
 export async function getStaticPaths() {
   const caseStudies = await getCollection('case-studies', ({ data }) => !data.internal);
   return caseStudies.map((entry) => ({
