@@ -1,0 +1,47 @@
+---
+title: 'Homelab: The Dual-Tap Visibility Strategy'
+description: >-
+  Architected a physical tap network monitoring solution using Zeek and Wazuh to
+  harden public-facing self-hosted services.
+timeframe: Ongoing
+tags:
+  - homelab
+  - network-security
+  - zeek
+  - wazuh
+impact:
+  - >-
+    Implemented physical network tapping to differentiate internet background
+    noise from internal intrusion attempts
+  - >-
+    Hardened self-hosted services (Vaultwarden, Plex) via strict Zone-Based
+    Firewalling
+  - >-
+    Automated patch management pipeline driven by vulnerability scanning
+    insights
+heroStat: 100% visibility into Edge vs. Core traffic flows
+order: 3
+internal: false
+---
+### Case Study: Enterprise-Grade Visibility in a Homelab
+
+**The Context**
+In the security world, we talk about "Zero Trust" at scale, but the stakes are delightfully tangible in a homelab environment. Hosting public-facing services like **Vaultwarden, Plex, and HomeAssistant** requires punching holes in the firewall. The challenge was moving beyond basic router logs to achieve deep packet inspection—knowing exactly who was knocking at the door and, critically, if anyone managed to slip a foot inside.
+
+**The Architecture**
+I avoided virtual switching complexity (vSwitch packet loss, bridging issues) in favor of "physical truth"—heavy metal and hardware taps.
+
+* **The "Dual-Tap" Strategy:** I physically tapped the lines at two distinct points to create a "Before" and "After" picture of the network.
+  1. **Tap 1 (The Edge):** Placed between the ISP Modem and Router. This captures the "noise" of the internet—botnets, Shodan crawlers, and port scanners.
+  2. **Tap 2 (The Core):** Placed between the Router and the Aggregation Switch. This captures what *actually enters* the internal network.
+* **The Stack (Zeek + Wazuh):** Running on an HP DL380 G7, **Zeek** monitors the tap interfaces and normalizes raw traffic into structured logs (`conn.log`, `http.log`). A local **Wazuh** agent ingests these logs directly in real-time for correlation, bypassing the need for complex middleware like Kafka for this scale.
+
+**Key Outcomes**
+
+* **Traffic Differentiation:** The contrast between Tap 1 and Tap 2 allows for immediate threat qualification. If an IP hits Tap 1, it’s background radiation. If that same IP hits Tap 2 and talks to the Plex server, it is a prioritized session for analysis.
+* **Sanitization of Ingress:** Visualization of probe traffic forced a shift from binary "Port Forwarding" to curated ingress rules, including stricter geoblocking and source-IP filtering.
+* **Zone-Based Segmentation:** Adopted a Zone-Based Firewall architecture. Even if traffic is allowed to the Media VLAN, the visibility confirmed the need to strictly isolate it from Management or Home Automation VLANs to prevent lateral movement.
+* **Vulnerability Management:** Traffic logs revealed scanners hunting for specific software versions. This "attacker's eye view" drove the implementation of a fully automated patching solution to close vulnerability windows before they could be exploited.
+
+**The Verdict**
+We often overcomplicate security with expensive proprietary tools. By leveraging commodity hardware and open-source standards (Zeek/Wazuh), I built a monitoring system that rivals commercial setups for visibility. I’m not just hosting services anymore; I’m defending them.
