@@ -9,9 +9,6 @@ tags:
 draft: false
 ---
 
-import PrimeSieveCharts from '../../components/Writing/PrimeSieveCharts';
-import Latex from '../../components/Latex';
-
 Last week, I wrote about **[Defeating the Sieve](/writing/2025-11-30-defeating-the-sieve)**. I showed how specific prime gaps (like Gap 34) act as "Shields," locking the sum of consecutive primes into a safe residue class that mathematically guarantees they cannot be divisible by 3, 5, or 7.
 
 I thought I had the complete picture. I was wrong.
@@ -76,10 +73,6 @@ We calculated the exact penalty factor:
 ## The Unified Field Theory
 
 When we apply this **0.75x Penalty** to gaps divisible by 3 (like 6, 30, and 210), the data snaps into focus.
-
-<div className="my-8">
-  <PrimeSieveCharts chartType="verification_v2" client:visible />
-</div>
 
 The scatter plot above shows our new prediction model against the actual data from the <Latex formula={String.raw`10^{11}`} /> run. The correlation is no longer just "good"; it is mathematically precise.
 
