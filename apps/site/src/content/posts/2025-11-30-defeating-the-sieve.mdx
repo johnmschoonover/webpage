@@ -9,9 +9,6 @@ tags:
 draft: false
 ---
 
-import PrimeSieveCharts from '../../components/Writing/PrimeSieveCharts';
-import Latex from '../../components/Latex';
-
 We are taught that prime numbers are the noise of the number line—unpredictable, chaotic, and governed only by probabilistic density. But if you stop looking at individual primes and start looking at their sums, a rigid structure emerges from the chaos.
 
 I recently went down a computational rabbit hole investigating the sequence:
@@ -31,10 +28,6 @@ I built a custom analysis tool in Rust using a segmented sieve and bitvec to han
 When I visualized the data, the "random" noise collapsed into a massive, jagged sawtooth.
 
 ## The Anomaly
-
-<div className="my-8">
-  <PrimeSieveCharts chartType="gap" client:visible />
-</div>
 
 The data revealed a consistent, predictive bias:
 
@@ -72,10 +65,6 @@ Gap 34 is a Triple Shield. It is mathematically impossible for the sum <Latex fo
 ## Proof: Theory vs. Reality
 
 To validate this, I updated the Rust tool to calculate a "Theoretical Boost" based only on these shielding properties—completely ignoring the actual prime data. I then plotted this theoretical prediction against the observed reality from the 10 Billion run.
-
-<div className="my-8">
-  <PrimeSieveCharts chartType="verification" client:visible />
-</div>
 
 The result was a near-perfect linear correlation (<Latex formula="R^2 \\approx 1.0" />).
 
