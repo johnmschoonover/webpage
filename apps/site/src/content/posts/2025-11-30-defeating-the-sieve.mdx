@@ -1,5 +1,5 @@
 ---
-title: "Defeating the Sieve: The Mathematics of the \"Shielded\" Prime"
+title: 'Defeating the Sieve: The Mathematics of the "Shielded" Prime'
 date: "2025-11-30"
 summary: "We are taught that prime numbers are the noise of the number line—unpredictable, chaotic, and governed only by probabilistic density. But if you stop looking at individual primes and start looking at their sums, a rigid structure emerges from the chaos."
 tags:
@@ -47,7 +47,7 @@ However, specific gap sizes mathematically "shield" the sum from these factors.
 
 Consider the sum <Latex formula="S = 2p + g - 1" />.
 
-- **The "Exposed" Gap (Gap 2):** <Latex formula="S = 2p + 1" />. If <Latex formula="p \\equiv 1 \\pmod 3" />, then <Latex formula="S" /> is divisible by 3. The "Mod 3" bullet hits us 50% of the time.
+- **The "Exposed" Gap (Gap 2):** <Latex formula="S = 2p + 1" />. If <Latex formula="p \equiv 1 \pmod 3" />, then <Latex formula="S" /> is divisible by 3. The "Mod 3" bullet hits us 50% of the time.
 - **The "Shielded" Gap (Gap 4):** <Latex formula="S = 2p + 3" />. Since <Latex formula="p" /> is prime (>3), <Latex formula="2p" /> is never divisible by 3. Therefore, <Latex formula="2p+3" /> can never be divisible by 3. Gap 4 has a permanent "Shield" against the number 3.
 
 ## The Juggernaut: Gap 34
@@ -57,18 +57,17 @@ This explains why Gap 4 beats Gap 2. But why is Gap 34 the king?
 I ran the modular arithmetic for Gap 34 against the first few primes:
 
 - **Mod 3:** Shielded.
-- **Mod 5:** Shielded (<Latex formula="34 \\equiv 4 \\pmod 5" />).
-- **Mod 7:** Shielded (<Latex formula="34 \\equiv 6 \\pmod 7" />).
+- **Mod 5:** Shielded (<Latex formula="34 \equiv 4 \pmod 5" />).
+- **Mod 7:** Shielded (<Latex formula="34 \equiv 6 \pmod 7" />).
 
-Gap 34 is a Triple Shield. It is mathematically impossible for the sum <Latex formula="S_n" /> (associated with a gap of 34) to be divisible by 3, 5, or 7. It effectively has a "free pass" through the densest minefield of the sieve, leaving it exposed only to primes <Latex formula="\\ge 11" />.
+Gap 34 is a Triple Shield. It is mathematically impossible for the sum <Latex formula="S_n" /> (associated with a gap of 34) to be divisible by 3, 5, or 7. It effectively has a "free pass" through the densest minefield of the sieve, leaving it exposed only to primes <Latex formula="\ge 11" />.
 
 ## Proof: Theory vs. Reality
 
-To validate this, I updated the Rust tool to calculate a "Theoretical Boost" based only on these shielding properties—completely ignoring the actual prime data. I then plotted this theoretical prediction against the observed reality from the 10 Billion run.
+To validate this, I updated the Rust tool to calculate a "Theoretical Boost" based only on these shielding properties—completely ignoring the actual prime data. I then compared this theoretical prediction against the observed reality from the 10 Billion run.
 
-The result was a near-perfect linear correlation (<Latex formula="R^2 \\approx 1.0" />).
+The result was a near-perfect linear correlation (<Latex formula="R^2 \approx 1.0" />).
 
-- **The Blue Dot (Far Right):** That’s Gap 34.
 - **The Trend:** The success rate of any given gap is almost entirely determined by how many modular "shields" it possesses.
 
 ## Conclusion
