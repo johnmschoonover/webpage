@@ -17,7 +17,7 @@ const githubProfile = links.github ?? 'https://github.com/johnmschoonover';
 const aboutCopy = `As Director of Engineering — Cybersecurity (SIEM), I lead the multidisciplinary team behind our security telemetry platform—spanning ingestion, enrichment, storage, and access. I architect adaptable patterns, align detection and response initiatives to enterprise risk objectives, and evolve infrastructure so the Cyber Fusion Center can move with confidence.`;
 const objectiveCopy = `I'm expanding that remit toward broader Cyber Fusion Center engineering leadership, doubling down as a dedicated contributor and mentor who raises the bar for resilient security outcomes.`;
 const innovationCopy = `Recent invention themes span ${innovation_themes[0]}, ${innovation_themes[1]}, ${innovation_themes[2]}, and ${innovation_themes[3]} to reinforce parse resilience and intelligent drop control.`;
-const closingCopy = `Outside of work, I tinker with a self-hosted Synology RackStation home lab, experiment with generative-AI tooling, and co-create tabletop/D&D helpers. If you are building something in that orbit, let's compare notes.`;
+const closingCopy = `Outside of work, I maintain a hybrid lab environment, automate security monitoring workflows, and refine self-hosted git operations. If you're building in that orbit, let's compare notes.`;
 ---
 <BaseLayout pageHeading="About John Schoonover" description="Director of Engineering shaping resilient SIEM platforms and collaborative teams.">
   <div class="grid gap-10 md:grid-cols-[2fr_1fr]">
@@ -75,7 +75,7 @@ const closingCopy = `Outside of work, I tinker with a self-hosted Synology RackS
       <div class="space-y-3 rounded-2xl border border-border bg-background/80 p-6">
         <h3 class="text-sm uppercase tracking-[0.2em] text-muted-foreground">Topics I'm exploring</h3>
         <div class="flex flex-wrap gap-2">
-          {['whisper_runner', 'Synology home lab', 'Stable Diffusion', 'Tabletop tooling', 'Personal finance analysis'].map((topic) => (
+          {['SecurityOnion', 'Wazuh', 'Forgejo', 'Infra-as-Code', 'GitOps'].map((topic) => (
             <Tag label={topic} />
           ))}
         </div>
