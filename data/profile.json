@@ -68,9 +68,10 @@
     "email": "mailto:johnmschoonover@gmail.com"
   },
   "github_focus": [
-    "Security telemetry automation, parsing resilience, and detection engineering tooling.",
-    "Synology RackStation home lab infrastructure, observability, and platform reliability experiments.",
-    "Applied AI workflows that translate large-language-model research into practical operations support."
+    "SecurityOnion, Wazuh, and other open-source security monitoring platforms.",
+    "Forgejo for self-hosted git operations and CI/CD pipelines.",
+    "Infrastructure-as-Code automations for reproducible, scalable deployments.",
+    "Home lab observability and hybrid infrastructure management."
   ],
   "skills_highlight": [
     "Security engineering & architecture",
