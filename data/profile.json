@@ -46,19 +46,19 @@
   ],
   "projects": [
     {
-      "name": "whisper_runner",
-      "description": "Experimental transcription/diarization workflow for longform audio (D&D sessions).",
-      "tags": ["ASR", "Diarization", "Whisper", "GPU"]
+      "name": "Security Monitoring Stack",
+      "description": "End-to-end threat detection pipeline integrating SecurityOnion and Wazuh for real-time telemetry analysis.",
+      "tags": ["Wazuh", "SecurityOnion", "DFIR", "Telemetry"]
     },
     {
-      "name": "Home Lab",
-      "description": "Self-hosted services on Synology RackStation; WSL + NFS, Docker, site hosting.",
-      "tags": ["Synology", "NFS", "WSL", "Docker"]
+      "name": "GitOps & CI/CD",
+      "description": "Self-hosted Forgejo instance driving automated infrastructure deployments and policy-as-code enforcement.",
+      "tags": ["Forgejo", "CI/CD", "GitOps", "Automation"]
     },
     {
-      "name": "GenAI Experiments",
-      "description": "Stable Diffusion, RTX 4080, Ollama exploration; local AI workflows.",
-      "tags": ["GenAI", "Local Inference", "RTX4080"]
+      "name": "Hybrid Infrastructure",
+      "description": "Distributed environment spanning Synology-based local compute and cloud resources, managed via Infrastructure-as-Code.",
+      "tags": ["IaC", "Docker", "Synology", "Hybrid Cloud"]
     }
   ],
   "links": {
@@ -68,9 +68,10 @@
     "email": "mailto:johnmschoonover@gmail.com"
   },
   "github_focus": [
-    "Security telemetry automation, parsing resilience, and detection engineering tooling.",
-    "Synology RackStation home lab infrastructure, observability, and platform reliability experiments.",
-    "Applied AI workflows that translate large-language-model research into practical operations support."
+    "SecurityOnion, Wazuh, and other open-source security monitoring platforms.",
+    "Forgejo for self-hosted git operations and CI/CD pipelines.",
+    "Infrastructure-as-Code automations for reproducible, scalable deployments.",
+    "Home lab observability and hybrid infrastructure management."
   ],
   "skills_highlight": [
     "Security engineering & architecture",
