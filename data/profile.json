@@ -46,19 +46,19 @@
   ],
   "projects": [
     {
-      "name": "whisper_runner",
-      "description": "Experimental transcription/diarization workflow for longform audio (D&D sessions).",
-      "tags": ["ASR", "Diarization", "Whisper", "GPU"]
+      "name": "Security Monitoring Stack",
+      "description": "End-to-end threat detection pipeline integrating SecurityOnion and Wazuh for real-time telemetry analysis.",
+      "tags": ["Wazuh", "SecurityOnion", "DFIR", "Telemetry"]
+    },
+    {
+      "name": "GitOps & CI/CD",
+      "description": "Self-hosted Forgejo instance driving automated infrastructure deployments and policy-as-code enforcement.",
+      "tags": ["Forgejo", "CI/CD", "GitOps", "Automation"]
     },
     {
       "name": "Hybrid Infrastructure",
-      "description": "Hybrid self-hosted and cloud infrastructure featuring multiple servers of varying capability; including Synology RackStation, Docker, and distributed site hosting.",
-      "tags": ["Self-hosting", "Cloud Native", "Docker", "Infrastructure"]
-    },
-    {
-      "name": "GenAI Experiments",
-      "description": "Stable Diffusion, RTX 4080, Ollama exploration; local AI workflows.",
-      "tags": ["GenAI", "Local Inference", "RTX4080"]
+      "description": "Distributed environment spanning Synology-based local compute and cloud resources, managed via Infrastructure-as-Code.",
+      "tags": ["IaC", "Docker", "Synology", "Hybrid Cloud"]
     }
   ],
   "links": {
