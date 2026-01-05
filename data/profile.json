@@ -51,9 +51,9 @@
       "tags": ["ASR", "Diarization", "Whisper", "GPU"]
     },
     {
-      "name": "Home Lab",
-      "description": "Self-hosted services on Synology RackStation; WSL + NFS, Docker, site hosting.",
-      "tags": ["Synology", "NFS", "WSL", "Docker"]
+      "name": "Hybrid Infrastructure",
+      "description": "Hybrid self-hosted and cloud infrastructure featuring multiple servers of varying capability; including Synology RackStation, Docker, and distributed site hosting.",
+      "tags": ["Self-hosting", "Cloud Native", "Docker", "Infrastructure"]
     },
     {
       "name": "GenAI Experiments",
