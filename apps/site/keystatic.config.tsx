@@ -26,7 +26,10 @@ export default config({
         title: fields.slug({ name: { label: 'Title' } }),
         summary: fields.text({ label: 'Summary', multiline: true }),
         date: fields.date({ label: 'Date', validation: { isRequired: true } }),
-        tags: fields.array(fields.text({ label: 'Tag' }), { label: 'Tags' }),
+        tags: fields.array(fields.text({ label: 'Tag' }), { 
+          label: 'Tags',
+          itemLabel: (props) => props.value
+        }),
         canonical: fields.text({ label: 'Canonical URL' }),
         updated: fields.date({ label: 'Updated Date' }),
         heroImage: fields.image({
@@ -71,10 +74,14 @@ export default config({
         title: fields.slug({ name: { label: 'Title' } }),
         description: fields.text({ label: 'Description', multiline: true, validation: { isRequired: true } }),
         timeframe: fields.text({ label: 'Timeframe', validation: { isRequired: true } }),
-        tags: fields.array(fields.text({ label: 'Tag' }), { label: 'Tags' }),
+        tags: fields.array(fields.text({ label: 'Tag' }), { 
+          label: 'Tags',
+          itemLabel: (props) => props.value
+        }),
         impact: fields.array(fields.text({ label: 'Impact Item' }), {
             label: 'Impact',
-            validation: { length: { min: 1 } }
+            validation: { length: { min: 1 } },
+            itemLabel: (props) => props.value
         }),
         heroStat: fields.text({ label: 'Hero Stat' }),
         order: fields.number({ label: 'Order', defaultValue: 0 }),
