@@ -23,7 +23,7 @@
     "@keystatic/core": "^0.5.48",
     "@radix-ui/react-slot": "^1.2.4",
     "@tailwindcss/typography": "^0.5.19",
-    "astro": "^5.17.2",
+    "astro": "^6.1.6",
     "autoprefixer": "^10.4.24",
     "chart.js": "^4.5.1",
     "class-variance-authority": "^0.7.1",
@@ -44,7 +44,7 @@
     "tailwindcss": "^3.4.19",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.9.3",
-    "wrangler": "^4.64.0"
+    "wrangler": "^4.65.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
