@@ -22,7 +22,7 @@ const caseStudies = (
         <h2 class="font-display text-2xl font-semibold text-foreground">{entry.data.title}</h2>
         <p class="text-sm uppercase tracking-[0.2em] text-muted-foreground">{entry.data.timeframe}</p>
         <p class="text-muted-foreground">{entry.data.description}</p>
-        <Card eyebrow="Impact" title={entry.data.heroStat ?? 'Read the story'} description={entry.data.impact[0]} href={`/case-studies/${entry.slug}/`} cta="Read case study" />
+        <Card eyebrow="Impact" title={entry.data.heroStat ?? 'Read the story'} description={entry.data.impact[0]} href={`/case-studies/${entry.id}/`} cta="Read case study" />
       </article>
     ))}
   </div>

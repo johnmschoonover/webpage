@@ -20,7 +20,8 @@ export default defineConfig({
   site: 'https://theschoonover.net',
   output: 'server',
   adapter: cloudflare({
-    imageService: 'compile'
+    imageService: 'compile',
+    prerenderEnvironment: 'node'
   }),
   integrations: [
     mdx({
@@ -55,6 +56,6 @@ export default defineConfig({
       fs: {
         allow: [repoRoot]
       }
-    }
+    },
   }
 });
