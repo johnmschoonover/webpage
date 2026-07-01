@@ -13,7 +13,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.12",
+    "@astrojs/cloudflare": "^13.1.10",
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/react": "^4.4.2",
     "@astrojs/rss": "^4.0.18",
@@ -23,7 +23,7 @@
     "@keystatic/core": "^0.5.50",
     "@radix-ui/react-slot": "^1.2.5",
     "@tailwindcss/typography": "^0.5.20",
-    "astro": "^5.18.2",
+    "astro": "^6.4.6",
     "autoprefixer": "^10.5.0",
     "chart.js": "^4.5.1",
     "class-variance-authority": "^0.7.1",
@@ -44,7 +44,7 @@
     "tailwindcss": "^3.4.19",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.9.3",
-    "wrangler": "^4.100.0"
+    "wrangler": "^4.106.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
