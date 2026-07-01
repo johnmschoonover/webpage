@@ -1,6 +1,6 @@
 ---
 import PostLayout from '@layouts/PostLayout.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import Latex from '../../components/Latex';
 
 export const prerender = true;
@@ -8,16 +8,16 @@ export const prerender = true;
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
   return posts.map((entry) => ({
-    params: { slug: entry.slug }
+    params: { slug: entry.id }
   }));
 }
 
 const { slug } = Astro.params;
-const entry = (await getCollection('posts', ({ data }) => !data.draft)).find((item) => item.slug === slug);
+const entry = (await getCollection('posts', ({ data }) => !data.draft)).find((item) => item.id === slug);
 if (!entry) {
   throw new Error(`Post not found: ${slug}`);
 }
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 ---
 <PostLayout
   title={entry.data.title}
