@@ -1,2 +1,6 @@
 name = "webpage"
 pages_build_output_dir = "apps/site/dist/client"
+
+[[kv_namespaces]]
+binding = "SESSION"
+id = "f063038789d344bd9cd473aea2aa64d5"
