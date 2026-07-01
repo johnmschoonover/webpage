@@ -1,5 +1,6 @@
 name = "webpage"
 compatibility_date = "2024-12-05"
+pages_build_output_dir = "dist/server"
 
 [observability]
 enabled = false
