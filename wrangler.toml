@@ -1,0 +1,2 @@
+name = "webpage"
+pages_build_output_dir = "apps/site/dist/server"
