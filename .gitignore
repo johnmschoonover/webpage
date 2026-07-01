@@ -8,6 +8,7 @@ build/
 apps/site/dist/
 apps/site/public/downloads/
 apps/site/.astro/
+.wrangler/
 
 # Logs
 npm-debug.log*

@@ -5,7 +5,7 @@ import mdx from '@astrojs/mdx';
 import cloudflare from '@astrojs/cloudflare';
 import keystatic from '@keystatic/astro';
 import react from '@astrojs/react';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
@@ -28,9 +28,6 @@ export default defineConfig({
       remarkPlugins: [remarkGfm, remarkMath],
       rehypePlugins: [[rehypeSlug], [rehypeAutolinkHeadings, { behavior: 'append' }], [rehypeKatex, { output: 'html' }]]
     }),
-    tailwind({
-      applyBaseStyles: false
-    }),
     react(),
     keystatic(),
     sitemap()
@@ -42,6 +39,7 @@ export default defineConfig({
     }
   },
   vite: {
+    plugins: [tailwindcss()],
     resolve: {
       alias: {
         '@components': resolve(currentDir, 'src/components'),
