@@ -42,12 +42,14 @@ html {
   font-feature-settings: 'liga' 1, 'tnum' 1, 'cv11' 1;
 }
 
-body {
-  @apply bg-background text-foreground antialiased;
-}
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
 
-a {
-  @apply text-primary hover:text-primary/80 transition-colors;
+  a {
+    @apply text-primary hover:text-primary/80 transition-colors;
+  }
 }
 
 progress.reading-progress {
