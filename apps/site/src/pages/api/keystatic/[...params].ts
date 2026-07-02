@@ -27,5 +27,5 @@ export const ALL: APIRoute = async (context) => {
     { slugEnvName: 'PUBLIC_KEYSTATIC_GITHUB_APP_SLUG' }
   );
   const { body, headers, status } = await handler(context.request);
-  return new Response(body, { status, headers: headers as HeadersInit });
+  return new Response(body as BodyInit | null, { status, headers: headers as HeadersInit });
 };
