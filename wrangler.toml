@@ -2,3 +2,7 @@ name = "webpage"
 pages_build_output_dir = "apps/site/dist/client"
 compatibility_date = "2026-06-01"
 compatibility_flags = ["nodejs_compat"]
+
+[vars]
+KEYSTATIC_GITHUB_CLIENT_ID = "Iv23liWV7sWQkAivV9Ha"
+PUBLIC_KEYSTATIC_GITHUB_APP_SLUG = "theschoonover-cms"
