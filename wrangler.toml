@@ -1,4 +1,4 @@
 name = "webpage"
 pages_build_output_dir = "apps/site/dist/client"
-compatibility_date = "2024-12-05"
+compatibility_date = "2026-06-01"
 compatibility_flags = ["nodejs_compat"]
