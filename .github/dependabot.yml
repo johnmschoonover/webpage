@@ -16,3 +16,9 @@ updates:
         update-types:
           - "major"
     open-pull-requests-limit: 5
+    ignore:
+      # TS 7.0 (native compiler) has no stable programmatic API; astro check
+      # (Volar) crashes on it. 7.1 is expected to stabilize the API, so resume
+      # proposing updates there.
+      - dependency-name: "typescript"
+        versions: ["7.0.x"]
