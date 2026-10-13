@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Search } from 'lucide-react';
 import { cn } from '@lib/utils';
 
@@ -71,7 +72,8 @@ export function CommandK() {
         <span className="sr-only xl:not-sr-only">Search site</span>
         <kbd className="hidden rounded border border-border px-1 text-xs text-muted-foreground xl:inline">⌘K</kbd>
       </button>
-      {open && (
+      {/* Portal to <body>: the header's backdrop-blur would otherwise contain this fixed overlay. */}
+      {open && createPortal(
         <div
           className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 px-4 py-24 backdrop-blur-sm"
           role="dialog"
@@ -112,7 +114,8 @@ export function CommandK() {
               ))}
             </ul>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
