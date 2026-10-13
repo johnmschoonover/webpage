@@ -9,10 +9,6 @@
     "preview": "pnpm --filter site preview",
     "check:links": "pnpm --filter site build && pnpm --filter site exec linkinator dist/index.html --recurse --silent --skip 'mailto:,tel:'"
   },
-  "dependencies": {
-    "rehype-katex": "^7.0.1",
-    "remark-math": "^6.0.0"
-  },
   "pnpm": {
     "onlyBuiltDependencies": ["esbuild", "sharp", "workerd"]
   }
