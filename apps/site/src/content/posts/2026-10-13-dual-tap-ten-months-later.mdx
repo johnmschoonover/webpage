@@ -1,0 +1,90 @@
+---
+title: "Dual-Tap, Ten Months Later: Elastic, Full Disks, and a Private PKI"
+summary: "The taps stayed the same. Almost everything behind them changed: Wazuh gave way to Elastic with Fleet-managed agents, a bandwidth upgrade outgrew my VM disks, and keeping Elastic healthy on an internal PKI became a recurring weekend job."
+date: "2026-10-13"
+tags:
+  - Homelab
+  - Elastic
+  - Zeek
+  - Network Security
+draft: true
+---
+
+{/*
+  DRAFT NOTES FOR JOHN. MDX comments like this one never render.
+  - The original case study went up on December 11, 2025. Change "Ten Months" in the title to match publish day.
+  - The framing prose is written from what you told me: the move to Elastic + Fleet, the bandwidth upgrade overrunning VM disks, and long sessions keeping Elastic running under internal PKI. Everything specific (versions, numbers, what broke) is a JOHN prompt. Answer them inline or in bullets and I'll turn them into prose.
+  - The Elastic defaults cited (disk watermarks, TLS on by default for Elasticsearch) are standard Elastic 8.x behavior. Confirm they match your version.
+*/}
+
+**TL;DR:** Ten months ago I wrote up the [dual-tap setup](/case-studies/the-dual-tap-strategy-hardening-a-self-hosted-homelab-with-zeek-and-wazuh/) that watches my homelab's edge and core. The taps haven't moved. Behind them, I replaced Wazuh with Elastic and Fleet-managed agents, outgrew my VM disks after a bandwidth upgrade, and learned how much running Elastic on an internal certificate authority really costs.
+
+## Quick recap
+
+Two physical taps give me a before-and-after view of my network. Tap 1 sits between the ISP modem and the router and sees the internet's background noise. Tap 2 sits between the router and the core switch and sees what actually gets in.
+
+Zeek watches both taps and turns raw packets into structured logs. When I wrote the case study, a local Wazuh agent shipped those logs for correlation. That's the part that changed.
+
+## Why I moved from Wazuh to Elastic and Fleet
+
+{/* JOHN: What pushed the move? Candidates: search and dashboards, scale, central agent policy with Fleet, the Zeek integration, wanting home tooling closer to work. */}
+
+{/* JOHN: What did Wazuh do well that you miss? A fair word here makes the post more credible. */}
+
+{/* JOHN: How did you migrate? Ran both in parallel, or cut over? Roughly how long did it take? */}
+
+Fleet changed how I manage collection. Instead of configuring each agent by hand, I define agent policies once in Kibana, and every enrolled agent picks them up.
+
+{/* JOHN: Confirm that's how you use it. How many agents, and which integrations (Zeek, system, others)? */}
+
+## More bandwidth, more logs, full disks
+
+Zeek writes a record for every connection it sees, so log volume follows traffic. When I upgraded my internet connection, my logs grew with it. Storage sized for the old link didn't last.
+
+{/* JOHN: The numbers. Bandwidth before and after? Daily ingest before and after (GB/day or events/day)? */}
+
+{/* JOHN: What actually overran: the VM's virtual disk, the hypervisor datastore underneath it, or the Elasticsearch data path? Were the disks thin-provisioned? */}
+
+{/* JOHN: What broke, and how did you find out? A paused VM, read-only indices, a gap in the dashboards? */}
+
+If you run Elasticsearch on tight disks, know its defaults. At 85% disk use it stops assigning most new shards to a node. At 90% it starts moving shards off. At 95%, the flood stage, it marks every index on that node read-only, and ingest stops. Those thresholds are reasonable on a big cluster. On a single homelab VM they're three steps from an outage.
+
+{/* JOHN: The fix. Bigger disks, index lifecycle (ILM) retention, dropping or sampling noisy Zeek logs, splitting hot and warm storage? What retention did you settle on, and why? */}
+
+## Running Elastic in an internal PKI world
+
+Elastic 8 turns on TLS by default, both between Elasticsearch nodes and on its HTTP API. That's the right call. With a private certificate authority, though, trust has to line up in a lot of places at once:
+
+- **Elasticsearch**, on both the HTTP layer (clients, Kibana, agents) and the transport layer (node to node).
+- **Kibana**, both to Elasticsearch and to your browser.
+- **Fleet Server's own certificate**, which every agent checks when it enrolls and every time it checks in.
+- **Every Elastic Agent**, which has to trust your CA for Fleet Server and for the Elasticsearch output it ships data to.
+- **Names.** Every hostname or IP an agent uses has to appear in the certificate's subject alternative names.
+- **Expiry dates.** When a certificate expires, every component that relies on it fails at once.
+
+{/* JOHN: Which of these bit you, and how? Tell one session start to finish: what broke, what the error looked like, how long it took, what fixed it. That story is the heart of this section. */}
+
+{/* JOHN: Your PKI setup. Root and intermediate CA? What do you use to issue certificates (step-ca, OpenSSL, AD CS, something else)? What lifetimes did you choose? Is renewal automated yet? */}
+
+{/* JOHN: Did AI help in those sessions? If yes, where it helped and where it didn't. It ties to the AI agents post. */}
+
+## What the taps see now
+
+{/* JOHN: Ten months of data, if you have it. Edge vs. core volume, top scanners or ports, anything that turned into a real investigation. A chart would land well here. */}
+
+## What's next
+
+{/* JOHN: Your homelab to-do list. Some prompts:
+  - Automated certificate renewal, so expiry isn't a weekend job.
+  - An alert when a feed goes quiet: no Zeek logs from a tap for N minutes. That's the same idea as the data-feed anomaly alerting patent application.
+  - Snapshots and a tested restore for Elasticsearch.
+  - A retention policy written down, not discovered at 95% disk.
+*/}
+
+## What I'd tell someone building this
+
+{/* JOHN: Keep, cut, or rewrite these. They're drafted from what you told me. */}
+
+1. **Size storage for the pipe you'll have, not the one you have.** Log volume follows bandwidth.
+2. **Treat certificates as dependencies with expiry dates.** Track them like any other dependency, and automate renewal before you need it.
+3. **Watch the pipeline, not just the data.** A tap that goes silent looks a lot like a quiet network.
