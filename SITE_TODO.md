@@ -1,7 +1,7 @@
 # Site TODOs
 
 ## Maintenance
-- [ ] Provide patent application numbers or official statuses for listed innovation themes when available.
+- [x] Provide patent application numbers or official statuses for listed innovation themes when available. (Published: US 2026/0277770 A1. The drop-control filing is still in flight, so add its number once it publishes.)
 - [ ] Update `CHANGELOG.md` entry with the final commit hash after merge.
 
 ## Backlog: theschoonover.net Enhancements
