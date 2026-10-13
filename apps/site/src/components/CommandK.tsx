@@ -63,12 +63,13 @@ export function CommandK() {
     <>
       <button
         type="button"
-        className="hidden items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm text-muted-foreground shadow-sm transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary md:inline-flex"
+        className="inline-flex h-9 w-9 items-center justify-center gap-2 rounded-full border border-border bg-background text-sm text-muted-foreground shadow-sm transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary xl:w-auto xl:px-4"
         onClick={() => setOpen(true)}
       >
         <Search className="h-4 w-4" aria-hidden />
-        Search site
-        <kbd className="rounded border border-border px-1 text-xs text-muted-foreground">⌘K</kbd>
+        {/* Icon-only below xl, where the header has no room for the label; the palette is also the nav below lg. */}
+        <span className="sr-only xl:not-sr-only">Search site</span>
+        <kbd className="hidden rounded border border-border px-1 text-xs text-muted-foreground xl:inline">⌘K</kbd>
       </button>
       {open && (
         <div
