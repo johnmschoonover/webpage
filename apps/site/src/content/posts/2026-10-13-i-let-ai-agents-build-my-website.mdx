@@ -1,0 +1,169 @@
+---
+title: "I Let AI Agents Build My Website. Here's What the Git Log Says."
+summary: "127 pull requests, three AI coding agents, one dependency bot, and a dependency feed that failed silently for five weeks. What a year of agent-built infrastructure taught me about specs, guardrails, and automation that tells you when it stops."
+date: "2026-10-13"
+tags:
+  - AI
+  - Automation
+  - Engineering Leadership
+  - Homelab
+draft: true
+---
+
+{/*
+  DRAFT NOTES FOR JOHN. MDX comments like this one never render.
+  - Every number comes from the GitHub PR list and git history as of 2026-10-13. Re-check them if more PRs land before you publish.
+  - PRs are credited to a tool by branch name: codex/*, Jules' jules-* or numeric-suffix branches, dependabot/*, claude/*. Everything else counts as yours, even if you had an assistant open locally.
+  - On publish day: rename the file to that day's date, update `date`, and flip `draft` to false.
+*/}
+
+**TL;DR:** Over twelve months, this site took 127 pull requests. Three AI coding agents and a dependency bot opened 94 of them. The agents were fast. The hard parts were the ones I kept: keeping the facts true, reviewing on time, and noticing when the automation went quiet.
+
+## The scoreboard
+
+| Contributor | What it mostly did | PRs opened | Merged |
+| --- | --- | --- | --- |
+| Codex (OpenAI) | Scaffold, CI, infrastructure, first pages | 37 | 30 |
+| Jules (Google) | LaTeX, CMS, RSS, monthly dependency runs | 26 | 18 |
+| Dependabot | Weekly dependency updates | 30 | 13 |
+| Claude Code (Anthropic) | Untangling stalled dependency updates | 1 | 1 |
+| Me | Cloudflare move, Sieve charts, upgrade fixes | 33 | 31 |
+| **Total** | | **127** | **93** |
+
+## A seven-year "hello world"
+
+This repository's first commit is from May 20, 2018. It added a hello-world `index.html` and then sat untouched for seven years.
+
+On October 11, 2025, I came back with a different plan. Before any code, I wrote two documents: a product requirements doc and an `AGENTS.md`. The `AGENTS.md` read like a team charter. It split the build across six "agents" (design system, content model, pages, forms, infrastructure, and CI). It also set acceptance gates, a performance budget, and an accessibility checklist.
+
+Then I handed it to the agents.
+
+{/* JOHN: Why now, and why agent-first instead of a template? One or two sentences. */}
+
+## The first two weeks: 36 pull requests from Codex
+
+Between October 11 and November 2, OpenAI's Codex opened 36 pull requests. Within two weeks the site had:
+
+- A hardened contact endpoint and a tighter Content Security Policy.
+- CI that typechecks and builds every pull request.
+- A release pipeline that pushed Docker images to an internal registry, with Watchtower rolling them out.
+- Configuration for a Raspberry Pi running Caddy as the edge proxy.
+
+The site hit `v1.0.0` on October 25, two weeks after the plan's first commit. Four more release tags followed that same day while the release workflow was still being debugged.
+
+Speed wasn't the problem. Truth was.
+
+My own commit message from that first night says it best: *"initial commit; loads of placeholder stuff; truthiness WAY out of whack."* The agents filled every empty slot with confident, plausible copy. Some of it described work I'd never done.
+
+The next day, a "trust-first" pass replaced the invented copy with verified details. It also created `data/profile.json` as the single source of truth for who I am and what I've shipped. That file still carries a rule no agent can miss: *"Do not list any patents as 'granted' without patent numbers."*
+
+## Every miss became a guardrail
+
+Agents repeat mistakes with total confidence. Two examples:
+
+- **The download button that took three PRs.** The "Download resume" button kept opening the PDF instead of saving it. Codex took three pull requests over two days to fix it. The lasting fix was a written rule in `AGENTS.md`: every download link carries the HTML `download` attribute, and wrapper components must preserve it.
+- **The blog publisher that shouldn't exist.** Asked for a blogging module, an agent built an on-page publishing form. When I asked whether it was production-ready, the honest answer was to remove it. I did, and the Writing guardrails now say: never expose publishing tools, API tokens, or credential prompts on the public site.
+
+That became the pattern. When an agent got something wrong, I fixed the output. Then I wrote the rule down next to the code it governs.
+
+The repo now has nine `AGENTS.md` files. They're scoped to the CI workflows, components, layouts, posts, case studies, infrastructure, and Writing pages. The root file even has a section called "Guardrails After Brand Misses." It requires a scoped guardrail doc before anyone, human or agent, fixes a personal-brand page that missed the mark.
+
+If you lead engineers, this will sound familiar. It's what a good postmortem does: fix the instance, then fix the system that allowed it.
+
+## Jules and the LaTeX saga
+
+In late November I started the [Defeating the Sieve](/writing/2025-11-30-defeating-the-sieve) series, which needed math rendering. Google's Jules took on much of that work. It added LaTeX support, an RSS feed, a sitemap, and Keystatic, a Git-backed CMS for editing content.
+
+LaTeX was the hard one. Between November 30 and December 13, nine pull requests had "LaTeX" in the title. Duplicated equations, unstyled equations, escaping bugs, and CMS validation errors each got their own fix. Two of the nine were closed without merging.
+
+Agents are very good at producing a plausible fix. They're much worse at noticing they fixed the same thing last Tuesday. That memory is still the reviewer's job.
+
+## Leaving the rack
+
+The original plan put this site on a Synology RackStation behind the DSM reverse proxy. The Docker images, nginx config, and Watchtower rollout were all built for it.
+
+On December 7, in one evening and seven pull requests, I moved the site to Cloudflare. It went to the Workers adapter first, then to Pages.
+
+{/* JOHN: Why the move? Uptime, WAN bandwidth, keeping the homelab off the public critical path, separating the security stack from the website? Two or three sentences. */}
+
+The homelab didn't go away. It went back to being a lab. More on that below.
+
+## The dependency debt spiral
+
+This is the part I'm least proud of.
+
+Starting in December, Jules ran a scheduled dependency update on the 12th of every month. Dependabot opened pull requests too. They kept arriving, and I kept not merging them. From February 13 to the end of June, nothing merged. Not one pull request.
+
+When I finally caught up on June 30, one Dependabot PR carried five major-version jumps at once. Astro went from 6 to 7, Tailwind from 3 to 4, and the Cloudflare, MDX, and React integrations all moved too. I spent the next 21 hours on eight follow-up pull requests:
+
+- Cloudflare Pages needed a new build-output setting, and the server-rendered worker needed a root `wrangler.toml`.
+- The `nodejs_compat` flag and compatibility date went missing from the deploy config.
+- Under Tailwind 4's cascade layers, global link styles started beating the button styles and broke text contrast. That was an accessibility regression, and no check caught it.
+- Keystatic's API routes broke under Astro 7, and its GitHub App needed new environment variables.
+
+None of those was hard on its own. Together, they turned routine maintenance into a migration.
+
+Dependency updates are a feed. Let a feed back up, and every catch-up becomes an incident.
+
+## Keeping the pipes flowing
+
+After that weekend I changed the setup:
+
+- **Dependabot runs weekly** on Mondays. Minor and patch updates are grouped into one PR, and major versions into another.
+- **An auto-merge workflow** squash-merges Dependabot's PRs once validation passes. Validation installs from the frozen lockfile, typechecks, and builds.
+- **Ignore rules carry their reason.** When TypeScript 7.0's native compiler crashed `astro check`, I added an ignore rule. Its comment explains why, and says to resume at 7.1.
+
+It worked. Between July 6 and September 10, ten Dependabot PRs merged, nine of them within about a minute of opening. I didn't touch them.
+
+Then it stopped working, and nothing told me.
+
+## Five weeks of silence
+
+In early September, Dependabot's grouped PRs started changing only `apps/site/package.json`. They never touched the lockfile at the repo root. Every one failed the frozen-lockfile install, so auto-merge correctly refused to merge them.
+
+That part was the guardrail doing its job. The problem was what happened next: nothing. No alert, no failing deploy, no email I noticed. The site kept serving. For five weeks, ten dependency PRs piled up unmerged, and one of them carried an Astro security fix.
+
+On October 12 I pointed Claude Code at the backlog. It read Dependabot's job logs and found the root cause. The config listed both `/` and `/apps/site`, so the grouped updates ran scoped to `/apps/site`. From there they couldn't see the root lockfile or the pinned pnpm version.
+
+The security update had a second problem. Astro 7.3 removed an export that the Cloudflare adapter still imported, so the two had to upgrade together.
+
+The fix landed the updates with a regenerated lockfile, moved Astro and the adapter together, and pointed Dependabot at the root only. Before I merged it, Claude Code checked the build against `main`. The prerendered posts produced the same HTML, all 17 routes returned the same status codes, and every interactive component still loaded in a real browser.
+
+Here's the irony. My day job includes alerting on data feeds that quietly drift. I'm a named inventor on a [published patent application](https://patents.google.com/patent/US20260277770A1/en) about that problem in security data: scoring each feed against its expected schema, and alerting when it drifts from its own baseline. Meanwhile, my own dependency feed failed for five weeks, and the only signal was silence.
+
+Automation you can trust needs an alarm for its own silence.
+
+## Where the agents haven't been (yet)
+
+The website has the best paper trail of anything I run. The homelab is where most of my hours go:
+
+- An HP DL380 G7 running Zeek on two physical network taps, one at the edge and one at the core. It's the setup behind the [Dual-Tap case study](/case-studies/the-dual-tap-strategy-hardening-a-self-hosted-homelab-with-zeek-and-wazuh/).
+- Synology storage and compute, a self-hosted Forgejo for Git and CI, and infrastructure-as-code to keep it reproducible.
+- Public services like Vaultwarden and Plex, isolated with zone-based firewalling.
+
+A lot has changed since that case study. I moved off Wazuh to Elastic with Fleet agents, and a bandwidth upgrade overran my VM disks. That's its own post: *Dual-Tap, Six Months Later* is next.
+
+{/* JOHN: Where has AI helped, or not, in the homelab? For example: Elastic upgrades, certificate work, Zeek tuning, Fleet policies. One honest paragraph. Or delete this and save it for the Dual-Tap post. */}
+
+## What's still on the list
+
+The plan in `AGENTS.md` promised more than CI delivers today. The open items:
+
+- **Accessibility and performance checks in CI.** The plan called for axe, Lighthouse CI, and Playwright smoke tests. CI runs typecheck and build. The Tailwind 4 contrast regression is exactly what axe would have caught.
+- **An alert for stalled dependency PRs.** If a Dependabot PR is still open after a few days, I want to hear about it.
+- **Docs that match reality.** The README and `AGENTS.md` still describe the Synology deployment.
+- **Five case studies still marked as placeholders.** The agents built the scaffolding. The stories are mine to write.
+
+## What I'd tell another engineering leader
+
+1. **Write the spec first.** The requirements doc and `AGENTS.md` I wrote before any code paid off on every pull request.
+2. **Turn every miss into a written rule,** scoped to the code it governs. Agents read the rules every time.
+3. **Review is the bottleneck, not output.** The agents never stopped opening pull requests. The four-month gap was mine.
+4. **Keep a human on the facts.** Agents write plausible copy. Only you know whether it's true.
+5. **Give your automation a heartbeat.** If it can fail quietly, eventually it will.
+
+The site is a small system. The lessons scale.
+
+---
+
+*Drafted with Claude Code from this repository's pull request history and git log, then edited by me.*
