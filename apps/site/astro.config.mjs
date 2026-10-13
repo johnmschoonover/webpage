@@ -7,11 +7,6 @@ import keystatic from '@keystatic/astro';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import rehypeSlug from 'rehype-slug';
-import remarkGfm from 'remark-gfm';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(currentDir, '..', '..');
@@ -24,10 +19,7 @@ export default defineConfig({
     prerenderEnvironment: 'node'
   }),
   integrations: [
-    mdx({
-      remarkPlugins: [remarkGfm, remarkMath],
-      rehypePlugins: [[rehypeSlug], [rehypeAutolinkHeadings, { behavior: 'append' }], [rehypeKatex, { output: 'html' }]]
-    }),
+    mdx(),
     react(),
     keystatic(),
     sitemap()
