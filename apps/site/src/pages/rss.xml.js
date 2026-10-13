@@ -15,7 +15,7 @@ export async function GET(context) {
         title: post.data.title,
         pubDate: new Date(post.data.date),
         description: post.data.summary,
-        link: `/writing/${post.slug}/`,
+        link: `/writing/${post.id}/`,
       })),
     customData: `<language>en-us</language>`,
   });
