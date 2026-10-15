@@ -9,6 +9,7 @@
 - Header fits every width with no horizontal scroll: the nav shows from 1024px, search is an icon below 1280px and stays available on phones, and the resume button reads "Resume" below 640px.
 - The command palette overlay now covers the full viewport instead of only the header area.
 - Long URLs in posts wrap instead of widening the page on phones.
+- Security: the build no longer copies the server bundle (content store, drafts, and any build-time env values) into public assets; it now lives in `dist/client/_worker.js/`. Server routes read secrets only at runtime.
 
 ## 2025-10-12
 - Replaced speculative copy across About, Experience, Projects, Patents, and Contact with verified Source of Truth details.

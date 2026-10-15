@@ -8,7 +8,7 @@
     "prebuild": "node ../../scripts/sync-downloads.mjs",
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build && cp -r dist/server/. dist/client/ && mv dist/client/entry.mjs dist/client/_worker.js && rm -f dist/client/wrangler.json",
+    "build": "astro build && rm -rf dist/client/_worker.js && cp -r dist/server dist/client/_worker.js && mv dist/client/_worker.js/entry.mjs dist/client/_worker.js/index.js && rm -f dist/client/_worker.js/wrangler.json && echo _worker.js >> dist/client/.assetsignore",
     "preview": "astro preview",
     "astro": "astro"
   },
