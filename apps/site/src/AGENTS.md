@@ -28,6 +28,17 @@ subdirectories (e.g., `components/`, `layouts/`) take precedence for their scope
 - For writing workflows, point contributors to `apps/site/src/content/posts/README.md` instead of embedding bespoke instructions
   within components.
 
+## Rendering
+- `astro.config.mjs` sets `compressHTML: true` so templates follow HTML whitespace rules. Astro 7's default (`'jsx'`) silently
+  drops the space between text and an inline element that starts on the next line. Don't change it without auditing inline links.
+- Don't patch a missing space with margin utilities (`ml-1`) on inline elements; fix the whitespace instead.
+
+## Secrets & Build Output
+- Server code reads secrets only through `getRuntimeEnv()` in `src/lib/server-env.ts`. Never read a secret from
+  `import.meta.env`, even as a fallback: Vite inlines those values into the build output.
+- The build puts the server bundle in `dist/client/_worker.js/`, which Cloudflare Pages never uploads as static assets.
+  Never copy server output into the root of `dist/client/`; everything there is publicly downloadable.
+
 ## QA Loop
 - Run `pnpm --filter site build` before requesting review; capture warnings in the PR if any appear.
 - Spot-check responsive layouts at 375px, 768px, and ≥1280px widths.

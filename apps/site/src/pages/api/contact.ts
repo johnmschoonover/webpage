@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { getRuntimeEnv } from '../../lib/server-env';
 
 function getPositiveInteger(value: string | undefined, fallback: number) {
   const parsed = Number(value);
@@ -10,7 +11,6 @@ function getPositiveInteger(value: string | undefined, fallback: number) {
 
 const RATE_LIMIT_WINDOW_MS = getPositiveInteger(import.meta.env.CONTACT_RATE_LIMIT_WINDOW_MS, 60_000);
 const RATE_LIMIT_MAX_ATTEMPTS = getPositiveInteger(import.meta.env.CONTACT_RATE_LIMIT_MAX, 5);
-const HCAPTCHA_SECRET = import.meta.env.HCAPTCHA_SECRET;
 
 type RateLimitBucket = {
   count: number;
@@ -102,6 +102,7 @@ function validateSubmission(name: string, email: string, message: string): {
 }
 
 async function verifyHCaptcha(token: string | null, remoteIp: string | undefined) {
+  const { HCAPTCHA_SECRET } = await getRuntimeEnv();
   if (!HCAPTCHA_SECRET) {
     return { ok: true } as const;
   }

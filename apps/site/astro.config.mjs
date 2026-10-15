@@ -14,6 +14,10 @@ const repoRoot = resolve(currentDir, '..', '..');
 export default defineConfig({
   site: 'https://theschoonover.net',
   output: 'server',
+  // Astro 7 defaults to 'jsx' whitespace rules, which drop the space between text and an
+  // inline element that starts on the next line ("Visit the<a>GitHub profile</a>for").
+  // Templates here are written for HTML whitespace, so keep the lossless pre-v7 behavior.
+  compressHTML: true,
   adapter: cloudflare({
     imageService: 'compile',
     prerenderEnvironment: 'node'

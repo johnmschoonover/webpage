@@ -1,0 +1,95 @@
+---
+title: "What Does a Log Cost?"
+summary: "Every log has a price to collect, move, store, and search. Few teams weigh that price against what the log is worth to detection. A practical way to decide what to keep, trim, reroute, or drop."
+date: "2026-10-13"
+tags:
+  - SIEM
+  - Data Engineering
+  - Cost
+  - Engineering Leadership
+draft: true
+---
+
+{/*
+  INTERVIEW SKELETON. MDX comments like this one never render.
+  - This post gets built from an interview. Each section has a working thesis and the questions that will fill it in. Answer in chat or inline. Rough bullets are fine.
+  - IP guardrail: the drop-control filing is still unpublished. Keep its mechanics out of this post, and talk about sampling and dropping only in general terms.
+  - Employer guardrail: no internal dollar figures, vendor contract terms, or named data sources. Use ranges, percentages, and anonymized examples.
+  - Homelab numbers are fair game, and they make a good small-scale contrast.
+*/}
+
+**TL;DR:** {/* JOHN: Write this last. One sentence with the answer. */}
+
+## The bill nobody itemizes
+
+Working thesis: the license or ingest fee is the line item everyone sees. It's rarely the whole bill.
+
+{/* INTERVIEW:
+  - When someone asks you what a log source costs, which line items do you count? Ingest or license, compute, storage tiers, network, engineering time to onboard and maintain parsers, analyst time spent on the alerts it generates?
+  - Which costs do people forget most often?
+  - What does a parse failure cost? A log you pay to ingest but can't search is pure cost. (The published patent application on data-feed anomaly alerting fits here.)
+*/}
+
+## What a log is worth
+
+Working thesis: a log's value is what it lets you detect, investigate, or prove. You can measure most of that.
+
+{/* INTERVIEW:
+  - How do you measure a log source's value? Rules that reference it, ATT&CK technique coverage, how often investigations use it, compliance requirements?
+  - Do you have a rule of thumb, like the share of ingest that no detection rule ever touches?
+  - How do you put a value on "we might need it in an investigation someday"?
+*/}
+
+## Four kinds of logs
+
+Working thesis: once you have rough cost and value numbers, every source lands in one of four quadrants, and each quadrant has a default move.
+
+{/* INTERVIEW:
+  - Does this match how you think about it?
+    - High value, low cost: keep it hot and searchable.
+    - High value, high cost: optimize it with field trimming, filtering, or better parsing.
+    - Low value, low cost: keep it cheap, in cold storage or a data lake.
+    - Low value, high cost: drop it, or reroute it.
+  - Give a real example for each quadrant, anonymized.
+*/}
+
+## The levers
+
+Working thesis: "keep or drop" is a false choice. Teams have at least five levers between the two.
+
+{/* INTERVIEW:
+  - Rank these by how much they've saved you: filtering at the source, trimming fields, sampling, routing to cheaper tiers, aggregating or summarizing, shorter retention.
+  - Where's your line on sampling and dropping? What would you never sample?
+  - Hot SIEM versus a security data lake: how do you decide which data goes where?
+*/}
+
+## The rare-event trap
+
+Working thesis: volume controls are dangerous when they treat every event alike, because the event that matters is often the rare one.
+
+{/* INTERVIEW:
+  - A story where cost-cutting nearly cost you a detection, or did. Anonymized.
+  - How do you protect rare, high-value events when you cut volume? General terms only, because of the in-flight filing.
+*/}
+
+## A story from the pipeline
+
+{/* INTERVIEW:
+  - One log source you trimmed, rerouted, or dropped. What did it cost before, what was it worth, what did you change, and what happened afterward? Use percentages or ranges.
+*/}
+
+## The homelab version
+
+Working thesis: at home, a log doesn't cost dollars. It costs disk space and weekends. The [Dual-Tap follow-up](/writing/2026-10-13-dual-tap-ten-months-later) is what happens when you skip the math.
+
+{/* INTERVIEW:
+  - Your Zeek-to-Elastic ingest per day, and what it costs you in disk.
+  - What did you decide to keep, trim, or drop after the disks filled up?
+*/}
+
+## How to start
+
+{/* INTERVIEW:
+  - If a security leader wanted to do this next quarter, what are the first three steps?
+  - Which one metric would you put on a dashboard? Cost per GB, cost per detection, share of ingest used by rules, share of fields searchable?
+*/}
