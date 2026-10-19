@@ -13,9 +13,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.3.4",
-    "@astrojs/mdx": "^8.0.2",
-    "@astrojs/react": "^7.0.0",
+    "@astrojs/cloudflare": "^14.4.0",
+    "@astrojs/mdx": "^8.1.0",
+    "@astrojs/react": "^7.1.0",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.3.3",
@@ -23,17 +23,17 @@
     "@keystatic/core": "^0.6.9",
     "@radix-ui/react-slot": "^1.4.0",
     "@tailwindcss/typography": "^0.5.20",
-    "astro": "^7.3.8",
+    "astro": "^7.4.0",
     "autoprefixer": "^10.6.1",
     "chart.js": "^4.5.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "katex": "^0.19.0",
-    "lucide-react": "^1.54.0",
+    "lucide-react": "^1.58.0",
     "postcss": "^8.5.29",
-    "react": "^19.3.0",
+    "react": "^19.3.1",
     "react-chartjs-2": "^5.3.1",
-    "react-dom": "^19.3.0",
+    "react-dom": "^19.3.1",
     "shiki": "^4.5.0",
     "tailwind-merge": "^3.7.0",
     "tailwindcss": "^4.3.3",
@@ -46,6 +46,6 @@
     "@types/react-dom": "^19.3.0",
     "linkinator": "^8.1.0",
     "typescript": "^6.0.3",
-    "wrangler": "^4.149.0"
+    "wrangler": "^4.151.0"
   }
 }
