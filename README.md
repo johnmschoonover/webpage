@@ -10,8 +10,8 @@ Personal brand site for John Schoonover, optimized for fast, accessible storytel
 
 ## Getting Started
 ### Prerequisites
-- Node.js 20.11.x (use `fnm`/`nvm` or Docker image to match production).
-- pnpm 8.15.1 (`corepack enable` recommended).
+- Node.js 22.22.0 or newer 22.x (pinned in `.node-version`, which Cloudflare Pages and `fnm`/`nvm` read; Astro 7.4+ requires >= 22.22.0).
+- pnpm 10.19.0 (pinned in the root `package.json` `packageManager` field; `corepack enable` picks it up).
 - GitHub deploy key (read access) for CI/CD interactions.
 
 ### Initial Setup
