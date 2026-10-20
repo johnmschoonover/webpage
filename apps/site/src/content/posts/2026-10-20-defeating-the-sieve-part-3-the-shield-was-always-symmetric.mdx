@@ -1,0 +1,159 @@
+---
+title: "Defeating the Sieve Part 3: The Shield Was Always Symmetric"
+summary: >-
+  The worked example that opened this series was wrong. Fixing it turns a
+  rough heuristic into a model with no fitted parameters that lands within
+  a fraction of a percentage point of the data, and leads straight to a
+  conjecture from 1904.
+date: "2026-10-20"
+tags:
+  - Rust
+  - Number Theory
+  - Visualization
+draft: false
+---
+
+In [Part 1](/writing/2025-11-30-defeating-the-sieve) I claimed that twin primes were "exposed" to the number 3: if <Latex formula="p \equiv 1 \pmod 3" />, then <Latex formula="2p + 1" /> is divisible by 3, so half of all Gap 2 sums get shot down. That was the example the whole series was built on.
+
+It is false. If <Latex formula="p \equiv 1 \pmod 3" />, then <Latex formula="p + 2 \equiv 0 \pmod 3" />, so <Latex formula="p + 2" /> is not prime and <Latex formula="(p, p+2)" /> is not a twin pair. Every twin prime above 3 sits at <Latex formula="p \equiv 2 \pmod 3" />, which puts the sum at <Latex formula="2p + 1 \equiv 2 \pmod 3" />. Gap 2 is never divisible by 3. It is shielded.
+
+[Part 2](/writing/2025-12-07-defeating-the-sieve-part-2-the-mod-3-trap) actually made this exact argument for Gap 14 and called it the Neighbor Shield. I did not notice that it applied to Gap 2 as well, or that it contradicted Part 1. This post is the correction, and the correction turns out to be more interesting than the original claim.
+
+## Where the contradiction was
+
+Two things in my own posts could not both be true. Part 1 said Gap 2 is hit by 3 half the time because <Latex formula="p" /> can be <Latex formula="1 \pmod 3" />. Part 2 said Gap 14 is safe from 3 because <Latex formula="p" /> cannot be <Latex formula="1 \pmod 3" />, or <Latex formula="p + 14" /> would be divisible by 3. Both gaps are <Latex formula="2 \pmod 3" />. The same argument applies to both. I had that contradiction in print for ten months and did not see it, because each post was consistent with itself.
+
+The data had been saying the same thing from the start. The old model gave gaps 2, 8 and 26 the identical boost, and the census gave them 9.6%, 11.8% and 14.9%. A model that assigns equal predictions to values that differ by half, while claiming an <Latex formula="R^2" /> near 1.0, is not a near-fit with noise. It is a wrong model with a flattering chart. The chart fitted a trendline instead of drawing <Latex formula="y = x" />, and that choice hid the miss.
+
+When data contradicts a model, the fault is an assumption, and it is usually further back than you want to look. The instinct is to patch near the surface: keep the shield rule, add a trap term, call the leftover noise. Part 2 did exactly that. The trap term was correct, and the fit improved, and the broken foundation stayed in place. The right move is to walk the chain of assumptions backwards and test each one against ground truth, including the ones that feel too basic to question. Here the broken link was the very first one, "a twin prime can be <Latex formula="1 \pmod 3" />," and everything built on it was internally consistent and wrong.
+
+Finding it took most of a year, and not because the mathematics is hard. The series went quiet because work and life took the hours. But I kept coming back to it, and each return was the same exercise: re-read the chain from the data to the conclusion, pick the assumption one step further back than I had checked the last time, and test it. For a long while every link I checked held. The one that failed was the first link, in the first paragraph I wrote, the one I had never tested because it did not feel like an assumption at all.
+
+Hard troubleshooting almost always has this shape. You hold two assumptions with confidence, and together they force a scenario that cannot happen. Neither looks wrong on its own, so the temptation is to add a third assumption that reconciles them. Root cause is found the other way: refuse the impossibility, trace every assumption back to something you can check directly, and start with the foundations rather than the clever parts. The clever parts are where you spent your attention. The foundations are where you did not.
+
+## The rule I should have written down
+
+Fix an odd prime <Latex formula="q" /> and a gap <Latex formula="g" />. Both parents <Latex formula="p" /> and <Latex formula="p + g" /> are prime, so <Latex formula="p" /> avoids two residues modulo <Latex formula="q" />: it is not <Latex formula="0" />, and it is not <Latex formula="-g" />. The sum <Latex formula="S = 2p + g - 1" /> is divisible by <Latex formula="q" /> for exactly one residue of <Latex formula="p" />, namely <Latex formula="p \equiv (1 - g)/2" />. So the question is whether that one bad residue is among the two the parents already rule out.
+
+- If <Latex formula="(1-g)/2 \equiv 0" />, that is <Latex formula="g \equiv 1" />, the bad residue is already excluded.
+- If <Latex formula="(1-g)/2 \equiv -g" />, that is <Latex formula="g \equiv -1" />, the bad residue is already excluded.
+
+Both signs work. The shield condition is <Latex formula="g \equiv \pm 1 \pmod q" />, for every odd prime including 3. My original rule used <Latex formula="+1" /> for 3 and <Latex formula="-1" /> for everything else, which is half of the truth at every prime.
+
+There are two more cases, and they explain the low end of the spectrum, which Part 1 ignored entirely. Measured against a random odd integer, which survives <Latex formula="q" /> with probability <Latex formula="(q-1)/q" />:
+
+| Case | Condition | Chance <Latex formula="S" /> is hit by <Latex formula="q" /> | Factor |
+|---|---|---|---|
+| Shield | <Latex formula="g \equiv \pm 1 \pmod q" /> | 0 | <Latex formula="\frac{q}{q-1}" /> |
+| Trap | <Latex formula="g \equiv 0 \pmod q" /> | 1 in <Latex formula="q-1" /> | <Latex formula="\frac{q(q-2)}{(q-1)^2}" /> |
+| Neutral | otherwise | 1 in <Latex formula="q-2" /> | <Latex formula="\frac{q(q-3)}{(q-1)(q-2)}" /> |
+
+The trap row is Part 2's Mod 3 Trap, and at <Latex formula="q = 3" /> the factor is <Latex formula="3 \cdot 1 / 4 = 0.75" />, the number I found by hand. The neutral row is new. It is a mild penalty, because the parents exclude two residues from the pool, which makes the one bad residue slightly more likely than it would be for an unconstrained number.
+
+The prediction for a gap is the product of these factors over every odd prime, times the chance a random odd number of the same size is prime, which is <Latex formula="2 / \ln S" />.
+
+## Gap 4 beats Gap 2 by exactly three halves
+
+Here is the cleanest test the rule offers. Gaps 2 and 4 are both shielded at 3. For every prime from 7 upward, both are neutral, since neither is 0 or <Latex formula="\pm 1" /> modulo anything that large. The only prime that treats them differently is 5: Gap 4 is <Latex formula="-1 \pmod 5" /> and shielded, Gap 2 is neutral.
+
+<Latex formula="\frac{\text{Gap 4}}{\text{Gap 2}} = \frac{5/4}{5 \cdot 2 / (4 \cdot 3)} = \frac{3}{2}" block />
+
+Observed at <Latex formula="10^{12}" />: <Latex formula="0.1194 / 0.0796 = 1.4999" />. At <Latex formula="10^{10}" /> it was <Latex formula="1.5003" />.
+
+## The numbers
+
+I rewrote the model in the analyzer, added the size-matched baseline, and reran the census, first at <Latex formula="10^{10}" /> and then, on a faster machine, at <Latex formula="10^{12}" />: every prime below a trillion, 37.6 billion of them, in about three and a quarter hours. Part 1 claimed an <Latex formula="R^2" /> near 1.0 for the old rule. It was not. Over the 121 gaps with at least 100,000 pairs at <Latex formula="10^{12}" />:
+
+| Model | <Latex formula="R^2" />, predicted vs. observed |
+|---|---|
+| Old one-sided rule | 0.30 |
+| Shield, trap, neutral at every odd prime | 0.997 |
+
+A sample of the <Latex formula="10^{12}" /> spectrum. "Predicted" is the size-matched baseline times the product of local factors, with no fitted parameters.
+
+| Gap | Pairs | Observed | Predicted | Shields | Traps |
+|---|---|---|---|---|---|
+| 2 | 1,870,585,220 | 0.0796 | 0.0796 | 3 | none |
+| 4 | 1,870,585,458 | 0.1194 | 0.1195 | 3, 5 | none |
+| 6 | 3,435,528,229 | 0.0749 | 0.0746 | 5, 7 | 3 |
+| 8 | 1,573,331,564 | 0.0982 | 0.0995 | 3, 7 | none |
+| 12 | 2,753,597,777 | 0.0526 | 0.0492 | 11, 13 | 3 |
+| 14 | 1,556,469,349 | 0.1390 | 0.1368 | 3, 5, 13 | 7 |
+| 30 | 1,803,413,614 | 0.0490 | 0.0481 | 29, 31 | 3, 5 |
+| 34 | 629,634,308 | 0.1710 | 0.1683 | 3, 5, 7, 11 | 17 |
+| 94 | 46,375,798 | 0.1366 | 0.1306 | 3, 5, 19, 31 | 47 |
+| 210 | 924,563 | 0.0560 | 0.0553 | 11, 19, 211 | 3, 5, 7 |
+
+The misses are small, but with samples in the billions they are not noise. Gap 12 runs about 7% above its prediction and Gap 94 about 5%. That is the expected signature of Hardy–Littlewood secondary terms, which decay slowly as <Latex formula="N" /> grows, and having three runs makes the decay visible. Here is the relative miss, observed over predicted minus one, for the same gaps at three scales:
+
+| Gap | <Latex formula="10^8" /> | <Latex formula="10^{10}" /> | <Latex formula="10^{12}" /> |
+|---|---|---|---|
+| 2 | +0.16% | −0.10% | −0.03% |
+| 4 | −0.26% | −0.08% | −0.04% |
+| 8 | −2.14% | −1.58% | −1.27% |
+| 12 | +11.44% | +8.39% | +6.73% |
+| 14 | +2.87% | +2.01% | +1.60% |
+| 34 | +2.26% | +1.82% | +1.56% |
+| 94 | too few pairs | +5.98% | +4.62% |
+| Mean absolute miss, all gaps with 100k+ pairs | 3.05% | 2.55% | 2.31% |
+
+Every residual shrinks as <Latex formula="N" /> grows, in the direction the theory says it should. Lemke Oliver and Soundararajan saw the same slow convergence in their consecutive-prime data. The ordering of every gap in the table is predicted correctly, including Gap 210 landing below Gap 2 and Gap 30 landing below everything.
+
+The old chart in the report plotted a "boost" with no units against the observed rate and drew a best-fit line through it. The new chart plots the predicted rate against the observed rate with the line <Latex formula="y = x" />. Points that sit on that line are not fitted. They are predicted.
+
+## Gap 34, properly counted
+
+Gap 34 was the king of Part 1 as a triple shield against 3, 5 and 7. Under the symmetric rule it is also <Latex formula="1 \pmod{11}" />, so it is a quadruple shield. The clean way to say it: <Latex formula="33 \cdot 35 = 3 \cdot 5 \cdot 7 \cdot 11" />. A gap is shielded by every odd prime up to <Latex formula="p_k" /> exactly when <Latex formula="g^2 - 1" /> is divisible by <Latex formula="3 \cdot 5 \cdots p_k" />. It is also <Latex formula="2 \times 17" />, so 17 is a trap for it, worth a penalty of 0.4%.
+
+The sequence of smallest fully shielded gaps under the symmetric rule is 2, 4, 34, 34, 274, 9164, 83656, 937364. It was not in the OEIS, so I submitted it; it is now [A401296](https://oeis.org/A401296), defined there as the smallest even <Latex formula="k" /> with <Latex formula="k \equiv \pm 1" /> modulo each of the first <Latex formula="n" /> odd primes. It has a close relative that was already there: [A323746](https://oeis.org/A323746), the smallest number as far as possible from every multiple of the first <Latex formula="n" /> primes. Twice that sequence gives the shielded gaps that are 2 mod 4, and the two agree whenever the smallest shielded gap happens to be 2 mod 4, which is most of the time. The two sequences I expected to be new, the primes <Latex formula="p" /> for which <Latex formula="p + \text{nextprime}(p) - 1" /> is prime and the primes that result, were already in the OEIS. The one-sided variant the repository's Python tool generates, 4, 4, 34, 1924, 25024, 85084, I left unsubmitted, since its sign convention is a choice rather than a property.
+
+That tool is a small example of the same lesson. It finds each term with a ratchet: step forward by the product of the primes already satisfied, which preserves their residues, until the next prime's residue is hit. I was fond of it. It works because the one-sided rule fixes a single residue per prime, so there is exactly one chain of solutions to follow. The symmetric rule allows two residues per prime, <Latex formula="2^n" /> chains, and the smallest solution jumps between them: 34 is <Latex formula="-1 \pmod 7" />, while the next term, 274, is <Latex formula="+1 \pmod 7" />, so a ratchet starting from 34 can never reach 274. The assumption was not in the code's logic. It was in the choice of algorithm. The replacement enumerates sign patterns with the Chinese remainder theorem, and a meet-in-the-middle split over the primes produces forty terms in about twenty seconds.
+
+## This is a conjecture from 1904
+
+I did look for prior work before the first post, but I searched for the problem in my own words: prime sums, gaps, shields. Nothing in the literature uses those words, so nothing came back, and the silence read as novelty. The mechanism has been known for a century under names I had no reason to know: singular series, local factors, prime k-tuples. A search phrased in your own vocabulary can only find your own problem. What would have worked was stepping outside the framing to ask the general question, "is there a known heuristic for how often a linear expression in primes is itself prime," or asking someone who speaks the field's language. Either gets you to Hardy and Littlewood in a sentence.
+
+The density of primes among the values of a system of linear forms like <Latex formula="n" />, <Latex formula="n+g" /> and <Latex formula="2n+g-1" /> is the subject of the Hardy–Littlewood prime k-tuple conjecture of 1923, generalized by Bateman and Horn in 1962. Their formula carries one factor per prime <Latex formula="q" />, and that factor depends on how many residue classes modulo <Latex formula="q" /> the three forms jointly rule out. The shield is the case where the third form's bad residue coincides with one the parents already exclude, so the count is two instead of three and the factor goes up. The trap is the case where the two parents' excluded residues coincide, so the count drops and the third form pays full price. The table above is that local factor, conditioned on the first two forms being prime, and the <Latex formula="2/\ln S" /> baseline is the prime number theorem.
+
+One thing the shield is not, which an OEIS editor corrected me on: it is not an admissibility condition in the sense of Dickson's 1904 conjecture. Admissibility asks whether some prime blocks every residue class so that no triple can exist at all, and for these three forms no prime ever does, since each excludes at most three classes. Every even gap is admissible. The shield is about how large the density is, not whether it is zero.
+
+The closest modern relative is Lemke Oliver and Soundararajan's 2016 paper on biases in consecutive primes, which found that the residues of neighboring primes are correlated in surprising ways and explained it with the same Hardy–Littlewood machinery. The shape of this series, an empirical bias in consecutive primes explained by residue counting, is that paper's shape.
+
+So the mechanism is old. What I could not find anywhere is this particular statistic. Nobody seems to have tallied the primality of <Latex formula="p_n + p_{n+1} - 1" /> by gap, and this census, now to <Latex formula="10^{12}" />, appears to be the first measurement of it.
+
+## Can you use it to find primes?
+
+This was the question I most wanted to answer, so here is the honest version. If you have two consecutive primes at a favorable gap, their sum-minus-one really is two to three times more likely to be prime than a random odd number of its size. That is a real prior, and it is tempting to use it for triage: spend the expensive primality test on the candidate with the best parent gap.
+
+The catch is that the gap carries no information about <Latex formula="S" /> beyond its residues modulo small primes, and once you have <Latex formula="p" /> and <Latex formula="g" /> you have <Latex formula="S" /> itself and can read those residues off directly. Trial division is the same test, carried out exactly instead of statistically, and it does not stop at 11.
+
+| Screen applied to the candidate | Prior boost over a random odd number |
+|---|---|
+| Quadruple shield (Gap 34) | about 2.3x |
+| No odd prime factor below 100 | about 4x |
+| No odd prime factor below <Latex formula="10^6" /> | about 12x |
+
+The last row is what every large prime search already does before spending a real test. The shield is a slower route to a weaker version of it. What survives is not a search technique. It is a picture: the sum inherits a residue fingerprint from its parents, and the gap is the thing that encodes it.
+
+## What changed in Parts 1 and 2
+
+- Part 1's Gap 2 example is wrong. Gap 2 is shielded against 3. A correction note now sits at the top of the post.
+- Part 1's "R² ≈ 1.0" was not supported by the old model. The corrected model earns it.
+- Both posts said "10 billion primes" and "100 billion primes." The tool scans integers up to <Latex formula="10^{10}" />, which contains about 455 million primes.
+- Part 2 described a <Latex formula="10^{11}" /> run. The figures in it are from the <Latex formula="10^{10}" /> data, and the post now says so.
+- Part 1 said the data "proves" the theory. It is a numerical check of a heuristic that remains unproven for any system of two or more linear forms.
+
+The updated analyzer, with the three-case model, the size-matched baseline, a predicted-versus-observed chart and the full <Latex formula="10^{12}" /> report, is at [github.com/johnmschoonover/prime_shield_analyzer](https://github.com/johnmschoonover/prime_shield_analyzer).
+
+## Why a security engineer spent a year on this
+
+The work I do for a living is detection engineering, and this project is the same job with cleaner data. A detection is a claim that some pattern is rarer in benign traffic than in malicious traffic. The claim is only worth anything if you measure the base rate, check the model against the full distribution instead of the examples that made you excited, and go back and say so when the first version was wrong. Gap 2 was my false positive, and the alert that contradicts your model of the environment is the one worth the most, if you trace the assumptions back instead of tuning the rule until it stops firing. The <Latex formula="y = x" /> line is what a calibrated detector looks like. The habit of asking "is this already a known technique" before shipping is the one I most wish I had applied in Part 1.
+
+## TL;DR
+
+- The sum of two consecutive primes minus one is prime at a rate that depends strongly on their gap: from 5.6% (Gap 210) to 17.1% (Gap 34) among primes below <Latex formula="10^{12}" />.
+- The rule, per odd prime <Latex formula="q" />: a gap is shielded if <Latex formula="g \equiv \pm 1 \pmod q" />, trapped if <Latex formula="q" /> divides <Latex formula="g" />, neutral otherwise, with factors <Latex formula="q/(q-1)" />, <Latex formula="q(q-2)/(q-1)^2" /> and <Latex formula="q(q-3)/((q-1)(q-2))" />. The product times <Latex formula="2/\ln S" /> predicts the rate with no fitted parameters: <Latex formula="R^2 = 0.997" />, residuals shrinking with <Latex formula="N" />.
+- Part 1's Gap 2 example was wrong. Twin primes are shielded against 3. The error survived ten months because each post was consistent with itself.
+- The mechanism is Hardy–Littlewood (1923) and Bateman–Horn (1962). The statistic, and the sequence now filed as A401296, appear to be new. The method is not.
+- It is not a way to find primes. Trial division on the sum reads the same information exactly, and far deeper.
+- When data contradicts a model, trace the assumptions back to the foundations and test them there. The clever parts are not where the fault is.
