@@ -46,32 +46,46 @@ Here is the cleanest test the rule offers. Gaps 2 and 4 are both shielded at 3. 
 
 <Latex formula="\frac{\text{Gap 4}}{\text{Gap 2}} = \frac{5/4}{5 \cdot 2 / (4 \cdot 3)} = \frac{3}{2}" block />
 
-Observed at <Latex formula="10^{10}" />: <Latex formula="0.1439 / 0.0959 = 1.500" />.
+Observed at <Latex formula="10^{12}" />: <Latex formula="0.1194 / 0.0796 = 1.4999" />. At <Latex formula="10^{10}" /> it was <Latex formula="1.5003" />.
 
 ## The numbers
 
-I rewrote the model in the analyzer, added the size-matched baseline, and reran the <Latex formula="10^{10}" /> census. Part 1 claimed an <Latex formula="R^2" /> near 1.0 for the old rule. It was not. Over the 59 gaps with at least 100,000 samples:
+I rewrote the model in the analyzer, added the size-matched baseline, and reran the census, first at <Latex formula="10^{10}" /> and then, on a faster machine, at <Latex formula="10^{12}" />: every prime below a trillion, 37.6 billion of them, in about three and a quarter hours. Part 1 claimed an <Latex formula="R^2" /> near 1.0 for the old rule. It was not. Over the 121 gaps with at least 100,000 pairs at <Latex formula="10^{12}" />:
 
 | Model | <Latex formula="R^2" />, predicted vs. observed |
 |---|---|
-| Old one-sided rule | 0.34 |
-| Shield, trap, neutral at every odd prime | 0.996 |
+| Old one-sided rule | 0.30 |
+| Shield, trap, neutral at every odd prime | 0.997 |
 
-A sample of the regenerated spectrum. "Predicted" is the size-matched baseline times the product of local factors, with no fitted parameters.
+A sample of the <Latex formula="10^{12}" /> spectrum. "Predicted" is the size-matched baseline times the product of local factors, with no fitted parameters.
 
 | Gap | Pairs | Observed | Predicted | Shields | Traps |
 |---|---|---|---|---|---|
-| 2 | 27,412,679 | 0.0959 | 0.0960 | 3 | none |
-| 4 | 27,409,998 | 0.1439 | 0.1440 | 3, 5 | none |
-| 6 | 49,392,723 | 0.0904 | 0.0900 | 5, 7 | 3 |
-| 8 | 22,160,841 | 0.1180 | 0.1199 | 3, 7 | none |
-| 12 | 37,588,207 | 0.0643 | 0.0593 | 11, 13 | 3 |
-| 14 | 20,943,953 | 0.1681 | 0.1648 | 3, 5, 13 | 7 |
-| 30 | 20,706,430 | 0.0592 | 0.0578 | 29, 31 | 3, 5 |
-| 34 | 6,996,756 | 0.2062 | 0.2025 | 3, 5, 7, 11 | 17 |
-| 210 | 1,531 | 0.0653 | 0.0662 | 11, 19, 211 | 3, 5, 7 |
+| 2 | 1,870,585,220 | 0.0796 | 0.0796 | 3 | none |
+| 4 | 1,870,585,458 | 0.1194 | 0.1195 | 3, 5 | none |
+| 6 | 3,435,528,229 | 0.0749 | 0.0746 | 5, 7 | 3 |
+| 8 | 1,573,331,564 | 0.0982 | 0.0995 | 3, 7 | none |
+| 12 | 2,753,597,777 | 0.0526 | 0.0492 | 11, 13 | 3 |
+| 14 | 1,556,469,349 | 0.1390 | 0.1368 | 3, 5, 13 | 7 |
+| 30 | 1,803,413,614 | 0.0490 | 0.0481 | 29, 31 | 3, 5 |
+| 34 | 629,634,308 | 0.1710 | 0.1683 | 3, 5, 7, 11 | 17 |
+| 94 | 46,375,798 | 0.1366 | 0.1306 | 3, 5, 19, 31 | 47 |
+| 210 | 924,563 | 0.0560 | 0.0553 | 11, 19, 211 | 3, 5, 7 |
 
-The model runs about half a percentage point low on Gap 12 and nearly a full point low on Gap 94, the largest miss among gaps with at least 100,000 pairs. That is the expected signature of Hardy–Littlewood secondary terms, which decay slowly with <Latex formula="N" />, and it is the same kind of residual Lemke Oliver and Soundararajan saw in their data. The ordering of every gap in the table is predicted correctly, including Gap 210 landing below Gap 2 and Gap 30 landing below everything.
+The misses are small, but with samples in the billions they are not noise. Gap 12 runs about 7% above its prediction and Gap 94 about 5%. That is the expected signature of Hardy–Littlewood secondary terms, which decay slowly as <Latex formula="N" /> grows, and having three runs makes the decay visible. Here is the relative miss, observed over predicted minus one, for the same gaps at three scales:
+
+| Gap | <Latex formula="10^8" /> | <Latex formula="10^{10}" /> | <Latex formula="10^{12}" /> |
+|---|---|---|---|
+| 2 | +0.16% | −0.10% | −0.03% |
+| 4 | −0.26% | −0.08% | −0.04% |
+| 8 | −2.14% | −1.58% | −1.27% |
+| 12 | +11.44% | +8.39% | +6.73% |
+| 14 | +2.87% | +2.01% | +1.60% |
+| 34 | +2.26% | +1.82% | +1.56% |
+| 94 | too few pairs | +5.98% | +4.62% |
+| Mean absolute miss, all gaps with 100k+ pairs | 3.05% | 2.55% | 2.31% |
+
+Every residual shrinks as <Latex formula="N" /> grows, in the direction the theory says it should. Lemke Oliver and Soundararajan saw the same slow convergence in their consecutive-prime data. The ordering of every gap in the table is predicted correctly, including Gap 210 landing below Gap 2 and Gap 30 landing below everything.
 
 The old chart in the report plotted a "boost" with no units against the observed rate and drew a best-fit line through it. The new chart plots the predicted rate against the observed rate with the line <Latex formula="y = x" />. Points that sit on that line are not fitted. They are predicted.
 
@@ -89,7 +103,7 @@ One thing the shield is not, which an OEIS editor corrected me on: it is not an 
 
 The closest modern relative is Lemke Oliver and Soundararajan's 2016 paper on biases in consecutive primes, which found that the residues of neighboring primes are correlated in surprising ways and explained it with the same Hardy–Littlewood machinery. The shape of this series, an empirical bias in consecutive primes explained by residue counting, is that paper's shape.
 
-So the mechanism is old. What I could not find anywhere is this particular statistic. Nobody seems to have tallied the primality of <Latex formula="p_n + p_{n+1} - 1" /> by gap, and the <Latex formula="10^{10}" /> census appears to be the first measurement of it.
+So the mechanism is old. What I could not find anywhere is this particular statistic. Nobody seems to have tallied the primality of <Latex formula="p_n + p_{n+1} - 1" /> by gap, and this census, now to <Latex formula="10^{12}" />, appears to be the first measurement of it.
 
 ## Can you use it to find primes?
 
@@ -113,7 +127,7 @@ The last row is what every large prime search already does before spending a rea
 - Part 2 described a <Latex formula="10^{11}" /> run. The figures in it are from the <Latex formula="10^{10}" /> data, and the post now says so.
 - Part 1 said the data "proves" the theory. It is a numerical check of a heuristic that remains unproven for any system of two or more linear forms.
 
-The updated analyzer, with the three-case model, the size-matched baseline, a predicted-versus-observed chart and the regenerated <Latex formula="10^{10}" /> report, is at [github.com/johnmschoonover/prime_shield_analyzer](https://github.com/johnmschoonover/prime_shield_analyzer).
+The updated analyzer, with the three-case model, the size-matched baseline, a predicted-versus-observed chart and the full <Latex formula="10^{12}" /> report, is at [github.com/johnmschoonover/prime_shield_analyzer](https://github.com/johnmschoonover/prime_shield_analyzer).
 
 ## Why a security engineer spent a year on this
 
