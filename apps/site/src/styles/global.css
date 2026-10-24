@@ -77,6 +77,18 @@ progress.reading-progress::-moz-progress-bar {
   overflow-wrap: break-word;
 }
 
+/* Table.astro wraps every Markdown table in this box, so a wide table scrolls on its own instead of
+   widening the page. Scrolling the table itself (display: block) would shrink it on desktop. */
+.prose .table-scroll {
+  overflow-x: auto;
+  /* A scroll box stops margins collapsing, so the table's 2em (at its 0.875em size) moves here. */
+  margin-block: 1.75em;
+}
+
+.prose .table-scroll > table {
+  margin-block: 0;
+}
+
 .site-nav-link {
   position: relative;
   isolation: isolate;
