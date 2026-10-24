@@ -26,7 +26,7 @@ const captchaEnabled = Boolean(captchaSiteKey);
       </p>
       <p class="text-muted-foreground">
         Prefer async context first? Explore the
-        <a class="font-medium text-primary underline-offset-4 hover:underline" href={githubProfile} target="_blank" rel="me noopener noreferrer">
+        <a class="font-medium text-primary underline-offset-4 hover:underline pointer-coarse:underline" href={githubProfile} target="_blank" rel="me noopener noreferrer">
           GitHub profile
         </a>
         for in-progress tooling, infrastructure notes, and prototypes that inform current work.
@@ -34,15 +34,15 @@ const captchaEnabled = Boolean(captchaSiteKey);
       <form class="space-y-4 rounded-3xl border border-border bg-background/80 p-6 shadow-sm" method="post" action="/api/contact">
         <div class="grid gap-2">
           <label for="name" class="text-sm font-medium text-foreground">Name</label>
-          <input id="name" name="name" type="text" required class="h-11 rounded-lg border border-input bg-background px-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+          <input id="name" name="name" type="text" autocomplete="name" required class="h-11 rounded-lg border border-input bg-background px-3 text-base sm:text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
         </div>
         <div class="grid gap-2">
           <label for="email" class="text-sm font-medium text-foreground">Email</label>
-          <input id="email" name="email" type="email" required class="h-11 rounded-lg border border-input bg-background px-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+          <input id="email" name="email" type="email" autocomplete="email" required class="h-11 rounded-lg border border-input bg-background px-3 text-base sm:text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
         </div>
         <div class="grid gap-2">
           <label for="message" class="text-sm font-medium text-foreground">How can I help?</label>
-          <textarea id="message" name="message" rows="5" required class="rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"></textarea>
+          <textarea id="message" name="message" rows="5" required class="rounded-lg border border-input bg-background px-3 py-2 text-base sm:text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"></textarea>
         </div>
         {captchaEnabled ? (
           <div class="h-captcha" data-sitekey={captchaSiteKey}></div>
@@ -77,7 +77,7 @@ const captchaEnabled = Boolean(captchaSiteKey);
           href={githubProfile}
           target="_blank"
           rel="me noopener noreferrer"
-          class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:underline"
+          class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:underline pointer-coarse:underline"
         >
           Open GitHub profile
           <span aria-hidden>↗</span>

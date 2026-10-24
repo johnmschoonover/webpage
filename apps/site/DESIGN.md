@@ -244,7 +244,7 @@ A cool, low-chroma neutral scale in two mirrored themes, with one saturated blue
 Both faces are self-hosted variable fonts from the `@fontsource-variable` packages, imported in the global stylesheet with `font-display: swap`; no third-party font host is involved.
 
 ### Hierarchy
-- **Display** (600, 2.25rem rising to 3rem at the small breakpoint, line-height 1.1, tracking -0.025em): The hero title only. Centered.
+- **Display** (600, 2.25rem rising to 3rem at the small breakpoint, line-height 1.1, tracking -0.025em): The hero title only. Centered from the small breakpoint, left-aligned on phones.
 - **Headline** (600, 1.875rem rising to 2.25rem at medium, line-height 1.2): Page `h1` under the header, and the article title on posts and case studies.
 - **Title** (600, 1.5rem, line-height 1.33): Section `h2` beneath an eyebrow. Writing-index hero and featured card titles step up to 1.875rem.
 - **Card Title** (600, 1.25rem, line-height 1.4): `h3` inside cards, callouts, timeline entries, and patent tiles. Stat badges use 1.5rem.
@@ -265,7 +265,9 @@ A single centered column, 1152px wide (`max-w-6xl`) with 16px side gutters, hold
 
 The header is sticky, 64px tall at 16px vertical padding, with the wordmark left, horizontal nav center, and a cluster of command palette, theme toggle, and outline resume button pushed right. The inline nav renders from 1024px; below that the command palette trigger is the navigation entry, icon-only until 1280px. The resume button reads "Resume" below 640px and the wordmark drops to 1rem, and the header wraps rather than overflows down to 375px. The footer mirrors the header's two-ended layout, stacking on mobile.
 
-Spacing steps that recur: 4px (chip vertical), 8px (button vertical, inline gaps), 16px (gutters, header, timeline card padding), 24px (card padding, grid gaps), 40px (large panel padding), 48px (hero padding, section gap). The breakpoints used are Tailwind's `sm` (640px) and `md` (768px) for content grids, and `lg` (1024px) and `xl` (1280px) for the header only.
+Spacing steps that recur: 4px (chip vertical), 8px (button vertical, inline gaps), 16px (gutters, header, timeline card padding), 24px (card padding, grid gaps), 40px (large panel padding), 48px (hero padding from the small breakpoint, 24px below it; section gap). The breakpoints used are Tailwind's `sm` (640px) and `md` (768px) for content grids, and `lg` (1024px) and `xl` (1280px) for the header only.
+
+**Touch Floor.** On coarse pointers (Tailwind's `pointer-coarse:` variant) every standalone control grows to at least 44px: the header icon buttons and resume pill, footer channel links, and the writing filter chips. Inline text links are underlined there instead of on hover. Pointer density on desktop is unchanged, and form fields hold a 16px font below the small breakpoint so phones do not zoom on focus.
 
 ## Elevation & Depth
 
@@ -284,7 +286,7 @@ Flat and border-defined. Depth comes from a 1px Hairline border and from tonal l
 
 ## Shapes
 
-Two silhouettes: pills and soft panels. Every action is a full pill (9999px): buttons at 44px tall, chips at 24px, footer channel links, the command-palette trigger, the theme toggle (a 36px circle), and the writing-index meta tags. Containers are rounded panels at 16px (`rounded-2xl`) for cards, callouts, code blocks, figures, and the command-palette dialog, stepping up to 24px (`rounded-3xl`) for page-level panels (hero, leadership arc, writing hero, contact form, closing CTA) and down to 12px for stat badges and timeline cards. Form fields use the configured radius of 13.6px (`rounded-lg`), the one place the `--radius` token is visible; the derived md (9.6px) and sm (7.6px) steps exist in config but are not used on any surface today.
+Two silhouettes: pills and soft panels. Every action is a full pill (9999px): buttons at 44px tall, chips at 24px, footer channel links, the command-palette trigger, the theme toggle (a 36px circle, 44px on coarse pointers), and the writing-index meta tags. Containers are rounded panels at 16px (`rounded-2xl`) for cards, callouts, code blocks, figures, and the command-palette dialog, stepping up to 24px (`rounded-3xl`) for page-level panels (hero, leadership arc, writing hero, contact form, closing CTA) and down to 12px for stat badges and timeline cards. Form fields use the configured radius of 13.6px (`rounded-lg`), the one place the `--radius` token is visible; the derived md (9.6px) and sm (7.6px) steps exist in config but are not used on any surface today.
 
 Borders are 1px Hairline throughout, dropping to 60% alpha on the header and footer rules and on the code-block title bar. Dashed Hairline marks placeholders (missing contact channels, empty states). The timeline is a 1px left rule with 16px hollow circles outlined in Signal Blue. Images are clipped to the 16px panel radius with a Hairline border.
 

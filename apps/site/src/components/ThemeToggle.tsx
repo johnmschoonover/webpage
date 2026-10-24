@@ -56,7 +56,7 @@ export function ThemeToggle() {
     <button
       type="button"
       className={cn(
-        'inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary'
+        'inline-flex h-9 w-9 items-center justify-center rounded-full pointer-coarse:min-h-11 pointer-coarse:min-w-11 border border-border bg-background text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary'
       )}
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       aria-label={`Activate ${theme === 'dark' ? 'light' : 'dark'} mode`}

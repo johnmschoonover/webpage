@@ -170,7 +170,7 @@ export default function WritingGallery({ posts }: Props) {
               type="button"
               onClick={() => setActiveTag(null)}
               className={cn(
-                'rounded-full border border-border px-3 py-1 text-xs font-medium uppercase tracking-wide transition hover:bg-muted',
+                'inline-flex items-center rounded-full border border-border px-3 py-1 text-xs font-medium uppercase tracking-wide transition pointer-coarse:min-h-11 pointer-coarse:px-4 hover:bg-muted',
                 activeTag === null ? 'bg-foreground text-background shadow' : 'text-muted-foreground'
               )}
             >
@@ -182,7 +182,7 @@ export default function WritingGallery({ posts }: Props) {
                 type="button"
                 onClick={() => setActiveTag((current) => (current === tag ? null : tag))}
                 className={cn(
-                  'rounded-full border border-border px-3 py-1 text-xs font-medium uppercase tracking-wide transition hover:bg-muted',
+                  'inline-flex items-center rounded-full border border-border px-3 py-1 text-xs font-medium uppercase tracking-wide transition pointer-coarse:min-h-11 pointer-coarse:px-4 hover:bg-muted',
                   activeTag === tag ? 'bg-foreground text-background shadow' : 'text-muted-foreground'
                 )}
                 aria-pressed={activeTag === tag}

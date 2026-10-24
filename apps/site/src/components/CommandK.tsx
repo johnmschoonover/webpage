@@ -64,7 +64,7 @@ export function CommandK() {
     <>
       <button
         type="button"
-        className="inline-flex h-9 w-9 items-center justify-center gap-2 rounded-full border border-border bg-background text-sm text-muted-foreground shadow-sm transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary xl:w-auto xl:px-4"
+        className="inline-flex h-9 w-9 items-center justify-center gap-2 rounded-full pointer-coarse:min-h-11 pointer-coarse:min-w-11 border border-border bg-background text-sm text-muted-foreground shadow-sm transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary xl:w-auto xl:px-4"
         onClick={() => setOpen(true)}
       >
         <Search className="h-4 w-4" aria-hidden />
@@ -75,7 +75,7 @@ export function CommandK() {
       {/* Portal to <body>: the header's backdrop-blur would otherwise contain this fixed overlay. */}
       {open && createPortal(
         <div
-          className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 px-4 py-24 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 px-4 py-12 backdrop-blur-sm sm:py-24"
           role="dialog"
           aria-modal="true"
         >
