@@ -2,6 +2,7 @@
 import PostLayout from '@layouts/PostLayout.astro';
 import { getCollection, render } from 'astro:content';
 import Latex from '../../components/Latex';
+import Table from '@components/Table.astro';
 
 export const prerender = true;
 
@@ -25,5 +26,5 @@ const { Content } = await render(entry);
   publishDate={new Date(entry.data.date).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}
   tags={entry.data.tags}
 >
-  <Content components={{ Latex }} />
+  <Content components={{ Latex, table: Table }} />
 </PostLayout>

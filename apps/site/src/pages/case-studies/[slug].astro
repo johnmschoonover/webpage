@@ -2,6 +2,7 @@
 import PostLayout from '@layouts/PostLayout.astro';
 import { getCollection, render } from 'astro:content';
 import Callout from '@components/Callout.astro';
+import Table from '@components/Table.astro';
 
 export const prerender = true;
 
@@ -25,6 +26,6 @@ const publishDate = entry.data.timeframe;
 <PostLayout title={entry.data.title} description={entry.data.description} publishDate={publishDate} tags={entry.data.tags}>
   <section class="space-y-6">
     <Callout title="Impact" body={entry.data.impact.join(' • ')} tone="info" />
-    <Content />
+    <Content components={{ table: Table }} />
   </section>
 </PostLayout>
