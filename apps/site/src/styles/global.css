@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/space-grotesk';
 @config '../../tailwind.config.mjs';
 
 :root {
@@ -72,7 +74,7 @@ progress.reading-progress::-moz-progress-bar {
 }
 
 .prose {
-  @apply prose-neutral max-w-none dark:prose-invert;
+  @apply prose-neutral dark:prose-invert;
 }
 
 .site-nav-link {

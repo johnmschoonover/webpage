@@ -5,8 +5,8 @@ const { title, body, tone = 'info' } = Astro.props as {
   tone?: 'info' | 'success' | 'warning';
 };
 const toneMap = {
-  info: 'border-primary/40 bg-primary/10 text-primary-foreground',
-  success: 'border-emerald-400/40 bg-emerald-500/10 text-emerald-900 dark:border-primary/40 dark:bg-primary/15 dark:text-primary-foreground',
+  info: 'border-primary/40 bg-primary/10 text-foreground',
+  success: 'border-emerald-400/40 bg-emerald-500/10 text-emerald-900 dark:border-primary/40 dark:bg-primary/15 dark:text-foreground',
   warning: 'border-amber-500/40 bg-amber-500/10 text-amber-900 dark:border-amber-400/60 dark:bg-amber-400/15 dark:text-amber-50'
 };
 ---

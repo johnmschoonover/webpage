@@ -29,25 +29,25 @@ colors:
   chart-5: "hsl(269 81% 65%)"
 typography:
   display:
-    fontFamily: "Space Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Space Grotesk Variable, ui-sans-serif, system-ui, sans-serif"
     fontSize: "clamp(2.25rem, 2.25rem + 1vw, 3rem)"
     fontWeight: 600
     lineHeight: 1.1
     letterSpacing: "-0.025em"
   headline:
-    fontFamily: "Space Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Space Grotesk Variable, ui-sans-serif, system-ui, sans-serif"
     fontSize: "1.875rem"
     fontWeight: 600
     lineHeight: 1.2
     letterSpacing: "0em"
   title:
-    fontFamily: "Space Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Space Grotesk Variable, ui-sans-serif, system-ui, sans-serif"
     fontSize: "1.5rem"
     fontWeight: 600
     lineHeight: 1.33
     letterSpacing: "0em"
   card-title:
-    fontFamily: "Space Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Space Grotesk Variable, ui-sans-serif, system-ui, sans-serif"
     fontSize: "1.25rem"
     fontWeight: 600
     lineHeight: 1.4
@@ -191,7 +191,7 @@ The site reads like the dashboard of a well-run security platform: a cool near-w
 
 Density is editorial rather than dense. Panels carry 24 to 48px of internal padding, sections are separated by 48px, and the hero runs centered copy at a wide measure. Light and dark are first-class and tonally symmetric: every neutral has a counterpart, and Signal Blue is the one value that never changes between themes. Translucency and backdrop blur appear only where a layer floats over content (the sticky header, the command palette scrim, the hero stat badges), never as decoration.
 
-Known gaps in the incumbent, recorded so later work fixes them rather than inheriting them: the display and body fonts are declared but never loaded, so visitors currently see the system sans; the "info" callout uses near-white text on a 10% blue tint in light mode and is unreadable; long-form prose on case studies and posts is uncapped and runs the full 1120px container; and the header navigation is hidden below the medium breakpoint with no mobile menu, leaving only the wordmark, theme toggle, and resume button.
+One known gap remains in the incumbent, recorded so later work fixes it rather than inheriting it: the header navigation is hidden below the medium breakpoint with no mobile menu, leaving only the wordmark, theme toggle, and resume button.
 
 **Key Characteristics:**
 - One chromatic signal (Signal Blue) on an otherwise neutral, tonal canvas.
@@ -235,13 +235,13 @@ A cool, low-chroma neutral scale in two mirrored themes, with one saturated blue
 
 ## Typography
 
-**Display Font:** Space Grotesk (with ui-sans-serif, system-ui)
+**Display Font:** Space Grotesk Variable (with ui-sans-serif, system-ui)
 **Body Font:** Inter Variable (with ui-sans-serif, system-ui)
 **Math / Code:** KaTeX fonts for formulas; the browser monospace stack inside Shiki code blocks
 
 **Character:** A geometric, slightly technical display face over a neutral humanist body. Headings are always semibold (600) and never heavier; hierarchy comes from size and the eyebrow above, not from weight contrast. Ligatures, tabular numerals, and Inter's `cv11` alternate are switched on site-wide so metrics align in stat rows.
 
-Neither font is loaded by the site today (no webfont, no `@font-face`, no font package), so the declared stacks fall through to the system sans. The pairing above is the system's intent and loading it is an open task.
+Both faces are self-hosted variable fonts from the `@fontsource-variable` packages, imported in the global stylesheet with `font-display: swap`; no third-party font host is involved.
 
 ### Hierarchy
 - **Display** (600, 2.25rem rising to 3rem at the small breakpoint, line-height 1.1, tracking -0.025em): The hero title only. Centered.
@@ -261,7 +261,7 @@ Neither font is loaded by the site today (no webfont, no `@font-face`, no font p
 
 ## Layout
 
-A single centered column, 1152px wide (`max-w-6xl`) with 16px side gutters, holds the header, main, and footer. Main stacks sections in a 48px vertical rhythm with 48px top and bottom padding and a 60vh minimum height. Within sections, content grids use 24px gaps: three columns for case-study and post cards at the medium breakpoint, two columns for stat badges, patent tiles, and post lists, and asymmetric two-column splits (`1.2fr 1fr`, `2fr 1fr`, `1fr auto`) for panel-plus-sidebar compositions. Long-form articles are centered but uncapped, so they run the full column.
+A single centered column, 1152px wide (`max-w-6xl`) with 16px side gutters, holds the header, main, and footer. Main stacks sections in a 48px vertical rhythm with 48px top and bottom padding and a 60vh minimum height. Within sections, content grids use 24px gaps: three columns for case-study and post cards at the medium breakpoint, two columns for stat badges, patent tiles, and post lists, and asymmetric two-column splits (`1.2fr 1fr`, `2fr 1fr`, `1fr auto`) for panel-plus-sidebar compositions. Long-form articles are centered and capped at the prose measure of 65ch (about 656px at the 16px body size), which also bounds the article header and impact callout.
 
 The header is sticky, 64px tall at 16px vertical padding, with the wordmark left, horizontal nav center, and a cluster of command palette, theme toggle, and outline resume button right. Below 768px the nav and command palette disappear and nothing replaces them. The footer mirrors the header's two-ended layout, stacking on mobile.
 
@@ -329,7 +329,7 @@ Label typography in Slate (or Signal Blue at 80% inside cards), uppercase, 0.2em
 12px-rounded Paper panel at 80% alpha with backdrop blur, Hairline border, 24px padding, ambient shadow. A `tracking-wide` uppercase Body Small caption in Slate sits above a 1.5rem Space Grotesk value. Laid out two-up at the small breakpoint.
 
 ### Callout
-16px-rounded panel, 24px padding, ambient shadow, with a Card Title and Body Small body. Tones: info (Signal Blue border at 40%, 10% blue tint), success (emerald border at 40%, 10% emerald tint, deep emerald text in light; blue tint in dark), warning (amber border and tint). The info tone's light-mode text color is a known defect; see The Tinted Surface Rule.
+16px-rounded panel, 24px padding, ambient shadow, with a Card Title and Body Small body. Tones: info (Signal Blue border at 40%, 10% blue tint), success (emerald border at 40%, 10% emerald tint, deep emerald text in light; blue tint in dark), warning (amber border and tint). Text is Ink in light and Frost in dark on every tone, per The Tinted Surface Rule.
 
 ### Command Palette
 A 36px pill trigger with a search icon and a bordered `⌘K` keycap, visible from the medium breakpoint. Opens a 576px dialog (16px radius, Hairline border, overlay shadow) over a 50% black blurred scrim, with a 40px borderless search row and a list of 12px-rounded items that fill Paper Muted on hover.
@@ -356,6 +356,6 @@ A 4px Signal Blue bar fixed to the top edge, transparent track, 200ms width ease
 - **Don't** introduce a hue beyond Signal Blue, Emerald Ack for success, and Alert Red for errors.
 - **Don't** use shadows as the primary depth cue; a border and a tone change come first.
 - **Don't** apply backdrop blur to static panels; it belongs to the sticky header, overlay scrims, and badges floating on the hero wash.
-- **Don't** set Signal Blue Foreground text on a 10% tint; the incumbent info callout does and is unreadable in light mode.
+- **Don't** set Signal Blue Foreground text on a 10% tint; the info callout once did and was unreadable in light mode.
 - **Don't** use heading weights above 600 or a third typeface outside KaTeX and code.
 - **Don't** fall back to square corners; the smallest radius in use is 12px on badges, and only form fields use the 13.6px token.
