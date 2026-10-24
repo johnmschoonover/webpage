@@ -58,7 +58,7 @@ export default {
       },
       fontFamily: {
         sans: ['"Inter Variable"', ...fontFamily.sans],
-        display: ['"Space Grotesk"', ...fontFamily.sans]
+        display: ['"Space Grotesk Variable"', ...fontFamily.sans]
       },
       keyframes: {
         'accordion-down': {

@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-23T00:00:00Z",
+  "title": "Design System: theschoonover.net",
+  "extensions": {
+    "colorMeta": {
+      "signal-blue": { "role": "primary", "displayName": "Signal Blue", "canonical": "hsl(201 100% 43%)", "tonalRamp": ["#00223a", "#003d66", "#005a93", "#0077b8", "#008fdb", "#3fabe6", "#8ccbf0", "#d6ebf9"] },
+      "signal-blue-foreground": { "role": "primary", "displayName": "Signal Blue Foreground", "canonical": "hsl(210 20% 98%)", "tonalRamp": ["#1f2429", "#3b434c", "#5a636e", "#7f8893", "#a8b0ba", "#cdd3da", "#e8ecf0", "#f9fafb"] },
+      "emerald-ack": { "role": "secondary", "displayName": "Emerald Ack", "canonical": "hsl(161 80% 40%)", "tonalRamp": ["#032e21", "#06503a", "#0a7454", "#0f976d", "#14b884", "#4ccb9f", "#8cdfc1", "#d0f2e5"] },
+      "emerald-ack-dark": { "role": "secondary", "displayName": "Emerald Ack (dark)", "canonical": "hsl(161 70% 45%)", "tonalRamp": ["#063225", "#0b5540", "#117a5b", "#199d76", "#22c390", "#55d2a8", "#92e2c6", "#d2f3e8"] },
+      "alert-red": { "role": "tertiary", "displayName": "Alert Red", "canonical": "hsl(0 70% 45%)", "tonalRamp": ["#330909", "#5c1010", "#871818", "#a81d1d", "#c32222", "#d35454", "#e38f8f", "#f5d2d2"] },
+      "alert-red-dark": { "role": "tertiary", "displayName": "Alert Red (dark)", "canonical": "hsl(0 62% 54%)", "tonalRamp": ["#360f0f", "#601b1b", "#8b2727", "#b03434", "#d24141", "#dd6b6b", "#e99e9e", "#f6d8d8"] },
+      "paper": { "role": "neutral", "displayName": "Paper", "canonical": "hsl(220 33% 99%)", "tonalRamp": ["#1f2430", "#3c4454", "#5c6678", "#7f8a9c", "#a5aebc", "#c9d0da", "#e6e9ef", "#fcfcfd"] },
+      "paper-secondary": { "role": "neutral", "displayName": "Paper Secondary", "canonical": "hsl(210 22% 96%)", "tonalRamp": ["#20262c", "#3c454e", "#5c6771", "#7f8b96", "#a5afb9", "#c9d0d7", "#e3e8ec", "#f3f5f7"] },
+      "paper-muted": { "role": "neutral", "displayName": "Paper Muted", "canonical": "hsl(210 16% 92%)", "tonalRamp": ["#20252a", "#3b434b", "#5a636d", "#7c8692", "#a1aab5", "#c3cad2", "#dbe0e5", "#e7ebee"] },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "hsl(213 16% 85%)", "tonalRamp": ["#1e2329", "#383f48", "#555e69", "#76808c", "#9aa3ae", "#b8c0c9", "#c9cfd6", "#d3d8df"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "hsl(222 60% 10%)", "tonalRamp": ["#0a1329", "#16244a", "#24386c", "#35508e", "#4e6bad", "#7a92c6", "#aabde0", "#dde6f4"] },
+      "ink-secondary": { "role": "neutral", "displayName": "Ink Secondary", "canonical": "hsl(222 40% 20%)", "tonalRamp": ["#0e1420", "#1f2b47", "#2f4169", "#415a8b", "#5c77aa", "#8499c3", "#b0bfdb", "#dfe5f1"] },
+      "slate": { "role": "neutral", "displayName": "Slate", "canonical": "hsl(220 10% 40%)", "tonalRamp": ["#1b1e24", "#30353e", "#464c57", "#5c6370", "#767e8b", "#959ca8", "#b8bdc6", "#e0e3e8"] },
+      "night": { "role": "neutral", "displayName": "Night", "canonical": "hsl(220 30% 8%)", "tonalRamp": ["#0e121b", "#1a2130", "#283247", "#3a4863", "#536485", "#7d8daa", "#aab6cb", "#dde2ec"] },
+      "night-secondary": { "role": "neutral", "displayName": "Night Secondary", "canonical": "hsl(215 15% 16%)", "tonalRamp": ["#12151a", "#23282f", "#363d47", "#4b5461", "#656f7f", "#8893a3", "#b0b8c4", "#dfe3e9"] },
+      "night-muted": { "role": "neutral", "displayName": "Night Muted", "canonical": "hsl(217 15% 18%)", "tonalRamp": ["#14171d", "#272c35", "#3b424e", "#515a69", "#6c7688", "#8f99aa", "#b5bcc9", "#e1e5eb"] },
+      "hairline-dark": { "role": "neutral", "displayName": "Hairline Dark", "canonical": "hsl(215 17% 22%)", "tonalRamp": ["#181c22", "#2f3742", "#45505f", "#5d6a7e", "#7a889d", "#9ea9ba", "#c3cbd6", "#e6eaef"] },
+      "frost": { "role": "neutral", "displayName": "Frost", "canonical": "hsl(220 27% 96%)", "tonalRamp": ["#1e2330", "#3a4357", "#59647c", "#7c889f", "#a3adbf", "#c7cedb", "#e4e8ef", "#f2f4f8"] },
+      "frost-secondary": { "role": "neutral", "displayName": "Frost Secondary", "canonical": "hsl(217 32% 92%)", "tonalRamp": ["#1c2230", "#374257", "#56657d", "#7a8aa1", "#a2afc1", "#c6cfdc", "#dde3ec", "#e4e9f1"] },
+      "frost-muted": { "role": "neutral", "displayName": "Frost Muted", "canonical": "hsl(219 15% 70%)", "tonalRamp": ["#1f232b", "#3a414d", "#596273", "#7c8698", "#a7afbe", "#bfc6d1", "#d8dce3", "#eff1f4"] },
+      "chart-1": { "role": "data", "displayName": "Chart Sky", "canonical": "hsl(203 89% 58%)", "tonalRamp": ["#082a40", "#0d4a70", "#126ba1", "#1d8dd0", "#34a0ee", "#6cbaf2", "#a4d4f7", "#dbeefc"] },
+      "chart-2": { "role": "data", "displayName": "Chart Cyan", "canonical": "hsl(195 83% 49%)", "tonalRamp": ["#062a35", "#0a4a5e", "#0f6b88", "#1590b7", "#15aee5", "#4fc3ec", "#8ed8f3", "#cdeefa"] },
+      "chart-3": { "role": "data", "displayName": "Chart Emerald", "canonical": "hsl(160 84% 39%)", "tonalRamp": ["#032c1f", "#064d37", "#0a7052", "#0e9770", "#10b783", "#4ccaa1", "#8bdec2", "#cff2e5"] },
+      "chart-4": { "role": "data", "displayName": "Chart Indigo", "canonical": "hsl(222 87% 63%)", "tonalRamp": ["#0d1a3d", "#162f6e", "#2046a0", "#2d5fd3", "#4f7cf2", "#7a9bf5", "#a9bdf8", "#dbe4fc"] },
+      "chart-5": { "role": "data", "displayName": "Chart Violet", "canonical": "hsl(269 81% 65%)", "tonalRamp": ["#1f0d3b", "#38186a", "#52249a", "#7035cf", "#9a5df4", "#b385f7", "#ccadfa", "#e9dafd"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero title only; centered, semibold, tight tracking." },
+      "headline": { "displayName": "Headline", "purpose": "Page h1 under the header and article titles." },
+      "title": { "displayName": "Title", "purpose": "Section h2 beneath an eyebrow label." },
+      "card-title": { "displayName": "Card Title", "purpose": "h3 in cards, callouts, timeline entries, patent tiles." },
+      "body": { "displayName": "Body", "purpose": "Default paragraph; ligatures, tabular numerals, cv11 on." },
+      "body-lead": { "displayName": "Body Lead", "purpose": "Hero summary and page intros." },
+      "body-small": { "displayName": "Body Small", "purpose": "Card descriptions, form fields, nav, footer meta." },
+      "label": { "displayName": "Label", "purpose": "Eyebrows, chips, code-block titles, timeline dates; uppercase at 0.2em." },
+      "action": { "displayName": "Action", "purpose": "Buttons, nav links, command-palette items." }
+    },
+    "fontLoading": {
+      "status": "loaded",
+      "note": "Space Grotesk Variable and Inter Variable are self-hosted via @fontsource-variable packages imported in src/styles/global.css with font-display: swap."
+    },
+    "shadows": [
+      { "name": "ambient-hint", "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)", "purpose": "Cards, callouts, stat badges, hero panel at rest." },
+      { "name": "button-lift", "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)", "purpose": "Primary button and selected chip." },
+      { "name": "hover-growth", "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)", "purpose": "Writing-index cards on hover, paired with a 4px lift." },
+      { "name": "overlay", "value": "0 25px 50px -12px rgb(0 0 0 / 0.25)", "purpose": "Command-palette dialog over the blurred scrim." }
+    ],
+    "motion": [
+      { "name": "ease-nav", "value": "opacity 150ms ease, transform 150ms ease", "purpose": "Nav indicator bars." },
+      { "name": "ease-progress", "value": "width 0.2s ease", "purpose": "Reading progress bar." },
+      { "name": "ease-state", "value": "150ms cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Tailwind default `transition` on buttons, cards, chips, and links." },
+      { "name": "card-lift", "value": "translateY(-4px)", "purpose": "Card hover." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "container", "value": "1152px" }
+    ],
+    "blur": [
+      { "name": "backdrop-floating", "value": "backdrop-filter: blur(8px)", "purpose": "Sticky header at 80% Paper, hero stat badges at 80% Paper." },
+      { "name": "scrim", "value": "backdrop-filter: blur(4px); background: rgb(0 0 0 / 0.5)", "purpose": "Command-palette overlay." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Signal Blue pill for the one conversion action on a surface (Contact, Send).",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Let's talk</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; height: 44px; padding: 8px 24px; border-radius: 9999px; background: hsl(var(--primary, 201 100% 43%)); color: hsl(var(--primary-foreground, 210 20% 98%)); font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; line-height: 1.43; text-decoration: none; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-btn-primary:hover { background: hsl(var(--primary, 201 100% 43%) / 0.9); } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 2px hsl(var(--background, 220 33% 99%)), 0 0 0 4px hsl(var(--ring, 201 100% 43%)); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Bordered Paper pill for the secondary action (resume download).",
+      "html": "<a class=\"ds-btn-outline\" href=\"#\" download>Download resume</a>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; height: 44px; padding: 8px 24px; border-radius: 9999px; border: 1px solid hsl(var(--input, 213 16% 85%)); background: hsl(var(--background, 220 33% 99%)); color: hsl(var(--primary, 201 100% 43%)); font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; line-height: 1.43; text-decoration: none; transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-btn-outline:hover { background: hsl(var(--muted, 210 16% 92%)); } .ds-btn-outline:focus-visible { outline: none; box-shadow: 0 0 0 2px hsl(var(--background, 220 33% 99%)), 0 0 0 4px hsl(var(--ring, 201 100% 43%)); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Borderless Signal Blue text pill for tertiary links (GitHub).",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">Explore GitHub</a>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; height: 44px; padding: 8px 24px; border-radius: 9999px; background: transparent; color: hsl(var(--primary, 201 100% 43%)); font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; line-height: 1.43; text-decoration: none; transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-btn-ghost:hover { background: hsl(var(--muted, 210 16% 92%)); color: hsl(var(--foreground, 222 60% 10%)); } .ds-btn-ghost:focus-visible { outline: none; box-shadow: 0 0 0 2px hsl(var(--background, 220 33% 99%)), 0 0 0 4px hsl(var(--ring, 201 100% 43%)); }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Bordered 16px panel with eyebrow, display-face title, Slate description, and a blue action line; lifts 4px on hover.",
+      "html": "<a class=\"ds-card\" href=\"#\"><span class=\"ds-card-eyebrow\">2022–2024</span><h3 class=\"ds-card-title\">SIEM at Planetary Scale</h3><p class=\"ds-card-desc\">Transformed a fragmented monitoring estate into a unified observability fabric with sub-second insights.</p><span class=\"ds-card-cta\">Explore →</span></a>",
+      "css": ".ds-card { display: flex; flex-direction: column; gap: 16px; padding: 24px; border-radius: 16px; border: 1px solid hsl(var(--border, 213 16% 85%)); background: hsl(var(--background, 220 33% 99%) / 0.9); color: hsl(var(--foreground, 222 60% 10%)); text-decoration: none; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), background-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-card:hover { transform: translateY(-4px); background: hsl(var(--background, 220 33% 99%)); } .ds-card:hover .ds-card-title { color: hsl(var(--primary, 201 100% 43%)); } .ds-card-eyebrow { font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: hsl(var(--primary, 201 100% 43%) / 0.8); } .ds-card-title { margin: 0; font-family: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif; font-size: 1.25rem; font-weight: 600; line-height: 1.4; transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-card-desc { margin: 0; font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; line-height: 1.5; color: hsl(var(--muted-foreground, 220 10% 40%)); } .ds-card-cta { font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 600; color: hsl(var(--primary, 201 100% 43%)); }"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Uppercase pill tag; filter variant inverts to Ink when selected.",
+      "html": "<span class=\"ds-chip\">Platform</span> <button type=\"button\" class=\"ds-chip ds-chip-filter\">Rust</button> <button type=\"button\" class=\"ds-chip ds-chip-filter ds-chip-selected\" aria-pressed=\"true\">All topics</button>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 9999px; border: 1px solid hsl(var(--border, 213 16% 85%)); background: hsl(var(--secondary, 210 22% 96%)); color: hsl(var(--secondary-foreground, 222 40% 20%)); font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.025em; text-transform: uppercase; line-height: 1.33; } .ds-chip-filter { background: transparent; color: hsl(var(--muted-foreground, 220 10% 40%)); cursor: pointer; transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-chip-filter:hover { background: hsl(var(--muted, 210 16% 92%)); } .ds-chip-selected { background: hsl(var(--foreground, 222 60% 10%)); color: hsl(var(--background, 220 33% 99%)); box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); } .ds-chip-filter:focus-visible { outline: none; box-shadow: 0 0 0 2px hsl(var(--ring, 201 100% 43%)); }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "44px field with Hairline stroke, 13.6px radius, and a 2px Signal Blue focus ring; label sits above in Action weight.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-label\" for=\"ds-name\">Name</label><input class=\"ds-input\" id=\"ds-name\" type=\"text\" placeholder=\"Your name\" /></div>",
+      "css": ".ds-field { display: grid; gap: 8px; } .ds-label { font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; color: hsl(var(--foreground, 222 60% 10%)); } .ds-input { height: 44px; padding: 0 12px; border-radius: 0.85rem; border: 1px solid hsl(var(--input, 213 16% 85%)); background: hsl(var(--background, 220 33% 99%)); color: hsl(var(--foreground, 222 60% 10%)); font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; } .ds-input::placeholder { color: hsl(var(--muted-foreground, 220 10% 40%)); } .ds-input:focus-visible { outline: none; box-shadow: 0 0 0 2px hsl(var(--primary, 201 100% 43%)); }"
+    },
+    {
+      "name": "Navigation Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Slate text link with a 2px Signal Blue bar below on hover and above when active.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link\" href=\"#\">About</a><a class=\"ds-nav-link\" href=\"#\" data-active=\"true\" aria-current=\"page\">Case Studies</a><a class=\"ds-nav-link\" href=\"#\">Writing</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 8px; padding: 12px 0; } .ds-nav-link { position: relative; isolation: isolate; display: inline-flex; align-items: center; padding: 8px; font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; color: hsl(var(--muted-foreground, 220 10% 40%)); text-decoration: none; transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-nav-link:hover, .ds-nav-link:focus-visible, .ds-nav-link[data-active='true'] { color: hsl(var(--foreground, 222 60% 10%)); outline: none; } .ds-nav-link::before, .ds-nav-link::after { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 58%; max-width: 3.5rem; height: 2px; border-radius: 9999px; background: hsl(var(--primary, 201 100% 43%)); opacity: 0; transition: opacity 150ms ease, transform 150ms ease; } .ds-nav-link::before { top: -0.4rem; } .ds-nav-link::after { bottom: -0.4rem; } .ds-nav-link[data-active='true']::before { opacity: 1; } .ds-nav-link:hover::after, .ds-nav-link:focus-visible::after { opacity: 0.75; }"
+    },
+    {
+      "name": "Eyebrow + Heading",
+      "kind": "custom",
+      "refersTo": "eyebrow",
+      "description": "The universal section opener: tracked uppercase label over a Space Grotesk title.",
+      "html": "<div class=\"ds-section-head\"><span class=\"ds-eyebrow\">Case Studies</span><h2 class=\"ds-title\">Strategic programs delivered end-to-end.</h2></div>",
+      "css": ".ds-section-head { display: flex; flex-direction: column; gap: 8px; } .ds-eyebrow { font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: hsl(var(--muted-foreground, 220 10% 40%)); } .ds-title { margin: 0; font-family: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif; font-size: 1.5rem; font-weight: 600; line-height: 1.33; color: hsl(var(--foreground, 222 60% 10%)); }"
+    },
+    {
+      "name": "Stat Badge",
+      "kind": "custom",
+      "refersTo": "stat-badge",
+      "description": "Blurred 12px-rounded panel with a small uppercase caption above a display-face value.",
+      "html": "<div class=\"ds-stat\"><p class=\"ds-stat-caption\">Current focus area</p><p class=\"ds-stat-value\">Security telemetry platform: ingestion, enrichment, storage, and access.</p></div>",
+      "css": ".ds-stat { display: flex; flex-direction: column; gap: 4px; padding: 24px; border-radius: 12px; border: 1px solid hsl(var(--border, 213 16% 85%)); background: hsl(var(--background, 220 33% 99%) / 0.8); backdrop-filter: blur(8px); box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); text-align: left; } .ds-stat-caption { margin: 0; font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; letter-spacing: 0.025em; text-transform: uppercase; color: hsl(var(--muted-foreground, 220 10% 40%)); } .ds-stat-value { margin: 0; font-family: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif; font-size: 1.5rem; font-weight: 600; line-height: 1.33; color: hsl(var(--foreground, 222 60% 10%)); }"
+    },
+    {
+      "name": "Callout (info)",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Tinted Signal Blue panel for impact summaries and asides, with Ink text in light and Frost in dark per The Tinted Surface Rule.",
+      "html": "<div class=\"ds-callout\"><h3 class=\"ds-callout-title\">Impact</h3><p class=\"ds-callout-body\">Reduced controllable event delay by 70% across a seven-figure EPS pipeline • Unified >50 diverse data sources</p></div>",
+      "css": ".ds-callout { padding: 24px; border-radius: 16px; border: 1px solid hsl(var(--primary, 201 100% 43%) / 0.4); background: hsl(var(--primary, 201 100% 43%) / 0.1); color: hsl(var(--foreground, 222 60% 10%)); box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); } .ds-callout-title { margin: 0; font-family: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif; font-size: 1.125rem; font-weight: 600; } .ds-callout-body { margin: 8px 0 0; font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; line-height: 1.5; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Operations Console",
+    "overview": "The site reads like the dashboard of a well-run security platform: a cool near-white canvas in daylight, an ink-navy one at night, and a single saturated sky blue that marks every live signal. Surfaces are bordered panels with soft corners, laid out on a generous rhythm, and almost nothing casts a shadow. Each section opens the same way, with a tracked uppercase label and then a geometric display heading, so the page scans like a console whose every pane is labeled. The mood is calm, precise, and credible first, and confident, systematic, and modern second: restraint is the brand, and the one blue is allowed to be assertive because everything around it is quiet.\n\nDensity is editorial rather than dense. Panels carry 24 to 48px of internal padding, sections are separated by 48px, and the hero runs centered copy at a wide measure. Light and dark are first-class and tonally symmetric: every neutral has a counterpart, and Signal Blue is the one value that never changes between themes. Translucency and backdrop blur appear only where a layer floats over content (the sticky header, the command palette scrim, the hero stat badges), never as decoration.\n\nBelow the large breakpoint (1024px) the header carries no inline navigation by design: the command palette trigger stays visible at every width and is the navigation entry point there, icon-only until 1280px.",
+    "keyCharacteristics": [
+      "One chromatic signal (Signal Blue) on an otherwise neutral, tonal canvas.",
+      "Bordered panels with 16 to 24px corners; pills for every action and chip.",
+      "Eyebrow label plus display heading as the universal section opener.",
+      "Flat, hairline-defined depth; blur reserved for floating layers.",
+      "Light and dark themes with mirrored neutral scales and an unchanged accent."
+    ],
+    "rules": [
+      { "name": "The One Signal Rule", "body": "Signal Blue is the only hue on a surface at rest. Emerald appears only to acknowledge success; red only to report failure. Do not introduce a third accent.", "section": "colors" },
+      { "name": "The Theme Parity Rule", "body": "Every neutral has a light and a dark value, and the accent does not change. A new surface that works in only one theme is unfinished.", "section": "colors" },
+      { "name": "The Tinted Surface Rule", "body": "Tints of Signal Blue (5 to 15% alpha) are backgrounds for callouts and the hero wash, and text on a tint must be Ink or Frost, never Signal Blue Foreground.", "section": "colors" },
+      { "name": "The Eyebrow Rule", "body": "A section opens with a Label in Slate (or Signal Blue at 80% when it sits inside a card), then a display-face heading. No section heading stands alone.", "section": "typography" },
+      { "name": "The Two-Face Rule", "body": "Space Grotesk for headings and the wordmark, Inter for everything else. KaTeX and code are the only exceptions.", "section": "typography" },
+      { "name": "The Semibold Ceiling Rule", "body": "Headings stop at 600. Emphasis inside body text uses 600 as well; 700 is not part of the system.", "section": "typography" },
+      { "name": "The Hairline Rule", "body": "A surface is defined by its 1px border. If a panel needs more separation, change its tone, not its shadow.", "section": "elevation" },
+      { "name": "The Blur Is For Floating Rule", "body": "Backdrop blur marks a layer that sits over scrolling content (sticky header, modal scrim, hero badges on the gradient). Static panels never blur.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do open every section with an eyebrow label (0.75rem, uppercase, 0.2em tracking, Slate) followed by a Space Grotesk heading at 600.",
+      "Do keep Signal Blue (#008fdb) identical in both themes and use it for links, primary fills, focus rings, active indicators, and progress.",
+      "Do build surfaces as 1px Hairline-bordered panels on Paper or Night at 70 to 90% alpha, 16px radius for cards and 24px for page panels.",
+      "Do make every action a pill: 44px buttons, 24px chips, 36px icon circles.",
+      "Do give every interactive element the 2px Signal Blue focus ring, with a 2px Paper offset on buttons.",
+      "Do keep hover feedback to a tone shift or a 4px lift; the 150 to 200ms ease is the only motion vocabulary.",
+      "Do put Ink or Frost text on tinted surfaces.",
+      "Do ship light and dark values together for any new neutral."
+    ],
+    "donts": [
+      "Don't introduce a hue beyond Signal Blue, Emerald Ack for success, and Alert Red for errors.",
+      "Don't use shadows as the primary depth cue; a border and a tone change come first.",
+      "Don't apply backdrop blur to static panels; it belongs to the sticky header, overlay scrims, and badges floating on the hero wash.",
+      "Don't set Signal Blue Foreground text on a 10% tint; the info callout once did and was unreadable in light mode.",
+      "Don't use heading weights above 600 or a third typeface outside KaTeX and code.",
+      "Don't fall back to square corners; the smallest radius in use is 12px on badges, and only form fields use the 13.6px token."
+    ]
+  }
+}
