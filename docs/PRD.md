@@ -163,8 +163,8 @@
 * **Framework:** Astro (content‑first, ultra‑fast) with MDX + React islands *or* Next.js (static export where possible).
 * **Styling:** Tailwind CSS + shadcn/ui for accessible components; Icons via lucide.
 * **Content:** Markdown/MDX in `content/` with front‑matter; image assets in `public/`.
-* **Runtime:** Node.js 20.11.x LTS (DSM-compatible); pin via `.nvmrc` and CI.
-* **Package Manager:** pnpm 8.15.1 with `pnpm-lock.yaml` committed and enforced via Corepack.
+* **Runtime:** Node.js 22.22.0+ (22.x LTS); pinned via `.node-version` at the repo root, which Cloudflare Pages honors.
+* **Package Manager:** pnpm 10.19.0 (root `package.json` `packageManager` field) with `pnpm-lock.yaml` committed and enforced via Corepack.
 * **Analytics:** Self‑hosted Plausible (Docker on RackStation) or lightweight serverless endpoint.
 * **Forms:** Next.js / Astro endpoint + nodemailer (SMTP to Synology MailPlus) or Cloudflare Email Routing; hCaptcha for bot protection.
 * **Diagrams:** `@mermaid-js/mermaid` or `kroki` static renders during build.

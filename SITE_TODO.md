@@ -1,7 +1,7 @@
 # Site TODOs
 
 ## Maintenance
-- [ ] Provide patent application numbers or official statuses for listed innovation themes when available.
+- [x] Provide patent application numbers or official statuses for listed innovation themes when available. (Published: US 2026/0277770 A1. The drop-control filing is still in flight, so add its number once it publishes.)
 - [ ] Update `CHANGELOG.md` entry with the final commit hash after merge.
 
 ## Backlog: theschoonover.net Enhancements
@@ -31,7 +31,7 @@
 
 ### 5. Content & SEO "Closers"
 **Goal:** Increase external validation and "shareability."
-- [ ] **"The Sieve" Series Call-to-Action:** At the end of your Math posts, add a section on how this type of algorithmic thinking applies to high-speed cybersecurity detections.
+- [x] **"The Sieve" Series Call-to-Action:** At the end of your Math posts, add a section on how this type of algorithmic thinking applies to high-speed cybersecurity detections.
 - [ ] **"War Stories" Section:** Add a "Lessons Learned" or "Retrospectives" section. High-level leaders are trusted more when they show how they handled a major failure or architectural pivot.
 
 ## Summary of the "Golden Candidate" Profile

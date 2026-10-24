@@ -75,6 +75,8 @@ progress.reading-progress::-moz-progress-bar {
 
 .prose {
   @apply prose-neutral dark:prose-invert;
+  /* Long unbroken strings (bare URLs, hashes) wrap instead of widening the page on phones. */
+  overflow-wrap: break-word;
 }
 
 .site-nav-link {

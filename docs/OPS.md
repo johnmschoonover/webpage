@@ -6,7 +6,7 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
 ## Environment Matrix
 | Environment | Purpose | Hosting Details | Branch | Core Services | Notes |
 |-------------|---------|-----------------|--------|---------------|-------|
-| Local Dev   | Component/content work, QA before PR | Developer workstation, Node.js 20.11.x with pnpm 8.15.1 | feature branches | Astro dev server (`pnpm dev`) | Use `.env.local` for secrets; never commit.
+| Local Dev   | Component/content work, QA before PR | Developer workstation, Node.js 22.22.0+ (see `.node-version`) with pnpm 10.19.0 | feature branches | Astro dev server (`pnpm dev`) | Use `.env.local` for secrets; never commit.
 | Main Preview | Auto-refresh stack for merged changes | RackStation Docker stack exposing port `8079` | `main` | `site_main_preview` container following `main_latest`, shared nginx config | LAN/VPN only; validates integration before promotion.
 | Staging     | Optional dry-run for major releases | RackStation Docker stack, staging compose profile | `staging` (optional) | `site` static container, `nginx` reverse proxy | Enable HTTP basic auth if exposed.
 | Production  | Public site | RackStation Docker stack served via DSM reverse proxy at `theschoonover.net` | `main` | `site` static container, `nginx` reverse proxy, optional `plausible` | Watchtower tracks `release_*` tags.

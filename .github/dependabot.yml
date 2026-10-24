@@ -1,9 +1,12 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directories:
-      - "/"
-      - "/apps/site"
+    # pnpm workspace: scan from the root only. Dependabot picks up
+    # apps/site/package.json via pnpm-workspace.yaml, and every job sees the
+    # root pnpm-lock.yaml and packageManager pin. Listing "/apps/site" too let
+    # group PR refreshes run scoped to that directory, which updated
+    # package.json without the lockfile and failed `--frozen-lockfile` in CI.
+    directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
@@ -16,3 +19,9 @@ updates:
         update-types:
           - "major"
     open-pull-requests-limit: 5
+    ignore:
+      # TS 7.0 (native compiler) has no stable programmatic API; astro check
+      # (Volar) crashes on it. 7.1 is expected to stabilize the API, so resume
+      # proposing updates there.
+      - dependency-name: "typescript"
+        versions: ["7.0.x"]

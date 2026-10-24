@@ -20,7 +20,7 @@ theschoonover.net is John Schoonover's personal brand site. It establishes who h
 
 ## Positioning
 
-Security platform leader. John is Director of Engineering – Cybersecurity (SIEM), leading the security telemetry platform (ingestion, enrichment, storage, access) for a Cyber Fusion Center (CFC). The proof a neighboring profile could not copy: planetary-scale SIEM work (70% reduction in controllable event delay across a seven-figure EPS pipeline, >50 sources unified, feed onboarding cut from weeks to under an hour) and two named-inventor patents in flight on criticality-aware drop control and real-time visibility validation.
+Security platform leader. John is Director of Engineering – Cybersecurity (SIEM), leading the security telemetry platform (ingestion, enrichment, storage, access) for a Cyber Fusion Center (CFC). The proof a neighboring profile could not copy: planetary-scale SIEM work (70% reduction in controllable event delay across a seven-figure EPS pipeline, >50 sources unified, feed onboarding cut from weeks to under an hour) and two named-inventor patent filings: a published U.S. application on anomaly alerting for data feeds (US 2026/0277770 A1) and a second filing in flight on criticality-aware drop control.
 
 John chose security-first positioning over the data-platform reframing proposed in SITE_TODO.md. Data-engineering vocabulary may support the story but does not lead it.
 
@@ -32,23 +32,25 @@ John chose security-first positioning over the data-platform reframing proposed 
 - Hosting: Cloudflare Pages running the Astro SSR worker (`@astrojs/cloudflare`), root `wrangler.toml` is authoritative, preview alias `webpage-bf1.pages.dev`. README, `docs/PRD.md`, and `docs/OPS.md` still describe the earlier Synology RackStation plan and are stale on hosting.
 - Routes in production: Home, About, Experience, Case Studies (index + detail), Writing (index + post, RSS), Projects, Deliverables (patents), Contact, Legal, `health.json`.
 - Contact form posts to `/api/contact` with validation, an in-memory rate limit, and optional hCaptcha (enabled only when `PUBLIC_HCAPTCHA_SITEKEY` is set). Whether submissions reach an inbox was not verified during init.
-- Scoped `AGENTS.md` files under `apps/site/src/`, `components/`, `layouts/`, and each content collection carry per-surface guardrails and a QA loop: `pnpm --filter site build`, responsive sweep at 375 / 768 / 1280px, keyboard test of CTAs.
+- Scoped `AGENTS.md` files under `apps/site/src/`, `components/`, `layouts/`, and each content collection carry per-surface guardrails and a QA loop: `pnpm --filter site build`, responsive sweep at 375 / 768 / 1024 / 1280px with no horizontal scroll, keyboard test of CTAs.
+- Header rule (layouts/AGENTS.md): the inline nav renders from 1024px; below that the command palette trigger is the navigation entry point and stays visible at every width. The resume CTA reads "Resume" below 640px.
+- Build and secrets rule (src/AGENTS.md): server code reads secrets only through `getRuntimeEnv()`; the server bundle lives in `dist/client/_worker.js/` and nothing else in `dist/client/` may contain secrets because it is publicly served. `compressHTML: true` is deliberate and must not change without auditing inline links.
 - CI: `pr-validation.yml` and Dependabot auto-merge; no Lighthouse or axe gate is currently wired despite PRD intent.
 
 ## Capabilities and Constraints
 
-- Stack: Astro 7 (server output), React islands, Tailwind CSS 4, shadcn-style components with class-variance-authority, lucide icons, MDX with remark-gfm, KaTeX, Shiki (`github-dark-dimmed`), Chart.js available for post visuals.
+- Stack: Astro 7 (server output), React islands, Tailwind CSS 4, shadcn-style components with class-variance-authority, lucide icons, MDX (no extra remark/rehype plugins), KaTeX via the `Latex` island, Shiki (`github-dark-dimmed`), Chart.js available for post visuals.
 - Light and dark themes with a persisted manual toggle (`public/scripts/theme-init.js`).
 - Downloads served from `/downloads/`: `resume.pdf`, `john-schoonover-cv.pdf`, `john-schoonover-pgp.asc`, synced from repo-root `downloads/` by `scripts/sync-downloads.mjs`. Download CTAs must carry the HTML `download` attribute.
 - Terminology: SIEM, Cyber Fusion Center (CFC), EPS, detection engineering, drop control, "perfect feeds", ingest / enrichment / storage / access, parse-failure resilience, fingerprinting.
 - Binding (confirmed by John):
-  - Never list a patent as granted or cite a patent number that does not exist. Current statuses are "Patent Pending" and "Patent In-Flight".
+  - Never list a patent as granted or cite a patent number that does not exist. Current statuses: one published application (US 2026/0277770 A1, published, not granted) and one filing in flight with no number yet.
   - Location stays at region level ("Minnesota, USA"; "Twin Cities" in captions). No precise geolocation.
 - Present in the current build but not confirmed binding during init; treat as current practice that John may change:
   - The hero line "This site is AI-built and human-reviewed."
   - No third-party trackers or analytics; the hCaptcha script is the only third-party asset loaded.
   - GitHub as a tertiary CTA alongside Contact and Resume on brand surfaces (an AGENTS.md convention).
-- Undecided or not yet built: first-party analytics (Plausible planned in PRD, not deployed); site search index (planned, not built); Talks and a dedicated Patents page (named in PRD and layout guardrails, not present; patents live under Deliverables); patent application numbers (pending per SITE_TODO.md); contact email delivery path.
+- Undecided or not yet built: first-party analytics (Plausible planned in PRD, not deployed); site search index (planned, not built); Talks and a dedicated Patents page (named in PRD and layout guardrails, not present; patents live under Deliverables); the drop-control filing's application number once it publishes; contact email delivery path.
 - Budgets from PRD and AGENTS.md: Lighthouse Accessibility ≥ 95, Performance 90 to 95+, WCAG 2.2 AA, initial JS ≤ 200KB, fonts preloaded, images responsive and lazy.
 
 ## Brand Commitments
@@ -63,9 +65,9 @@ John chose security-first positioning over the data-platform reframing proposed 
 
 - Published case studies (`apps/site/src/content/case-studies/`): "SIEM at Planetary Scale" (2022–2024), "Multi-SIEM Migration Safeguards" (2017–2020), "Homelab: The Dual-Tap Visibility Strategy" (ongoing). Each carries impact bullets and a hero stat.
 - Five more case studies are placeholders marked `internal: true` with "Coming soon" metrics (alert ingest time, bare-metal patterning, broadbase schema validation, ETL monitoring, new rules engine). Never present them as finished work.
-- Writing: two "Defeating the Sieve" number-theory posts (2025-11-30, 2025-12-07).
-- Patents: two in flight in `content/data/deliverables.json`, with summaries and highlights but no filing numbers.
-- Profile facts in `data/profile.json`: 8+ years in cybersecurity, 4+ years leading teams, education (WGU MBA and BS Cybersecurity, AS Physics with honors, UVA physics and mathematics studies), three homelab projects (SecurityOnion/Wazuh stack, Forgejo GitOps, hybrid IaC infrastructure).
+- Writing: three published "Defeating the Sieve" number-theory posts (2025-11-30, 2025-12-07, 2026-10-20) and three drafts dated 2026-10-13 (dual-tap homelab ten months later, letting AI agents build the website, what a log costs). The home page and writing index hide drafts.
+- Patents in `content/data/deliverables.json`: "Systems and Methods for Anomaly Alerting for Data Feeds", published application US 2026/0277770 A1 (filed March 2025, published September 2026, co-invented with Christina Carlson, Caleb Walch, and David Lazar, linked to Google Patents); and "Criticality-Aware Drop Control for High-Throughput SIEM Pipelines", in flight with no number.
+- Profile facts in `data/profile.json`: named inventor on a published U.S. patent application and a second in-flight filing, 8+ years in cybersecurity, 4+ years leading teams, education (WGU MBA and BS Cybersecurity, AS Physics with honors, UVA physics and mathematics studies), three homelab projects (SecurityOnion/Wazuh stack, Forgejo GitOps, hybrid IaC infrastructure).
 - Links: LinkedIn, GitHub (johnmschoonover), public email, PGP key.
 - Absent, do not fabricate: employer names or logos, testimonials, talk recordings or abstracts, press, analytics figures, a dark-background headshot, architecture diagram images (none exist under `public/images/` beyond the headshot).
 

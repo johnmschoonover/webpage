@@ -6,8 +6,11 @@ tags:
   - Rust
   - Number Theory
   - Visualization
+updated: "2026-10-20"
 draft: false
 ---
+
+> **Correction (October 2026).** The Gap 2 example below is wrong: twin primes above 3 are always 2 mod 3, so their sum-minus-one is never divisible by 3. Gap 2 is shielded, not exposed. The full rule is that a gap is shielded by a prime q when the gap is +1 or −1 mod q, and penalized when it is 0 mod q. [Part 3](/writing/2026-10-20-defeating-the-sieve-part-3-the-shield-was-always-symmetric) works through the correction and what it changes. The data in this post is unchanged.
 
 We are taught that prime numbers are the noise of the number line—unpredictable, chaotic, and governed only by probabilistic density. But if you stop looking at individual primes and start looking at their sums, a rigid structure emerges from the chaos.
 
@@ -17,7 +20,7 @@ I recently went down a computational rabbit hole investigating the sequence:
 
 The question was simple: Is the sum of consecutive primes (minus one) prime more often than a random odd integer?
 
-Standard math says the density should fade logarithmically. But when I built a high-performance Rust tool to scan the first 10 Billion primes, I found something else entirely. I found that the Sieve of Eratosthenes has "blind spots."
+Standard math says the density should fade logarithmically. But when I built a high-performance Rust tool to scan every prime up to 10 billion (about 455 million of them), I found something else entirely. I found that the Sieve of Eratosthenes has "blind spots."
 
 ## Building the Microscope
 
@@ -64,7 +67,7 @@ Gap 34 is a Triple Shield. It is mathematically impossible for the sum <Latex fo
 
 ## Proof: Theory vs. Reality
 
-To validate this, I updated the Rust tool to calculate a "Theoretical Boost" based only on these shielding properties—completely ignoring the actual prime data. I then compared this theoretical prediction against the observed reality from the 10 Billion run.
+To validate this, I updated the Rust tool to calculate a "Theoretical Boost" based only on these shielding properties—completely ignoring the actual prime data. I then compared this theoretical prediction against the observed reality from the 10<sup>10</sup> run.
 
 The result was a near-perfect linear correlation (<Latex formula="R^2 \approx 1.0" />).
 

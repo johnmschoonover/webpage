@@ -1,12 +1,16 @@
 {
   "items": [
     {
-      "title": "Process for Real-Time Validation of Comprehensive Visibility for \"perfect feeds\"",
-      "status": "Patent Pending",
-      "summary": "Validates end-to-end visibility for high-value telemetry so blind spots, ingestion gaps, and rule efficacy impacts surface before they affect detections.",
+      "title": "Systems and Methods for Anomaly Alerting for Data Feeds",
+      "status": "Published Application · US 2026/0277770 A1",
+      "year": "2026",
+      "url": "https://patents.google.com/patent/US20260277770A1/en",
+      "summary": "Checks every event log in a data feed against its expected schema, stores the field errors alongside the event, and alerts when a feed's compliance drifts from its own historical baseline, so detections don't quietly lose the fields they depend on.",
       "highlights": [
-        "Systematizes visibility checks across heterogeneous feeds to confirm \"perfect feed\" coverage.",
-        "Enables proactive mitigation of ingestion, parsing, and detection blind spots."
+        "Flags missing, mistyped, malformed, and unsearchable fields at ingest and keeps that error context with the stored event.",
+        "Builds per-feed compliance metrics over cyclical windows, such as day of week, and sets alert thresholds from each feed's own history.",
+        "Anchors schemas to the fields that rules-based detections actually use.",
+        "Co-invented with Christina Carlson, Caleb Walch, and David Lazar. Filed March 2025; published September 2026."
       ]
     },
     {

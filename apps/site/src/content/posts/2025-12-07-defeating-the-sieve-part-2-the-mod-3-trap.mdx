@@ -2,15 +2,18 @@
 title: "Defeating the Sieve Part 2: The Mod 3 Trap"
 summary: >-
   In Part 1, we discovered that prime sums have 'Shields'—mathematical armor
-  that blocks divisibility. But when I stress-tested the theory against 100
-  Billion primes, I found the opposite of a shield. I found a trap.
+  that blocks divisibility. But when I stress-tested the theory against every
+  prime up to ten billion, I found the opposite of a shield. I found a trap.
 date: "2025-12-07"
 tags:
   - Rust
   - Number Theory
   - Visualization
+updated: "2026-10-20"
 draft: false
 ---
+
+> **Correction (October 2026).** This post originally described a 10<sup>11</sup> run. The figures quoted are from the 10<sup>10</sup> dataset, and the text now says so. The Mod 3 Trap argument stands, and the same residue argument applied to Gap 14 here also applies to Gap 2, which Part 1 got wrong. [Part 3](/writing/2026-10-20-defeating-the-sieve-part-3-the-shield-was-always-symmetric) puts the shield and the trap into one rule.
 
 Last week, I wrote about [**Defeating the Sieve**](/writing/2025-11-30-defeating-the-sieve). I showed how specific prime gaps (like Gap 34) act as "Shields," locking the sum of consecutive primes into a safe residue class that mathematically guarantees they cannot be divisible by 3, 5, or 7.
 
@@ -22,9 +25,9 @@ Gap 210 (<Latex formula="2 \times 3 \times 5 \times 7" />) is a "Champion Number
 
 Instead, it crashed.
 
-## The 100 Billion Stress Test
+## The 10<sup>10</sup> Stress Test
 
-I spun up a simulation to scan the first **100 Billion (<Latex formula="10^{11}" />)** primes. This wasn't just a sampling; it was a census.
+I pointed the tool at every prime up to **<Latex formula="10^{10}" />**, about 455 million primes. This wasn't just a sampling; it was a census.
 
 When the results came back, Gap 210 wasn't just underperforming; it was failing spectacularly.
 
@@ -83,7 +86,7 @@ We calculated the exact penalty factor:
 
 When we apply this **0.75x Penalty** to gaps divisible by 3 (like 6, 30, and 210), the data snaps into focus.
 
-Our new prediction model aligns perfectly with the actual data from the <Latex formula="10^{11}" /> run. The correlation is no longer just "good"; it is mathematically precise.
+Our new prediction model aligns with the actual data from the <Latex formula="10^{10}" /> run. The correlation is no longer just "good"; it is mathematically precise.
 
 - **Gap 14** rides high because of the Neighbor Shield.
 - **Gap 210** sits low because of the Mod 3 Trap.

@@ -191,7 +191,7 @@ The site reads like the dashboard of a well-run security platform: a cool near-w
 
 Density is editorial rather than dense. Panels carry 24 to 48px of internal padding, sections are separated by 48px, and the hero runs centered copy at a wide measure. Light and dark are first-class and tonally symmetric: every neutral has a counterpart, and Signal Blue is the one value that never changes between themes. Translucency and backdrop blur appear only where a layer floats over content (the sticky header, the command palette scrim, the hero stat badges), never as decoration.
 
-One known gap remains in the incumbent, recorded so later work fixes it rather than inheriting it: the header navigation is hidden below the medium breakpoint with no mobile menu, leaving only the wordmark, theme toggle, and resume button.
+Below the large breakpoint (1024px) the header carries no inline navigation by design: the command palette trigger stays visible at every width and is the navigation entry point there, icon-only until 1280px.
 
 **Key Characteristics:**
 - One chromatic signal (Signal Blue) on an otherwise neutral, tonal canvas.
@@ -263,9 +263,9 @@ Both faces are self-hosted variable fonts from the `@fontsource-variable` packag
 
 A single centered column, 1152px wide (`max-w-6xl`) with 16px side gutters, holds the header, main, and footer. Main stacks sections in a 48px vertical rhythm with 48px top and bottom padding and a 60vh minimum height. Within sections, content grids use 24px gaps: three columns for case-study and post cards at the medium breakpoint, two columns for stat badges, patent tiles, and post lists, and asymmetric two-column splits (`1.2fr 1fr`, `2fr 1fr`, `1fr auto`) for panel-plus-sidebar compositions. Long-form articles are centered and capped at the prose measure of 65ch (about 656px at the 16px body size), which also bounds the article header and impact callout.
 
-The header is sticky, 64px tall at 16px vertical padding, with the wordmark left, horizontal nav center, and a cluster of command palette, theme toggle, and outline resume button right. Below 768px the nav and command palette disappear and nothing replaces them. The footer mirrors the header's two-ended layout, stacking on mobile.
+The header is sticky, 64px tall at 16px vertical padding, with the wordmark left, horizontal nav center, and a cluster of command palette, theme toggle, and outline resume button pushed right. The inline nav renders from 1024px; below that the command palette trigger is the navigation entry, icon-only until 1280px. The resume button reads "Resume" below 640px and the wordmark drops to 1rem, and the header wraps rather than overflows down to 375px. The footer mirrors the header's two-ended layout, stacking on mobile.
 
-Spacing steps that recur: 4px (chip vertical), 8px (button vertical, inline gaps), 16px (gutters, header, timeline card padding), 24px (card padding, grid gaps), 40px (large panel padding), 48px (hero padding, section gap). The breakpoints used are Tailwind's `sm` (640px) and `md` (768px); nothing changes at `lg` or beyond except the container cap.
+Spacing steps that recur: 4px (chip vertical), 8px (button vertical, inline gaps), 16px (gutters, header, timeline card padding), 24px (card padding, grid gaps), 40px (large panel padding), 48px (hero padding, section gap). The breakpoints used are Tailwind's `sm` (640px) and `md` (768px) for content grids, and `lg` (1024px) and `xl` (1280px) for the header only.
 
 ## Elevation & Depth
 
@@ -318,7 +318,7 @@ Refined and restrained: quiet surfaces, one accent, pills for actions, and state
 - **Error / Disabled:** Not implemented on current surfaces; the contact form shows a warning note (amber tint, amber text) when CAPTCHA is unconfigured.
 
 ### Navigation
-- **Style:** Horizontal row of Action-weight links in Slate, 8px padding, 8px apart, inside the sticky blurred header. Hidden below 768px with no mobile replacement.
+- **Style:** Horizontal row of Action-weight links in Slate, 8px padding, 8px apart, inside the sticky blurred header. Rendered from 1024px; below that the command palette is the navigation entry point.
 - **States:** Hover and focus shift text to Ink and reveal a 2px Signal Blue bar below the label at 75% opacity. The active page shows Ink text and a 2px Signal Blue bar 6.4px above the label at full opacity. Bars are 58% of the link width, capped at 56px, centered, with a 150ms ease.
 - **Wordmark:** "theschoonover.net" in Space Grotesk at 1.125rem semibold, Signal Blue via the link rule.
 
@@ -332,7 +332,7 @@ Label typography in Slate (or Signal Blue at 80% inside cards), uppercase, 0.2em
 16px-rounded panel, 24px padding, ambient shadow, with a Card Title and Body Small body. Tones: info (Signal Blue border at 40%, 10% blue tint), success (emerald border at 40%, 10% emerald tint, deep emerald text in light; blue tint in dark), warning (amber border and tint). Text is Ink in light and Frost in dark on every tone, per The Tinted Surface Rule.
 
 ### Command Palette
-A 36px pill trigger with a search icon and a bordered `⌘K` keycap, visible from the medium breakpoint. Opens a 576px dialog (16px radius, Hairline border, overlay shadow) over a 50% black blurred scrim, with a 40px borderless search row and a list of 12px-rounded items that fill Paper Muted on hover.
+A 36px pill trigger visible at every width: a 36px icon circle below 1280px, widening to show the "Search site" label and a bordered `⌘K` keycap from 1280px. Opens, portaled to `body` so the header's blur cannot clip it, a 576px dialog (16px radius, Hairline border, overlay shadow) over a 50% black blurred scrim, with a 40px borderless search row and a list of 12px-rounded items that fill Paper Muted on hover.
 
 ### Timeline
 Left-ruled list on a 1px Hairline with 16px Signal-Blue-outlined circles; each entry is a 12px-rounded Paper panel at 70% alpha with 16px padding, a Label date, a Card Title, and Body Small bullets.

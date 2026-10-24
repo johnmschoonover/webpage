@@ -60,6 +60,8 @@
     "breakpoints": [
       { "name": "sm", "value": "640px" },
       { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
       { "name": "container", "value": "1152px" }
     ],
     "blur": [
@@ -151,7 +153,7 @@
   ],
   "narrative": {
     "northStar": "The Operations Console",
-    "overview": "The site reads like the dashboard of a well-run security platform: a cool near-white canvas in daylight, an ink-navy one at night, and a single saturated sky blue that marks every live signal. Surfaces are bordered panels with soft corners, laid out on a generous rhythm, and almost nothing casts a shadow. Each section opens the same way, with a tracked uppercase label and then a geometric display heading, so the page scans like a console whose every pane is labeled. The mood is calm, precise, and credible first, and confident, systematic, and modern second: restraint is the brand, and the one blue is allowed to be assertive because everything around it is quiet.\n\nDensity is editorial rather than dense. Panels carry 24 to 48px of internal padding, sections are separated by 48px, and the hero runs centered copy at a wide measure. Light and dark are first-class and tonally symmetric: every neutral has a counterpart, and Signal Blue is the one value that never changes between themes. Translucency and backdrop blur appear only where a layer floats over content (the sticky header, the command palette scrim, the hero stat badges), never as decoration.\n\nOne known gap remains in the incumbent, recorded so later work fixes it rather than inheriting it: the header navigation is hidden below the medium breakpoint with no mobile menu, leaving only the wordmark, theme toggle, and resume button.",
+    "overview": "The site reads like the dashboard of a well-run security platform: a cool near-white canvas in daylight, an ink-navy one at night, and a single saturated sky blue that marks every live signal. Surfaces are bordered panels with soft corners, laid out on a generous rhythm, and almost nothing casts a shadow. Each section opens the same way, with a tracked uppercase label and then a geometric display heading, so the page scans like a console whose every pane is labeled. The mood is calm, precise, and credible first, and confident, systematic, and modern second: restraint is the brand, and the one blue is allowed to be assertive because everything around it is quiet.\n\nDensity is editorial rather than dense. Panels carry 24 to 48px of internal padding, sections are separated by 48px, and the hero runs centered copy at a wide measure. Light and dark are first-class and tonally symmetric: every neutral has a counterpart, and Signal Blue is the one value that never changes between themes. Translucency and backdrop blur appear only where a layer floats over content (the sticky header, the command palette scrim, the hero stat badges), never as decoration.\n\nBelow the large breakpoint (1024px) the header carries no inline navigation by design: the command palette trigger stays visible at every width and is the navigation entry point there, icon-only until 1280px.",
     "keyCharacteristics": [
       "One chromatic signal (Signal Blue) on an otherwise neutral, tonal canvas.",
       "Bordered panels with 16 to 24px corners; pills for every action and chip.",
