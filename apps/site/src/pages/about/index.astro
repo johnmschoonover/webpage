@@ -40,7 +40,7 @@ const closingCopy = `Outside of work, I maintain a hybrid lab environment, autom
       </section>
     </div>
     <aside class="space-y-6">
-      <Figure src="/images/headshot-light.jpeg" alt="John Schoonover" caption="John in the Twin Cities." />
+      <Figure src="/images/headshot-light.jpeg" alt="John Schoonover" width={500} height={500} caption="John in the Twin Cities." />
       <div class="space-y-3 rounded-2xl border border-border bg-muted/50 p-6">
         <h3 class="text-sm uppercase tracking-[0.2em] text-muted-foreground">Quick stats</h3>
         <ul class="space-y-2 text-sm text-muted-foreground">
@@ -66,7 +66,7 @@ const closingCopy = `Outside of work, I maintain a hybrid lab environment, autom
           href={githubProfile}
           target="_blank"
           rel="me noopener noreferrer"
-          class="inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:underline"
+          class="inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:underline pointer-coarse:underline"
         >
           Follow on GitHub
           <span aria-hidden>↗</span>

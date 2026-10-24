@@ -29,7 +29,7 @@ const entries = (deliverables.items as Deliverable[]).map((entry) => ({
         </div>
         <h2 class="mt-2 font-display text-xl font-semibold">
           {item.url ? (
-            <a href={item.url} target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-primary transition-colors">
+            <a href={item.url} target="_blank" rel="noopener noreferrer" class="hover:underline pointer-coarse:underline hover:text-primary transition-colors">
               {item.title}
             </a>
           ) : (
