@@ -60,7 +60,7 @@ const submissionStatus = statusMessages[Astro.url.searchParams.get('status') ?? 
         )}
         <div class="grid gap-2">
           <label for="name" class="text-sm font-medium text-foreground">Name</label>
-          <input id="name" name="name" type="text" autocomplete="name" required maxlength="200" class="h-11 rounded-lg border border-input bg-background px-3 text-base sm:text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+          <input id="name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="200" class="h-11 rounded-lg border border-input bg-background px-3 text-base sm:text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
         </div>
         <div class="grid gap-2">
           <label for="email" class="text-sm font-medium text-foreground">Email</label>

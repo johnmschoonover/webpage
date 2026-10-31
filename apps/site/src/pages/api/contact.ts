@@ -33,7 +33,9 @@ const rateLimitBuckets = new Map<string, RateLimitBucket>();
 export const prerender = false;
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const namePattern = /^[\p{L}\p{M}\d .,'-]{2,}$/u;
+// Real names include characters like "(", "&" and "/". The name only lands in a plain-text
+// email and its subject, so reject just control characters and line breaks.
+const namePattern = /^[^\p{Cc}\p{Zl}\p{Zp}]{2,}$/u;
 
 type ValidationErrors = {
   name?: string;
