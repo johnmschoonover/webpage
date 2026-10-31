@@ -6,3 +6,4 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 KEYSTATIC_GITHUB_CLIENT_ID = "Iv23liWV7sWQkAivV9Ha"
 PUBLIC_KEYSTATIC_GITHUB_APP_SLUG = "theschoonover-cms"
+TURNSTILE_SITE_KEY = "0x4AAAAAAFth9p2rUuVyA1yF"

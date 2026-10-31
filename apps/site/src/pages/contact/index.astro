@@ -3,6 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Callout from '@components/Callout.astro';
 import { contactChannels } from '@lib/utils';
 import profile from '@data/profile.json';
+import { getRuntimeEnv } from '@lib/server-env';
 
 const { email_public, links, github_focus = [] } = profile as {
   email_public: string;
@@ -10,13 +11,30 @@ const { email_public, links, github_focus = [] } = profile as {
   github_focus?: string[];
 };
 const githubProfile = links.github ?? 'https://github.com/johnmschoonover';
-const captchaSiteKey = import.meta.env.PUBLIC_HCAPTCHA_SITEKEY;
-const captchaEnabled = Boolean(captchaSiteKey);
+// Read per request from wrangler.toml [vars], so changing the site key needs no rebuild.
+const { TURNSTILE_SITE_KEY: turnstileSiteKey } = await getRuntimeEnv();
+
+// /api/contact redirects plain form posts back here with ?status=<outcome>.
+const statusMessages: Record<string, { tone: 'success' | 'warning'; text: string }> = {
+  sent: { tone: 'success', text: 'Thanks, your message is on its way. Expect a reply soon.' },
+  invalid: {
+    tone: 'warning',
+    text: 'Something in the form needs another look: include your name, a valid email, and a message of at least 10 characters.'
+  },
+  captcha: { tone: 'warning', text: 'The captcha check did not pass. Please try again.' },
+  'rate-limited': { tone: 'warning', text: 'Too many attempts from your connection. Wait a minute, then try again.' },
+  error: { tone: 'warning', text: `The message could not be delivered. Please email ${email_public} directly.` }
+};
+const statusToneClasses = {
+  success: 'border-emerald-400/40 bg-emerald-500/10 text-emerald-900 dark:border-primary/40 dark:bg-primary/15 dark:text-foreground',
+  warning: 'border-amber-500/40 bg-amber-500/10 text-amber-900 dark:border-amber-400/60 dark:bg-amber-400/15 dark:text-amber-50'
+};
+const submissionStatus = statusMessages[Astro.url.searchParams.get('status') ?? ''];
 ---
 <BaseLayout pageHeading="Contact" description="Reach out for platform strategy, SIEM collaboration, or home lab experiments.">
-  {captchaEnabled && (
+  {turnstileSiteKey && (
     <Fragment slot="head">
-      <script src="https://js.hcaptcha.com/1/api.js" async defer is:inline></script>
+      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>
     </Fragment>
   )}
   <div class="grid gap-10 md:grid-cols-[1.2fr_1fr]">
@@ -31,28 +49,33 @@ const captchaEnabled = Boolean(captchaSiteKey);
         </a>
         for in-progress tooling, infrastructure notes, and prototypes that inform current work.
       </p>
-      <form class="space-y-4 rounded-3xl border border-border bg-background/80 p-6 shadow-sm" method="post" action="/api/contact">
+      <form id="contact-form" class="space-y-4 rounded-3xl border border-border bg-background/80 p-6 shadow-sm" method="post" action="/api/contact">
+        {submissionStatus && (
+          <p
+            role={submissionStatus.tone === 'success' ? 'status' : 'alert'}
+            class={`rounded-lg border p-3 text-sm ${statusToneClasses[submissionStatus.tone]}`}
+          >
+            {submissionStatus.text}
+          </p>
+        )}
         <div class="grid gap-2">
           <label for="name" class="text-sm font-medium text-foreground">Name</label>
-          <input id="name" name="name" type="text" autocomplete="name" required class="h-11 rounded-lg border border-input bg-background px-3 text-base sm:text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+          <input id="name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="200" class="h-11 rounded-lg border border-input bg-background px-3 text-base sm:text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
         </div>
         <div class="grid gap-2">
           <label for="email" class="text-sm font-medium text-foreground">Email</label>
-          <input id="email" name="email" type="email" autocomplete="email" required class="h-11 rounded-lg border border-input bg-background px-3 text-base sm:text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+          <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" class="h-11 rounded-lg border border-input bg-background px-3 text-base sm:text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" />
         </div>
         <div class="grid gap-2">
           <label for="message" class="text-sm font-medium text-foreground">How can I help?</label>
-          <textarea id="message" name="message" rows="5" required class="rounded-lg border border-input bg-background px-3 py-2 text-base sm:text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"></textarea>
+          <textarea id="message" name="message" rows="5" required minlength="10" maxlength="4000" class="rounded-lg border border-input bg-background px-3 py-2 text-base sm:text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"></textarea>
         </div>
-        {captchaEnabled ? (
-          <div class="h-captcha" data-sitekey={captchaSiteKey}></div>
-        ) : (
-          <p class="rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-xs text-amber-700">
-            CAPTCHA is not yet configured. Messages may be throttled if suspicious activity is detected.
-          </p>
-        )}
+        <div class="sr-only" aria-hidden="true">
+          <label for="company">Company (leave blank)</label>
+          <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>}
         <button type="submit" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">Send</button>
-        <p class="text-xs text-muted-foreground">This form is protected by hCaptcha to reduce automated abuse.</p>
       </form>
     </section>
     <aside class="space-y-6">
