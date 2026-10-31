@@ -21,7 +21,7 @@
 * **Runtime:** Node.js 22.22.0+ (22.x LTS), pinned in `.node-version` at the repo root. Cloudflare Pages reads that file to pick its build Node; Astro 7.4+ refuses older 22.x releases.
 * **Package Manager:** pnpm 10.19.0. Keep the workspace `packageManager` field authoritative and ensure every automation entry point (GitHub Actions, Docker images, local setup docs, etc.) installs the same pnpm release—either by pinning the version in `pnpm/action-setup`/`corepack` or delegating to Corepack—before running `pnpm install --frozen-lockfile`. When bumping pnpm, search the entire repository (e.g., `rg "pnpm" .github docs infra`) for hard-coded versions so workflows, scripts, and documentation stay in sync with the workspace pin.
 * **Analytics (optional):** Self‑hosted Plausible via Docker.
-* **Forms:** API route with nodemailer to SMTP relay (Synology MailPlus or env‑provided SMTP). hCaptcha.
+* **Forms:** API route (`/api/contact`) that sends through the Resend HTTP API with `fetch` (Cloudflare Pages Functions cannot use nodemailer/SMTP). hCaptcha.
 
 ---
 
@@ -116,7 +116,7 @@
 ## 5) Environment & Secrets
 
 * `SITE_URL` (e.g., [https://theschoonover.net](https://theschoonover.net))
-* `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`
+* `RESEND_API_KEY` (secret), optional `CONTACT_TO`, `CONTACT_FROM`
 * `HCAPTCHA_SECRET`, `HCAPTCHA_SITEKEY`
 * `PLAUSIBLE_DOMAIN` (optional)
 

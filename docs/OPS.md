@@ -15,7 +15,7 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
 | Variable | Description | Scope | Source |
 |----------|-------------|-------|--------|
 | `SITE_URL` | Canonical site URL used for OG tags and sitemap | Build & runtime | DSM `.env` or GitHub Actions secret |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | Contact form SMTP relay | API container (if enabled) | DSM Secrets Manager or env file |
+| `RESEND_API_KEY` (secret), `CONTACT_TO`, `CONTACT_FROM` (optional) | Contact form delivery via the Resend HTTP API | Cloudflare Pages runtime (`/api/contact`) | Cloudflare Pages → Settings → Variables and Secrets |
 | `HCAPTCHA_SITEKEY`, `HCAPTCHA_SECRET` | hCaptcha keys for contact form | Frontend + API | hCaptcha dashboard |
 | `PLAUSIBLE_DOMAIN`, `PLAUSIBLE_API_HOST` | Self-hosted Plausible analytics | Plausible container | Docker compose `.env` |
 | `SSH_DEPLOY_KEY` | Read-only key for RackStation deploys | GitHub Actions secret | Stored as deploy key |
