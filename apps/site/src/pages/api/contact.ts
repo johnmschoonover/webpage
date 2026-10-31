@@ -14,6 +14,7 @@ const RATE_LIMIT_WINDOW_MS = getPositiveInteger(import.meta.env.CONTACT_RATE_LIM
 const RATE_LIMIT_MAX_ATTEMPTS = getPositiveInteger(import.meta.env.CONTACT_RATE_LIMIT_MAX, 5);
 
 const RESEND_ENDPOINT = 'https://api.resend.com/emails';
+const TURNSTILE_SITEVERIFY_ENDPOINT = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 // Submissions go to the public address in data/profile.json unless CONTACT_TO overrides it.
 const DEFAULT_CONTACT_TO = (profile as { email_public: string }).email_public;
 // Must be an address on a domain verified in Resend.
@@ -51,6 +52,9 @@ type Submission = {
 type ContactStatus = 'sent' | 'invalid' | 'captcha' | 'rate-limited' | 'error';
 
 function getClientIdentifier(request: Request) {
+  // Cloudflare sets cf-connecting-ip itself; x-forwarded-for can carry client-supplied entries.
+  const cfConnectingIp = request.headers.get('cf-connecting-ip');
+  if (cfConnectingIp) return cfConnectingIp.trim();
   const forwardedFor = request.headers.get('x-forwarded-for');
   if (forwardedFor) {
     const [first] = forwardedFor.split(',').map((part) => part.trim());
@@ -58,8 +62,6 @@ function getClientIdentifier(request: Request) {
   }
   const realIp = request.headers.get('x-real-ip');
   if (realIp) return realIp.trim();
-  const cfConnectingIp = request.headers.get('cf-connecting-ip');
-  if (cfConnectingIp) return cfConnectingIp.trim();
   return undefined;
 }
 
@@ -120,13 +122,21 @@ function validateSubmission(name: string, email: string, message: string): {
   return { errors, isValid: Object.keys(errors).length === 0 };
 }
 
-async function verifyHCaptcha(token: string | null, remoteIp: string | undefined) {
-  const { HCAPTCHA_SECRET } = await getRuntimeEnv();
-  if (!HCAPTCHA_SECRET) {
-    return { ok: true } as const;
+async function verifyTurnstile(token: string | null, remoteIp: string | undefined) {
+  const { TURNSTILE_SECRET_KEY } = await getRuntimeEnv();
+  if (!TURNSTILE_SECRET_KEY) {
+    // getRuntimeEnv() returns no bindings outside production, so local dev skips the check.
+    if (!import.meta.env.PROD) {
+      console.info('Turnstile check skipped: no runtime env in dev');
+      return { ok: true } as const;
+    }
+
+    console.error('Turnstile check failed closed: TURNSTILE_SECRET_KEY is not configured');
+    return { ok: false, error: 'turnstile secret not configured' } as const;
   }
 
-  if (!token) {
+  // Turnstile tokens are at most 2048 characters.
+  if (!token || token.length > 2048) {
     return {
       ok: false,
       error: 'captcha token missing'
@@ -135,7 +145,7 @@ async function verifyHCaptcha(token: string | null, remoteIp: string | undefined
 
   const params = new URLSearchParams({
     response: token,
-    secret: HCAPTCHA_SECRET
+    secret: TURNSTILE_SECRET_KEY
   });
 
   if (remoteIp) {
@@ -143,7 +153,7 @@ async function verifyHCaptcha(token: string | null, remoteIp: string | undefined
   }
 
   try {
-    const response = await fetch('https://hcaptcha.com/siteverify', {
+    const response = await fetch(TURNSTILE_SITEVERIFY_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: params
@@ -170,7 +180,7 @@ async function verifyHCaptcha(token: string | null, remoteIp: string | undefined
       error: payload['error-codes']?.[0] ?? 'captcha validation failed'
     } as const;
   } catch (error) {
-    console.error('hCaptcha verification error', error);
+    console.error('Turnstile verification error', error);
     return {
       ok: false,
       error: 'captcha verification error'
@@ -288,8 +298,8 @@ export const POST: APIRoute = async ({ request }) => {
     name: String(formData.get('name') ?? '').trim(),
     email: String(formData.get('email') ?? '').trim().toLowerCase(),
     message: String(formData.get('message') ?? '').trim(),
-    captchaToken: formData.get('h-captcha-response')
-      ? String(formData.get('h-captcha-response'))
+    captchaToken: formData.get('cf-turnstile-response')
+      ? String(formData.get('cf-turnstile-response'))
       : null
   };
 
@@ -335,7 +345,7 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  const captchaResult = await verifyHCaptcha(submission.captchaToken, clientIdentifier);
+  const captchaResult = await verifyTurnstile(submission.captchaToken, clientIdentifier);
 
   if (!captchaResult.ok) {
     console.warn('Rejected contact submission: captcha failed', {

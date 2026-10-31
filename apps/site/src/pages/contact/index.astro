@@ -3,6 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Callout from '@components/Callout.astro';
 import { contactChannels } from '@lib/utils';
 import profile from '@data/profile.json';
+import { getRuntimeEnv } from '@lib/server-env';
 
 const { email_public, links, github_focus = [] } = profile as {
   email_public: string;
@@ -10,8 +11,8 @@ const { email_public, links, github_focus = [] } = profile as {
   github_focus?: string[];
 };
 const githubProfile = links.github ?? 'https://github.com/johnmschoonover';
-const captchaSiteKey = import.meta.env.PUBLIC_HCAPTCHA_SITEKEY;
-const captchaEnabled = Boolean(captchaSiteKey);
+// Read per request from wrangler.toml [vars], so changing the site key needs no rebuild.
+const { TURNSTILE_SITE_KEY: turnstileSiteKey } = await getRuntimeEnv();
 
 // /api/contact redirects plain form posts back here with ?status=<outcome>.
 const statusMessages: Record<string, { tone: 'success' | 'warning'; text: string }> = {
@@ -31,9 +32,9 @@ const statusToneClasses = {
 const submissionStatus = statusMessages[Astro.url.searchParams.get('status') ?? ''];
 ---
 <BaseLayout pageHeading="Contact" description="Reach out for platform strategy, SIEM collaboration, or home lab experiments.">
-  {captchaEnabled && (
+  {turnstileSiteKey && (
     <Fragment slot="head">
-      <script src="https://js.hcaptcha.com/1/api.js" async defer is:inline></script>
+      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>
     </Fragment>
   )}
   <div class="grid gap-10 md:grid-cols-[1.2fr_1fr]">
@@ -73,17 +74,8 @@ const submissionStatus = statusMessages[Astro.url.searchParams.get('status') ?? 
           <label for="company">Company (leave blank)</label>
           <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
         </div>
-        {captchaEnabled ? (
-          <div class="h-captcha" data-sitekey={captchaSiteKey}></div>
-        ) : (
-          <p class="rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-xs text-amber-700">
-            CAPTCHA is not yet configured. Messages may be throttled if suspicious activity is detected.
-          </p>
-        )}
+        {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>}
         <button type="submit" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">Send</button>
-        {captchaEnabled && (
-          <p class="text-xs text-muted-foreground">This form is protected by hCaptcha to reduce automated abuse.</p>
-        )}
       </form>
     </section>
     <aside class="space-y-6">
