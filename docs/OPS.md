@@ -16,7 +16,7 @@ This runbook provides the day-to-day operational guidance for the `theschoonover
 |----------|-------------|-------|--------|
 | `SITE_URL` | Canonical site URL used for OG tags and sitemap | Build & runtime | DSM `.env` or GitHub Actions secret |
 | `RESEND_API_KEY` (secret), `CONTACT_TO`, `CONTACT_FROM` (optional) | Contact form delivery via the Resend HTTP API | Cloudflare Pages runtime (`/api/contact`) | Cloudflare Pages → Settings → Variables and Secrets |
-| `HCAPTCHA_SITEKEY`, `HCAPTCHA_SECRET` | hCaptcha keys for contact form | Frontend + API | hCaptcha dashboard |
+| `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` (secret) | Cloudflare Turnstile widget keys for the contact form; the form rejects every submission in production until both are set | Cloudflare Pages runtime (`/contact`, `/api/contact`) | Site key: root `wrangler.toml` `[vars]`. Secret: Cloudflare Pages → Settings → Variables and Secrets |
 | `PLAUSIBLE_DOMAIN`, `PLAUSIBLE_API_HOST` | Self-hosted Plausible analytics | Plausible container | Docker compose `.env` |
 | `SSH_DEPLOY_KEY` | Read-only key for RackStation deploys | GitHub Actions secret | Stored as deploy key |
 | `REGISTRY_USERNAME`, `REGISTRY_PASSWORD` | Credentials for `docker.theschoonover.net` | GitHub Actions secret & RackStation Watchtower env | DSM Credentials Manager |

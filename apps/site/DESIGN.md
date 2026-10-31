@@ -317,7 +317,7 @@ Refined and restrained: quiet surfaces, one accent, pills for actions, and state
 ### Inputs / Fields
 - **Style:** 44px tall, 13.6px radius, 1px Hairline stroke, Paper fill, Body Small text, 12px horizontal padding. Labels are Action-weight (500) 0.875rem in Ink above the field with an 8px gap. Textareas keep the same stroke and radius at 8px vertical padding.
 - **Focus:** 2px Signal Blue ring, no offset, outline removed. The writing search field instead swaps its border to Signal Blue and adds a 40% blue ring.
-- **Error / Disabled:** Not implemented on current surfaces; the contact form shows a warning note (amber tint, amber text) when CAPTCHA is unconfigured.
+- **Error / Disabled:** No inline field errors; after a failed submission the contact form shows a warning banner (amber tint, amber text) above the fields.
 
 ### Navigation
 - **Style:** Horizontal row of Action-weight links in Slate, 8px padding, 8px apart, inside the sticky blurred header. Rendered from 1024px; below that the command palette is the navigation entry point.

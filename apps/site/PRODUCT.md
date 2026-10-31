@@ -31,7 +31,7 @@ John chose security-first positioning over the data-platform reframing proposed 
 - Canonical data sources: `data/profile.json` (name, tagline, summary, role focus, links, education, disclaimers), `content/data/deliverables.json` (patents), and the `case-studies` and `posts` collections under `apps/site/src/content/`. Surfaces are expected to read from these rather than hard-code copy.
 - Hosting: Cloudflare Pages running the Astro SSR worker (`@astrojs/cloudflare`), root `wrangler.toml` is authoritative, preview alias `webpage-bf1.pages.dev`. README, `docs/PRD.md`, and `docs/OPS.md` still describe the earlier Synology RackStation plan and are stale on hosting.
 - Routes in production: Home, About, Experience, Case Studies (index + detail), Writing (index + post, RSS), Projects, Deliverables (patents), Contact, Legal, `health.json`.
-- Contact form posts to `/api/contact` with validation, an in-memory rate limit, and optional hCaptcha (enabled only when `PUBLIC_HCAPTCHA_SITEKEY` is set). Whether submissions reach an inbox was not verified during init.
+- Contact form posts to `/api/contact` with validation, a honeypot field, an in-memory rate limit, and Cloudflare Turnstile (fails closed in production when unconfigured); accepted submissions are delivered through Resend.
 - Scoped `AGENTS.md` files under `apps/site/src/`, `components/`, `layouts/`, and each content collection carry per-surface guardrails and a QA loop: `pnpm --filter site build`, responsive sweep at 375 / 768 / 1024 / 1280px with no horizontal scroll, keyboard test of CTAs.
 - Header rule (layouts/AGENTS.md): the inline nav renders from 1024px; below that the command palette trigger is the navigation entry point and stays visible at every width. The resume CTA reads "Resume" below 640px.
 - Build and secrets rule (src/AGENTS.md): server code reads secrets only through `getRuntimeEnv()`; the server bundle lives in `dist/client/_worker.js/` and nothing else in `dist/client/` may contain secrets because it is publicly served. `compressHTML: true` is deliberate and must not change without auditing inline links.
@@ -48,9 +48,9 @@ John chose security-first positioning over the data-platform reframing proposed 
   - Location stays at region level ("Minnesota, USA"; "Twin Cities" in captions). No precise geolocation.
 - Present in the current build but not confirmed binding during init; treat as current practice that John may change:
   - The hero line "This site is AI-built and human-reviewed."
-  - No third-party trackers or analytics; the hCaptcha script is the only third-party asset loaded.
+  - No third-party trackers or analytics; the Cloudflare Turnstile script on `/contact` is the only third-party asset loaded.
   - GitHub as a tertiary CTA alongside Contact and Resume on brand surfaces (an AGENTS.md convention).
-- Undecided or not yet built: first-party analytics (Plausible planned in PRD, not deployed); site search index (planned, not built); Talks and a dedicated Patents page (named in PRD and layout guardrails, not present; patents live under Deliverables); the drop-control filing's application number once it publishes; contact email delivery path.
+- Undecided or not yet built: first-party analytics (Plausible planned in PRD, not deployed); site search index (planned, not built); Talks and a dedicated Patents page (named in PRD and layout guardrails, not present; patents live under Deliverables); the drop-control filing's application number once it publishes.
 - Budgets from PRD and AGENTS.md: Lighthouse Accessibility ≥ 95, Performance 90 to 95+, WCAG 2.2 AA, initial JS ≤ 200KB, fonts preloaded, images responsive and lazy.
 
 ## Brand Commitments
